@@ -2,11 +2,16 @@ import type { NextRequest } from "next/server";
 import { revalidateTag } from "next/cache";
 import { parseBody } from "next-sanity/webhook";
 
-import { SITE_SETTINGS_TAG } from "@/sanity/lib/cache-tags";
+import { HOME_PAGE_TAG, SITE_SETTINGS_TAG } from "@/sanity/lib/cache-tags";
 
 type SanityWebhookPayload = {
   _id?: string;
   _type?: string;
+};
+
+const PUBLISHED_SINGLETON_TAGS: Record<string, string> = {
+  siteSettings: SITE_SETTINGS_TAG,
+  homePage: HOME_PAGE_TAG,
 };
 
 export async function POST(request: NextRequest) {
@@ -44,16 +49,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
- 
-    if (body._id !== "siteSettings" || body._type !== "siteSettings") {
+    const tag = PUBLISHED_SINGLETON_TAGS[body._type];
+
+    // Singleton documents use their published id as the document id. This
+    // also ignores draft, version, and unrelated documents.
+    if (!tag || body._id !== body._type) {
       return Response.json({ revalidated: false });
     }
 
-    revalidateTag(SITE_SETTINGS_TAG, { expire: 0 });
+    revalidateTag(tag, { expire: 0 });
 
     return Response.json({
       revalidated: true,
-      tag: SITE_SETTINGS_TAG,
+      tag,
     });
   } catch (error) {
     console.error(

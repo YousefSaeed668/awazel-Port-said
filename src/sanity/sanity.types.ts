@@ -15,6 +15,53 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: sanity.schema.json
+export type HomePageFaqItem = {
+  _type: "homePageFaqItem";
+  question?: string;
+  answer?: string;
+};
+
+export type HomePageQualityCheck = {
+  _type: "homePageQualityCheck";
+  title?: string;
+  description?: string;
+  icon?: "water" | "ruler" | "document";
+};
+
+export type HomePageStage = {
+  _type: "homePageStage";
+  title?: string;
+  description?: string;
+  icon?: "headset" | "target" | "file" | "settings" | "check" | "badge";
+  note?: HomePageStageNote;
+};
+
+export type HomePageStageNote = {
+  _type: "homePageStageNote";
+  text?: string;
+  tone?: "default" | "success";
+};
+
+export type HomePageFeature = {
+  _type: "homePageFeature";
+  title?: string;
+  description?: string;
+  icon?: "target" | "badge" | "shield";
+};
+
+export type HomePageHighlight = {
+  _type: "homePageHighlight";
+  label?: string;
+  icon?: "compliance" | "quality" | "supervision";
+};
+
+export type HomePageSectionHeading = {
+  _type: "homePageSectionHeading";
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+};
+
 export type LegalBlock = {
   _type: "legalBlock";
   links?: Array<
@@ -149,6 +196,84 @@ export type SiteSettings = {
   };
 };
 
+export type HomePage = {
+  _id: string;
+  _type: "homePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero?: {
+    eyebrow?: string;
+    title?: string;
+    highlight?: string;
+    description?: string;
+    primaryAction?: SiteAction;
+    secondaryAction?: SiteAction;
+    highlights?: Array<
+      {
+        _key: string;
+      } & HomePageHighlight
+    >;
+    image?: SiteImage;
+    panel?: {
+      title?: string;
+      status?: string;
+      location?: string;
+    };
+  };
+  company?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    image?: SiteImage;
+    panel?: {
+      title?: string;
+      description?: string;
+    };
+    features?: Array<
+      {
+        _key: string;
+      } & HomePageFeature
+    >;
+    primaryAction?: SiteAction;
+    secondaryAction?: SiteAction;
+  };
+  workStages?: {
+    heading?: HomePageSectionHeading;
+    label?: string;
+    items?: Array<
+      {
+        _key: string;
+      } & HomePageStage
+    >;
+  };
+  quality?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    checks?: Array<
+      {
+        _key: string;
+      } & HomePageQualityCheck
+    >;
+    warranty?: {
+      badge?: string;
+      title?: string;
+      description?: string;
+      items?: Array<string>;
+      action?: SiteAction;
+    };
+  };
+  faq?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & HomePageFaqItem
+    >;
+  };
+};
+
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
   top?: number;
@@ -269,6 +394,13 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
+  | HomePageFaqItem
+  | HomePageQualityCheck
+  | HomePageStage
+  | HomePageStageNote
+  | HomePageFeature
+  | HomePageHighlight
+  | HomePageSectionHeading
   | LegalBlock
   | CtaBlock
   | ContactColumn
@@ -280,6 +412,7 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | SiteImage
   | SiteSettings
+  | HomePage
   | SanityImageCrop
   | SanityImageHotspot
   | SanityImagePaletteSwatch
@@ -291,6 +424,169 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint
   | Slug;
+
+// Source: src/sanity/queries/home-page.ts
+// Variable: HOME_PAGE_QUERY
+// Query: *[_type == "homePage" && _id == "homePage"][0]{    _id,    hero{      eyebrow,      title,      highlight,      description,      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      secondaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      highlights[]{_key, label, icon},      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{title, status, location}    },    company{      eyebrow,      title,      description,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{title, description},      features[]{_key, title, description, icon},      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      secondaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      }    },    workStages{      heading{eyebrow, title, description},      label,      items[]{        _key,        title,        description,        icon,        note{text, tone}      }    },    quality{      eyebrow,      title,      description,      checks[]{_key, title, description, icon},      warranty{        badge,        title,        description,        items,        action{          enabled,          label,          destination{kind, href, openInNewTab}        }      }    },    faq{      heading{eyebrow, title, description},      items[]{_key, question, answer}    }  }
+export type HOME_PAGE_QUERY_RESULT = {
+  _id: "homePage";
+  hero: {
+    eyebrow: string | null;
+    title: string | null;
+    highlight: string | null;
+    description: string | null;
+    primaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+    secondaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+    highlights: Array<{
+      _key: string;
+      label: string | null;
+      icon: "compliance" | "quality" | "supervision" | null;
+    }> | null;
+    image: {
+      _type: "siteImage";
+      asset: {
+        _ref: string;
+        _type: "reference";
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string | null;
+      dimensions: {
+        width: number | null;
+        height: number | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+    panel: {
+      title: string | null;
+      status: string | null;
+      location: string | null;
+    } | null;
+  } | null;
+  company: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    image: {
+      _type: "siteImage";
+      asset: {
+        _ref: string;
+        _type: "reference";
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string | null;
+      dimensions: {
+        width: number | null;
+        height: number | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+    panel: {
+      title: string | null;
+      description: string | null;
+    } | null;
+    features: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon: "badge" | "shield" | "target" | null;
+    }> | null;
+    primaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+    secondaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+  workStages: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    label: string | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon:
+        "badge" | "check" | "file" | "headset" | "settings" | "target" | null;
+      note: {
+        text: string | null;
+        tone: "default" | "success" | null;
+      } | null;
+    }> | null;
+  } | null;
+  quality: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    checks: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon: "document" | "ruler" | "water" | null;
+    }> | null;
+    warranty: {
+      badge: string | null;
+      title: string | null;
+      description: string | null;
+      items: Array<string> | null;
+      action: {
+        enabled: boolean | null;
+        label: string | null;
+        destination: {
+          kind: "external" | "internal" | null;
+          href: string | null;
+          openInNewTab: boolean | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  faq: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      question: string | null;
+      answer: string | null;
+    }> | null;
+  } | null;
+} | null;
 
 // Source: src/sanity/queries/site-settings.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -465,6 +761,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
+    '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    brand{\n      companyName,\n      tagline,\n      logo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    },\n    header{\n      navigation[]{\n        _key,\n        label,\n        enabled,\n        destination{kind, href, openInNewTab}\n      },\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    footer{\n      companyDescription,\n      footerLogo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      },\n      badges[]{_key, label, enabled},\n      quickLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      serviceLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      contactColumn{\n        heading,\n        phoneLabel,\n        emailLabel,\n        addressLabel,\n        hoursLabel,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      cta{\n        enabled,\n        eyebrow,\n        title,\n        description,\n        primaryLabel,\n        primaryDestination{kind, href, openInNewTab},\n        whatsappLabel,\n        contactLabel,\n        supportingText\n      },\n      legal{\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        },\n        copyright\n      }\n    },\n    contact{\n      phone,\n      whatsapp,\n      email,\n      address,\n      workingHours\n    },\n    defaultSeo{\n      title,\n      description,\n      siteName,\n      image{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }
 }

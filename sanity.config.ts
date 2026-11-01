@@ -1,4 +1,4 @@
-import { defineConfig } from "sanity";
+import { defineConfig, defineSingleton } from "sanity";
 import { structureTool } from "sanity/structure";
 
 import {
@@ -10,8 +10,23 @@ import {
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
-const singletonType = "siteSettings";
+const singletonTypes = new Set(["siteSettings", "homePage"]);
 const singletonActionsToRemove = new Set(["delete", "unpublish", "duplicate"]);
+
+const singletons = [
+  defineSingleton({
+    id: "homePage",
+    documentId: "homePage",
+    schemaType: "homePage",
+    title: "الصفحة الرئيسية",
+  }),
+  defineSingleton({
+    id: "siteSettings",
+    documentId: "siteSettings",
+    schemaType: "siteSettings",
+    title: "إعدادات الموقع",
+  }),
+];
 
 export default defineConfig({
   name: "default",
@@ -23,12 +38,13 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     templates: (templates) =>
-      templates.filter((template) => template.schemaType !== singletonType),
+      templates.filter((template) => !singletonTypes.has(template.schemaType)),
   },
   plugins: [structureTool({ structure })],
   document: {
+    singletons,
     actions: (actions, { schemaType }) =>
-      schemaType === singletonType
+      singletonTypes.has(schemaType)
         ? actions.filter(
             (action) =>
               !action.action ||

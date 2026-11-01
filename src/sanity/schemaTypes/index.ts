@@ -1,4 +1,14 @@
 import { destinationType } from "./destination";
+import { homePageType } from "./homePage";
+import {
+  homePageFaqItemType,
+  homePageFeatureType,
+  homePageHighlightType,
+  homePageQualityCheckType,
+  homePageSectionHeadingType,
+  homePageStageNoteType,
+  homePageStageType,
+} from "./homePageSections";
 import {
   badgeType,
   contactColumnType,
@@ -12,6 +22,7 @@ import {
 import { siteSettingsType } from "./siteSettings";
 
 export const schemaTypes = [
+  homePageType,
   siteSettingsType,
   siteImageType,
   destinationType,
@@ -22,4 +33,11 @@ export const schemaTypes = [
   contactColumnType,
   ctaBlockType,
   legalBlockType,
+  homePageSectionHeadingType,
+  homePageHighlightType,
+  homePageFeatureType,
+  homePageStageNoteType,
+  homePageStageType,
+  homePageQualityCheckType,
+  homePageFaqItemType,
 ];
