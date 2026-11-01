@@ -1,9 +1,21 @@
 import type { NextConfig } from "next";
 
+const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const sanityDataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  images: {
+    remotePatterns:
+      sanityProjectId && sanityDataset
+        ? [
+            {
+              protocol: "https",
+              hostname: "cdn.sanity.io",
+              pathname: `/images/${sanityProjectId}/${sanityDataset}/**`,
+            },
+          ]
+        : [],
+  },
   turbopack: {
     rules: {
       "*.css": {

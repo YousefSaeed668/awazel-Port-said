@@ -1,26 +1,211 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-body);
+  --font-arabic: var(--font-ibm-plex-arabic), Tahoma, Arial, sans-serif;
+  --font-english: var(--font-ibm-plex-sans), Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-hover: var(--brand-navy-hover);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-gold: var(--brand-gold);
+  --color-surface-blue: var(--surface-blue);
+  --color-focus-on-dark: var(--focus-on-dark);
+  --color-link: var(--link);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 0.5rem);
+  --radius-md: calc(var(--radius) - 0.25rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --radius-2xl: calc(var(--radius) + 0.75rem);
+  --radius-3xl: calc(var(--radius) + 1.25rem);
+  --radius-4xl: calc(var(--radius) + 1.75rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+
+  --font-body: var(--font-ibm-plex-arabic), Tahoma, Arial, sans-serif;
+  --body-leading: 1.8;
+
+  --brand-navy: #062a46;
+  --brand-navy-hover: #0b3d60;
+  --brand-blue: #0076bc;
+  --brand-gold: #c99a3f;
+  --surface-blue: #eaf3f8;
+  --focus-on-dark: #68c7ff;
+
+  --background: #ffffff;
+  --foreground: #152c40;
+  --card: #ffffff;
+  --card-foreground: #152c40;
+  --popover: #ffffff;
+  --popover-foreground: #152c40;
+
+  --primary: #062a46;
+  --primary-foreground: #ffffff;
+  --primary-hover: #0b3d60;
+
+
+  --secondary: #f4f7f9;
+  --secondary-foreground: #062a46;
+  --muted: #f4f7f9;
+  --muted-foreground: #5b6b7a;
+  --accent: #eaf3f8;
+  --accent-foreground: #062a46;
+
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --border: #d8e1e8;
+  --input: #8293a2;
+  --ring: #0076bc;
+
+  --link: #005fa3;
+  --success: #1d6b45;
+  --success-foreground: #ffffff;
+  --whatsapp: #075e54;
+  --whatsapp-foreground: #ffffff;
+
+  --chart-1: #062a46;
+  --chart-2: #0076bc;
+  --chart-3: #c99a3f;
+  --chart-4: #1d6b45;
+  --chart-5: #5b6b7a;
+
+  --radius: 0.75rem;
+
+  --sidebar: #f4f7f9;
+  --sidebar-foreground: #152c40;
+  --sidebar-primary: #062a46;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eaf3f8;
+  --sidebar-accent-foreground: #062a46;
+  --sidebar-border: #d8e1e8;
+  --sidebar-ring: #0076bc;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #062a46;
+  --foreground: #ffffff;
+  --card: #0b3d60;
+  --card-foreground: #ffffff;
+  --popover: #0b3d60;
+  --popover-foreground: #ffffff;
+
+  --primary: #68c7ff;
+  --primary-foreground: #062a46;
+  --primary-hover: #eaf3f8;
+  --secondary: #0b3d60;
+  --secondary-foreground: #ffffff;
+  --muted: #0b3d60;
+  --muted-foreground: #d8e1e8;
+  --accent: #0b3d60;
+  --accent-foreground: #ffffff;
+
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --border: #5b6b7a;
+  --input: #8293a2;
+  --ring: #68c7ff;
+
+  --link: #68c7ff;
+  --success: #1d6b45;
+  --success-foreground: #ffffff;
+
+  --chart-1: #68c7ff;
+  --chart-2: #c99a3f;
+  --chart-3: #eaf3f8;
+  --chart-4: #8293a2;
+  --chart-5: #ffffff;
+
+  --sidebar: #062a46;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #68c7ff;
+  --sidebar-primary-foreground: #062a46;
+  --sidebar-accent: #0b3d60;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #5b6b7a;
+  --sidebar-ring: #68c7ff;
+}
+
+
+[lang="ar"] {
+  --font-body: var(--font-ibm-plex-arabic), Tahoma, Arial, sans-serif;
+  --body-leading: 1.8;
+}
+
+[lang="en"] {
+  --font-body: var(--font-ibm-plex-sans), Arial, sans-serif;
+  --body-leading: 1.65;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    line-height: var(--body-leading);
+  }
+
+  [lang="ar"],
+  [lang="en"] {
+    font-family: var(--font-body);
+    line-height: var(--body-leading);
+  }
 }

@@ -33,6 +33,12 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Sanity local artifacts
+/sanity.schema.json
+
+# local seeding (kept on disk, not committed)
+/seed/
+
 # vercel
 .vercel
 
