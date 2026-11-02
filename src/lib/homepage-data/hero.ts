@@ -50,8 +50,8 @@ export const approvalsContent: HomepageData["approvals"] = {
   items: [
     {
       id: "iso-9001",
-      title: "نظام إدارة الجودة",
-      issuer: "ISO 9001:2015",
+      issuer: "نظام إدارة الجودة",
+      issuerSecondaryName: "ISO 9001:2015",
       description:
         "إطار موثق لإدارة جودة التنفيذ والفحص والتسليم في جميع مراحل المشروع.",
       badge: "ISO 9001",
@@ -60,8 +60,8 @@ export const approvalsContent: HomepageData["approvals"] = {
     },
     {
       id: "iso-14001",
-      title: "الإدارة البيئية",
-      issuer: "ISO 14001:2015",
+      issuer: "الإدارة البيئية",
+      issuerSecondaryName: "ISO 14001:2015",
       description:
         "إجراءات للحد من الأثر البيئي واستخدام مواد منخفضة الانبعاثات.",
       badge: "ISO 14001",
@@ -70,8 +70,8 @@ export const approvalsContent: HomepageData["approvals"] = {
     },
     {
       id: "sbc",
-      title: "اعتماد كود البناء",
-      issuer: "SBC 601 / 602",
+      issuer: "اعتماد كود البناء",
+      issuerSecondaryName: "SBC 601 / 602",
       description:
         "مطابقة متطلبات العزل المائي والحراري لأنظمة البناء المعتمدة.",
       badge: "كود البناء",
@@ -80,8 +80,8 @@ export const approvalsContent: HomepageData["approvals"] = {
     },
     {
       id: "hse",
-      title: "السلامة المهنية",
-      issuer: "HSE",
+      issuer: "السلامة المهنية",
+      issuerSecondaryName: "HSE",
       description:
         "تطبيق إجراءات السلامة في المواقع وحماية فرق التنفيذ والزوار.",
       badge: "السلامة",

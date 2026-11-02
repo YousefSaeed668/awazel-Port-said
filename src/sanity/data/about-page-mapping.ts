@@ -5,6 +5,7 @@ import { resolveDestination } from "@/lib/links";
 
 import { imageUrl } from "../lib/image";
 import type { ABOUT_PAGE_QUERY_RESULT } from "../sanity.types";
+import { downloadHref, formatFileSize } from "./pdf-file";
 
 type QueryDocument = NonNullable<ABOUT_PAGE_QUERY_RESULT>;
 type QueryIntro = NonNullable<QueryDocument["intro"]>;
@@ -240,18 +241,6 @@ export function mapValues(values: QueryValues): AboutPageContent["values"] {
       };
     }),
   };
-}
-
-function formatFileSize(size: number | null | undefined) {
-  if (typeof size !== "number" || !Number.isFinite(size)) return undefined;
-  if (size >= 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(1)} ميجابايت`;
-  if (size >= 1024) return `${Math.max(1, Math.round(size / 1024))} كيلوبايت`;
-  return `${Math.max(0, Math.round(size))} بايت`;
-}
-
-function downloadHref(url: string, fileName: string) {
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}dl=${encodeURIComponent(fileName)}`;
 }
 
 export function mapProfile(profile: QueryProfile): AboutPageContent["profile"] {

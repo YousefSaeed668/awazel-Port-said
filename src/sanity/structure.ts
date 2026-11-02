@@ -6,5 +6,6 @@ export const structure: StructureResolver = (S) =>
     .items([
       S.listItem().title("الصفحة الرئيسية").singleton("homePage"),
       S.listItem().title("من نحن").singleton("aboutPage"),
+      S.listItem().title("الاعتمادات والشهادات").singleton("certificatesPage"),
       S.listItem().title("إعدادات الموقع").singleton("siteSettings"),
     ]);

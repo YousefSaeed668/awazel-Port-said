@@ -4,6 +4,7 @@ import { parseBody } from "next-sanity/webhook";
 
 import {
   ABOUT_PAGE_TAG,
+  CERTIFICATES_PAGE_TAG,
   HOME_PAGE_TAG,
   SITE_SETTINGS_TAG,
 } from "@/sanity/lib/cache-tags";
@@ -17,6 +18,7 @@ const PUBLISHED_SINGLETON_TAGS: Record<string, string> = {
   siteSettings: SITE_SETTINGS_TAG,
   homePage: HOME_PAGE_TAG,
   aboutPage: ABOUT_PAGE_TAG,
+  certificatesPage: CERTIFICATES_PAGE_TAG,
 };
 
 export async function POST(request: NextRequest) {

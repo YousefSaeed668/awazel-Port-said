@@ -15,6 +15,17 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: sanity.schema.json
+export type Status = {
+  label?: string;
+  tone?: "valid" | "pending" | "expired" | "neutral";
+};
+
+export type Scope = {
+  title?: string;
+  description?: string;
+  items?: Array<string>;
+};
+
 export type HomePageFaqItem = {
   _type: "homePageFaqItem";
   question?: string;
@@ -213,6 +224,34 @@ export type SiteImage = {
   alt?: string;
 };
 
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type CertificateRecord = {
+  _type: "certificateRecord";
+  issuerName?: string;
+  issuerSecondaryName?: string;
+  issuerLogo?: SiteImage;
+  certificateTitle?: string;
+  certificateSubtitle?: string;
+  reference?: string;
+  status?: Status;
+  authorizationDescription?: string;
+  issuedOn?: string;
+  validUntil?: string;
+  validityNote?: string;
+  scope?: Scope;
+  document?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -261,11 +300,29 @@ export type SiteSettings = {
   };
 };
 
-export type SanityFileAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+export type CertificatesPage = {
+  _id: string;
+  _type: "certificatesPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  intro?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+  };
+  certificates?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & CertificateRecord
+    >;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
 };
 
 export type AboutPage = {
@@ -550,6 +607,8 @@ export type Slug = {
 };
 
 export type AllSanitySchemaTypes =
+  | Status
+  | Scope
   | HomePageFaqItem
   | HomePageQualityCheck
   | HomePageStage
@@ -575,8 +634,10 @@ export type AllSanitySchemaTypes =
   | Destination
   | SanityImageAssetReference
   | SiteImage
-  | SiteSettings
   | SanityFileAssetReference
+  | CertificateRecord
+  | SiteSettings
+  | CertificatesPage
   | AboutPage
   | HomePage
   | SanityImageCrop
@@ -738,6 +799,92 @@ export type ABOUT_PAGE_QUERY_RESULT = {
   seo: {
     title: string | null;
     description: string | null;
+  } | null;
+} | null;
+
+// Source: src/sanity/queries/certificates-page.ts
+// Variable: CERTIFICATES_PAGE_QUERY
+// Query: *[_type == "certificatesPage" && _id == "certificatesPage"][0]{    _id,    intro{      eyebrow,      title,      description    },    certificates{      heading{eyebrow, title, description},      items[]{        _key,        issuerName,        issuerSecondaryName,        issuerLogo{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},        certificateTitle,        certificateSubtitle,        reference,        status{label, tone},        authorizationDescription,        issuedOn,        validUntil,        validityNote,        scope{title, description, items},        document{  asset->{    _id,    url,    originalFilename,    mimeType,    size  }}      }    },    seo{title, description}  }
+export type CERTIFICATES_PAGE_QUERY_RESULT = {
+  _id: "certificatesPage";
+  intro: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+  } | null;
+  certificates: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      issuerName: string | null;
+      issuerSecondaryName: string | null;
+      issuerLogo: {
+        _type: "siteImage";
+        asset: {
+          _ref: string;
+          _type: "reference";
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+          aspectRatio: number | null;
+        } | null;
+      } | null;
+      certificateTitle: string | null;
+      certificateSubtitle: string | null;
+      reference: string | null;
+      status: {
+        label: string | null;
+        tone: "expired" | "neutral" | "pending" | "valid" | null;
+      } | null;
+      authorizationDescription: string | null;
+      issuedOn: string | null;
+      validUntil: string | null;
+      validityNote: string | null;
+      scope: {
+        title: string | null;
+        description: string | null;
+        items: Array<string> | null;
+      } | null;
+      document: {
+        asset: {
+          _id: string;
+          url: string | null;
+          originalFilename: string | null;
+          mimeType: string | null;
+          size: number | null;
+        } | null;
+      } | null;
+    }> | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
+
+// Source: src/sanity/queries/certificates-page.ts
+// Variable: COMPANY_PROFILE_FILE_QUERY
+// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{    profile{      file{  asset->{    _id,    url,    originalFilename,    mimeType,    size  }}    }  }
+export type COMPANY_PROFILE_FILE_QUERY_RESULT = {
+  profile: {
+    file: {
+      asset: {
+        _id: string;
+        url: string | null;
+        originalFilename: string | null;
+        mimeType: string | null;
+        size: number | null;
+      } | null;
+    } | null;
   } | null;
 } | null;
 
@@ -1078,6 +1225,8 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 declare global {
   interface SanityQueries {
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    _id,\n    intro{\n      breadcrumbs[]{\n        _key,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      eyebrow,\n      title,\n      description\n    },\n    company{\n      eyebrow,\n      title,\n      paragraphs[]{_key, text},\n      facts[]{_key, label, value, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{\n        title,\n        description,\n        metric{value, label}\n      }\n    },\n    capabilities{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        action{\n  enabled,\n  label,\n  destination{kind, href, openInNewTab}\n}\n      }\n    },\n    methodology{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        phase{text, tone},\n        note{text, tone}\n      }\n    },\n    values{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        checks[]{_key, label}\n      }\n    },\n    profile{\n      badge,\n      version,\n      title,\n      description,\n      downloadLabel,\n      file{\n        asset->{\n          _id,\n          url,\n          originalFilename,\n          mimeType,\n          size\n        }\n      },\n      unavailableLabel,\n      unavailableHint\n    },\n    seo{title, description}\n  }\n': ABOUT_PAGE_QUERY_RESULT;
+    '\n  *[_type == "certificatesPage" && _id == "certificatesPage"][0]{\n    _id,\n    intro{\n      eyebrow,\n      title,\n      description\n    },\n    certificates{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        issuerName,\n        issuerSecondaryName,\n        issuerLogo{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n        certificateTitle,\n        certificateSubtitle,\n        reference,\n        status{label, tone},\n        authorizationDescription,\n        issuedOn,\n        validUntil,\n        validityNote,\n        scope{title, description, items},\n        document{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n      }\n    },\n    seo{title, description}\n  }\n': CERTIFICATES_PAGE_QUERY_RESULT;
+    '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    profile{\n      file{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n    }\n  }\n': COMPANY_PROFILE_FILE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    brand{\n      companyName,\n      tagline,\n      logo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    },\n    header{\n      navigation[]{\n        _key,\n        label,\n        enabled,\n        destination{kind, href, openInNewTab}\n      },\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    footer{\n      companyDescription,\n      footerLogo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      },\n      badges[]{_key, label, enabled},\n      quickLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      serviceLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      contactColumn{\n        heading,\n        phoneLabel,\n        emailLabel,\n        addressLabel,\n        hoursLabel,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      cta{\n        enabled,\n        eyebrow,\n        title,\n        description,\n        primaryLabel,\n        primaryDestination{kind, href, openInNewTab},\n        whatsappLabel,\n        contactLabel,\n        supportingText\n      },\n      legal{\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        },\n        copyright\n      }\n    },\n    contact{\n      phone,\n      whatsapp,\n      email,\n      address,\n      workingHours\n    },\n    defaultSeo{\n      title,\n      description,\n      siteName,\n      image{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }

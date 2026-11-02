@@ -9,6 +9,7 @@ import {
   aboutValueCheckType,
   aboutValueType,
 } from "./aboutPageSections";
+import { certificatesPageType, certificateRecordType } from "./certificatesPage";
 import { destinationType } from "./destination";
 import { homePageType } from "./homePage";
 import {
@@ -35,7 +36,9 @@ import { siteSettingsType } from "./siteSettings";
 export const schemaTypes = [
   homePageType,
   aboutPageType,
+  certificatesPageType,
   siteSettingsType,
+  certificateRecordType,
   siteImageType,
   destinationType,
   aboutBreadcrumbType,

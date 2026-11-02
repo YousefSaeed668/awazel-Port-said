@@ -125,8 +125,8 @@ export const aboutData: Pick<AboutPageData, "approvals"> = {
     items: [
       {
         id: "bitumat",
-        title: "بيتومات (BITUMAT)",
-        issuer: "شركة تصنيع مواد العزل المائي العالمية",
+        issuer: "بيتومات (BITUMAT)",
+        issuerSecondaryName: "شركة تصنيع مواد العزل المائي العالمية",
         description:
           "اعتماد رسمي كجهة تطبيق وتركيب معتمدة لأنظمة الأغشية البيتومينية والمستحلبات الإسفلتية المقواة للأقبية والأسطح.",
         badge: "BITUMAT",
@@ -135,8 +135,8 @@ export const aboutData: Pick<AboutPageData, "approvals"> = {
       },
       {
         id: "izomaks",
-        title: "إيزوماكس (IZOMAKS)",
-        issuer: "أنظمة العزل وحلول الحماية الخرسانية",
+        issuer: "إيزوماكس (IZOMAKS)",
+        issuerSecondaryName: "أنظمة العزل وحلول الحماية الخرسانية",
         description:
           "معتمد للأعمال المائية وعزل الأسطح واستخدام لفائف البوليمر عالية المرونة لمقاومة التشققات والتمدد الحراري.",
         badge: "IZOMAKS",
@@ -145,8 +145,8 @@ export const aboutData: Pick<AboutPageData, "approvals"> = {
       },
       {
         id: "anqa",
-        title: "عنقاء (ANQA)",
-        issuer: "تقنيات العزل المائي والحراري المتقدمة",
+        issuer: "عنقاء (ANQA)",
+        issuerSecondaryName: "تقنيات العزل المائي والحراري المتقدمة",
         description:
           "اعتماد تركيب احترافي لأنظمة العزل المزدوج الفوم والبولي يوريثان لحماية المباني والمنشآت ضد الإجهادات المناخية.",
         badge: "ANQA",
