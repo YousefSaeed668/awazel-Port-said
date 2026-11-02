@@ -125,6 +125,71 @@ export type SiteLink = {
   destination?: Destination;
 };
 
+export type AboutValue = {
+  _type: "aboutValue";
+  title?: string;
+  description?: string;
+  icon?: "quality" | "safety" | "environment";
+  checks?: Array<
+    {
+      _key: string;
+    } & AboutValueCheck
+  >;
+};
+
+export type AboutValueCheck = {
+  _type: "aboutValueCheck";
+  label?: string;
+};
+
+export type AboutStage = {
+  _type: "aboutStage";
+  title?: string;
+  description?: string;
+  phase?: AboutStageNote;
+  note?: AboutStageNote;
+};
+
+export type AboutStageNote = {
+  _type: "aboutStageNote";
+  text?: string;
+  tone?: "default" | "success";
+};
+
+export type AboutCapability = {
+  _type: "aboutCapability";
+  title?: string;
+  description?: string;
+  icon?:
+    | "building"
+    | "droplets"
+    | "factory"
+    | "house"
+    | "landmark"
+    | "layers"
+    | "target"
+    | "thermometer";
+  action?: SiteAction;
+};
+
+export type AboutFact = {
+  _type: "aboutFact";
+  label?: string;
+  value?: string;
+  icon?: "verified" | "distance" | "security" | "engineering";
+};
+
+export type AboutParagraph = {
+  _type: "aboutParagraph";
+  text?: string;
+};
+
+export type AboutBreadcrumb = {
+  _type: "aboutBreadcrumb";
+  label?: string;
+  destination?: Destination;
+};
+
 export type Destination = {
   _type: "destination";
   kind?: "internal" | "external";
@@ -193,6 +258,97 @@ export type SiteSettings = {
     description?: string;
     siteName?: string;
     image?: SiteImage;
+  };
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  intro?: {
+    breadcrumbs?: Array<
+      {
+        _key: string;
+      } & AboutBreadcrumb
+    >;
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+  };
+  company?: {
+    eyebrow?: string;
+    title?: string;
+    paragraphs?: Array<
+      {
+        _key: string;
+      } & AboutParagraph
+    >;
+    facts?: Array<
+      {
+        _key: string;
+      } & AboutFact
+    >;
+    image?: SiteImage;
+    panel?: {
+      title?: string;
+      description?: string;
+      metric?: {
+        value?: string;
+        label?: string;
+      };
+    };
+  };
+  capabilities?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & AboutCapability
+    >;
+  };
+  methodology?: {
+    heading?: HomePageSectionHeading;
+    label?: string;
+    items?: Array<
+      {
+        _key: string;
+      } & AboutStage
+    >;
+  };
+  values?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & AboutValue
+    >;
+  };
+  profile?: {
+    badge?: string;
+    version?: string;
+    title?: string;
+    description?: string;
+    downloadLabel?: string;
+    file?: {
+      asset?: SanityFileAssetReference;
+      media?: unknown;
+      _type: "file";
+    };
+    unavailableLabel?: string;
+    unavailableHint?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
   };
 };
 
@@ -408,10 +564,20 @@ export type AllSanitySchemaTypes =
   | SiteAction
   | Badge
   | SiteLink
+  | AboutValue
+  | AboutValueCheck
+  | AboutStage
+  | AboutStageNote
+  | AboutCapability
+  | AboutFact
+  | AboutParagraph
+  | AboutBreadcrumb
   | Destination
   | SanityImageAssetReference
   | SiteImage
   | SiteSettings
+  | SanityFileAssetReference
+  | AboutPage
   | HomePage
   | SanityImageCrop
   | SanityImageHotspot
@@ -424,6 +590,156 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint
   | Slug;
+
+// Source: src/sanity/queries/about-page.ts
+// Variable: ABOUT_PAGE_QUERY
+// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{    _id,    intro{      breadcrumbs[]{        _key,        label,        destination{kind, href, openInNewTab}      },      eyebrow,      title,      description    },    company{      eyebrow,      title,      paragraphs[]{_key, text},      facts[]{_key, label, value, icon},      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{        title,        description,        metric{value, label}      }    },    capabilities{      heading{eyebrow, title, description},      items[]{        _key,        title,        description,        icon,        action{  enabled,  label,  destination{kind, href, openInNewTab}}      }    },    methodology{      heading{eyebrow, title, description},      label,      items[]{        _key,        title,        description,        phase{text, tone},        note{text, tone}      }    },    values{      heading{eyebrow, title, description},      items[]{        _key,        title,        description,        icon,        checks[]{_key, label}      }    },    profile{      badge,      version,      title,      description,      downloadLabel,      file{        asset->{          _id,          url,          originalFilename,          mimeType,          size        }      },      unavailableLabel,      unavailableHint    },    seo{title, description}  }
+export type ABOUT_PAGE_QUERY_RESULT = {
+  _id: "aboutPage";
+  intro: {
+    breadcrumbs: Array<{
+      _key: string;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    }> | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+  } | null;
+  company: {
+    eyebrow: string | null;
+    title: string | null;
+    paragraphs: Array<{
+      _key: string;
+      text: string | null;
+    }> | null;
+    facts: Array<{
+      _key: string;
+      label: string | null;
+      value: string | null;
+      icon: "distance" | "engineering" | "security" | "verified" | null;
+    }> | null;
+    image: {
+      _type: "siteImage";
+      asset: {
+        _ref: string;
+        _type: "reference";
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string | null;
+      dimensions: {
+        width: number | null;
+        height: number | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+    panel: {
+      title: string | null;
+      description: string | null;
+      metric: {
+        value: string | null;
+        label: string | null;
+      } | null;
+    } | null;
+  } | null;
+  capabilities: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon:
+        | "building"
+        | "droplets"
+        | "factory"
+        | "house"
+        | "landmark"
+        | "layers"
+        | "target"
+        | "thermometer"
+        | null;
+      action: {
+        enabled: boolean | null;
+        label: string | null;
+        destination: {
+          kind: "external" | "internal" | null;
+          href: string | null;
+          openInNewTab: boolean | null;
+        } | null;
+      } | null;
+    }> | null;
+  } | null;
+  methodology: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    label: string | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      phase: {
+        text: string | null;
+        tone: "default" | "success" | null;
+      } | null;
+      note: {
+        text: string | null;
+        tone: "default" | "success" | null;
+      } | null;
+    }> | null;
+  } | null;
+  values: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon: "environment" | "quality" | "safety" | null;
+      checks: Array<{
+        _key: string;
+        label: string | null;
+      }> | null;
+    }> | null;
+  } | null;
+  profile: {
+    badge: string | null;
+    version: string | null;
+    title: string | null;
+    description: string | null;
+    downloadLabel: string | null;
+    file: {
+      asset: {
+        _id: string;
+        url: string | null;
+        originalFilename: string | null;
+        mimeType: string | null;
+        size: number | null;
+      } | null;
+    } | null;
+    unavailableLabel: string | null;
+    unavailableHint: string | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
 
 // Source: src/sanity/queries/home-page.ts
 // Variable: HOME_PAGE_QUERY
@@ -761,6 +1077,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
+    '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    _id,\n    intro{\n      breadcrumbs[]{\n        _key,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      eyebrow,\n      title,\n      description\n    },\n    company{\n      eyebrow,\n      title,\n      paragraphs[]{_key, text},\n      facts[]{_key, label, value, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{\n        title,\n        description,\n        metric{value, label}\n      }\n    },\n    capabilities{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        action{\n  enabled,\n  label,\n  destination{kind, href, openInNewTab}\n}\n      }\n    },\n    methodology{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        phase{text, tone},\n        note{text, tone}\n      }\n    },\n    values{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        checks[]{_key, label}\n      }\n    },\n    profile{\n      badge,\n      version,\n      title,\n      description,\n      downloadLabel,\n      file{\n        asset->{\n          _id,\n          url,\n          originalFilename,\n          mimeType,\n          size\n        }\n      },\n      unavailableLabel,\n      unavailableHint\n    },\n    seo{title, description}\n  }\n': ABOUT_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    brand{\n      companyName,\n      tagline,\n      logo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    },\n    header{\n      navigation[]{\n        _key,\n        label,\n        enabled,\n        destination{kind, href, openInNewTab}\n      },\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    footer{\n      companyDescription,\n      footerLogo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      },\n      badges[]{_key, label, enabled},\n      quickLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      serviceLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      contactColumn{\n        heading,\n        phoneLabel,\n        emailLabel,\n        addressLabel,\n        hoursLabel,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      cta{\n        enabled,\n        eyebrow,\n        title,\n        description,\n        primaryLabel,\n        primaryDestination{kind, href, openInNewTab},\n        whatsappLabel,\n        contactLabel,\n        supportingText\n      },\n      legal{\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        },\n        copyright\n      }\n    },\n    contact{\n      phone,\n      whatsapp,\n      email,\n      address,\n      workingHours\n    },\n    defaultSeo{\n      title,\n      description,\n      siteName,\n      image{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }

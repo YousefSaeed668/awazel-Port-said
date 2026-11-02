@@ -9,5 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: new URL("/about", getSiteUrl()).toString(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 }

@@ -8,9 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "typegen": "sanity schema extract --path ./sanity.schema.json --force && sanity typegen generate",
-    "seed:site-settings": "node --env-file-if-exists=.env.local seed/seed-site-settings.mjs",
-    "seed:home-page": "node --env-file-if-exists=.env.local seed/seed-home-page.mjs"
+    "typegen": "sanity schema extract --path ./sanity.schema.json --force && sanity typegen generate"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

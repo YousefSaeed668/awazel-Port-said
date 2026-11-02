@@ -2,9 +2,9 @@ import "server-only";
 
 import type { ComponentProps } from "react";
 
-import type { CertificateCard, ServiceCard } from "@shared/company-cards";
-import type { BlogCard, ProjectCard } from "@shared/content-cards";
-import type { WorkStages } from "@shared/work-stages";
+import type { CertificateCard, ServiceCard } from "@/components/company-cards";
+import type { BlogCard, ProjectCard } from "@/components/content-cards";
+import type { WorkStages } from "@/components/work-stages";
 
 import { SectionHeading } from "@/components/ui/section-heading";
 

@@ -10,7 +10,7 @@ import {
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
-const singletonTypes = new Set(["siteSettings", "homePage"]);
+const singletonTypes = new Set(["siteSettings", "homePage", "aboutPage"]);
 const singletonActionsToRemove = new Set(["delete", "unpublish", "duplicate"]);
 
 const singletons = [
@@ -25,6 +25,12 @@ const singletons = [
     documentId: "siteSettings",
     schemaType: "siteSettings",
     title: "إعدادات الموقع",
+  }),
+  defineSingleton({
+    id: "aboutPage",
+    documentId: "aboutPage",
+    schemaType: "aboutPage",
+    title: "من نحن",
   }),
 ];
 

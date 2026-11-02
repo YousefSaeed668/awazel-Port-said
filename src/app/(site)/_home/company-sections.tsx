@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -13,8 +12,9 @@ import {
 import { MaxWidth } from "@/components/MaxWidth";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { MediaFrame } from "@/components/ui/media-frame";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { WorkStages } from "@shared/work-stages";
+import { WorkStages } from "@/components/work-stages";
 import { cn } from "cn";
 
 import type { HomepageData } from "@/lib/data";
@@ -223,30 +223,23 @@ function CompanyFeature({
 
 function CompanyMedia({ content }: { content: HomepageData["company"] }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-xl bg-muted shadow-md lg:col-span-5">
-      <div className="relative aspect-4/3 lg:h-[420px] lg:aspect-auto">
-        <Image
-          src={content.image.src}
-          alt={content.image.alt}
-          fill
-          sizes="(min-width: 1024px) 46vw, 100vw"
-          className="object-cover"
-          style={
-            content.image.objectPosition
-              ? { objectPosition: content.image.objectPosition }
-              : undefined
-          }
-        />
-      </div>
-      <div className="absolute inset-x-3 bottom-3 rounded-xl bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:inset-x-5 sm:bottom-5">
-        <p className="flex items-center gap-2 text-base font-bold leading-7 text-black">
-          <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-brand-blue" />
-          {content.panel.title}
-        </p>
-        <p className="mt-1 text-xs leading-6 text-muted-foreground">
-          {content.panel.description}
-        </p>
-      </div>
-    </div>
+    <MediaFrame
+      image={content.image}
+      sizes="(min-width: 1024px) 46vw, 100vw"
+      className="bg-muted shadow-md lg:col-span-5"
+      mediaClassName="lg:h-[420px] lg:aspect-auto"
+      overlayClassName="inset-x-3 bottom-3 rounded-xl bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:inset-x-5 sm:bottom-5"
+      overlay={
+        <>
+          <p className="flex items-center gap-2 text-base font-bold leading-7 text-brand-navy">
+            <ShieldCheck aria-hidden="true" className="size-5 shrink-0 text-brand-blue" />
+            {content.panel.title}
+          </p>
+          <p className="mt-1 text-xs leading-6 text-muted-foreground">
+            {content.panel.description}
+          </p>
+        </>
+      }
+    />
   );
 }

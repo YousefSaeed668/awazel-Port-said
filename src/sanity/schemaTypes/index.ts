@@ -1,3 +1,14 @@
+import { aboutPageType } from "./aboutPage";
+import {
+  aboutBreadcrumbType,
+  aboutCapabilityType,
+  aboutFactType,
+  aboutParagraphType,
+  aboutStageNoteType,
+  aboutStageType,
+  aboutValueCheckType,
+  aboutValueType,
+} from "./aboutPageSections";
 import { destinationType } from "./destination";
 import { homePageType } from "./homePage";
 import {
@@ -23,9 +34,18 @@ import { siteSettingsType } from "./siteSettings";
 
 export const schemaTypes = [
   homePageType,
+  aboutPageType,
   siteSettingsType,
   siteImageType,
   destinationType,
+  aboutBreadcrumbType,
+  aboutParagraphType,
+  aboutFactType,
+  aboutCapabilityType,
+  aboutStageNoteType,
+  aboutStageType,
+  aboutValueCheckType,
+  aboutValueType,
   siteLinkType,
   badgeType,
   siteActionType,

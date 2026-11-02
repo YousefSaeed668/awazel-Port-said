@@ -1,6 +1,6 @@
 import { MaxWidth } from "@/components/MaxWidth";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { BlogCard } from "@shared/content-cards";
+import { BlogCard } from "@/components/content-cards";
 
 import type { HomepageData } from "@/lib/data";
 

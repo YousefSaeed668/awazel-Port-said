@@ -1,13 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, ShieldCheck, UserRoundCheck } from "lucide-react";
 
 import { MaxWidth } from "@/components/MaxWidth";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { MediaFrame } from "@/components/ui/media-frame";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { CertificateCard, ServiceCard } from "@shared/company-cards";
-import { ProjectCard } from "@shared/content-cards";
+import { CertificateCard, ServiceCard } from "@/components/company-cards";
+import { ProjectCard } from "@/components/content-cards";
 import { cn } from "cn";
 
 import type { HomepageData } from "@/lib/data";
@@ -148,34 +148,27 @@ export function ProjectsSection({ content }: { content: HomepageData["projects"]
 
 function HeroMedia({ content }: { content: HomepageData["hero"] }) {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-xl bg-surface-blue shadow-xl lg:col-span-5">
-      <div className="relative aspect-4/3 lg:h-[460px] lg:aspect-auto">
-        <Image
-          src={content.image.src}
-          alt={content.image.alt}
-          fill
-          sizes="(min-width: 1024px) 44vw, 100vw"
-          preload
-          className="object-cover"
-          style={
-            content.image.objectPosition
-              ? { objectPosition: content.image.objectPosition }
-              : undefined
-          }
-        />
-      </div>
-      <div className="absolute inset-x-4 bottom-4 rounded-lg bg-card/95 p-4 shadow-md backdrop-blur-sm">
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
-          <span className="inline-flex items-center gap-1.5 font-semibold text-success">
-            <span aria-hidden="true" className="size-2 rounded-full bg-success" />
-            {content.panel.status}
-          </span>
-          <span className="text-muted-foreground">{content.panel.location}</span>
-        </div>
-        <p className="mt-2 text-sm font-medium leading-6 text-brand-navy">
-          {content.panel.title}
-        </p>
-      </div>
-    </div>
+    <MediaFrame
+      image={content.image}
+      sizes="(min-width: 1024px) 44vw, 100vw"
+      preload
+      className="bg-surface-blue shadow-xl lg:col-span-5"
+      mediaClassName="lg:h-[460px] lg:aspect-auto"
+      overlayClassName="inset-x-4 bottom-4 rounded-lg bg-card/95 p-4 shadow-md backdrop-blur-sm"
+      overlay={
+        <>
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
+            <span className="inline-flex items-center gap-1.5 font-semibold text-success">
+              <span aria-hidden="true" className="size-2 rounded-full bg-success" />
+              {content.panel.status}
+            </span>
+            <span className="text-muted-foreground">{content.panel.location}</span>
+          </div>
+          <p className="mt-2 text-sm font-medium leading-6 text-brand-navy">
+            {content.panel.title}
+          </p>
+        </>
+      }
+    />
   );
 }
