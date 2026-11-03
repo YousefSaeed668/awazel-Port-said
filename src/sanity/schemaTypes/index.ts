@@ -9,6 +9,9 @@ import {
   aboutValueCheckType,
   aboutValueType,
 } from "./aboutPageSections";
+import { articleType } from "./article";
+import { articleBodyObjectTypes } from "./articleBody";
+import { authorType, blogSettingsType, blogTagType } from "./blogTaxonomy";
 import { certificatesPageType, certificateRecordType } from "./certificatesPage";
 import { destinationType } from "./destination";
 import { homePageType } from "./homePage";
@@ -38,9 +41,14 @@ export const schemaTypes = [
   aboutPageType,
   certificatesPageType,
   siteSettingsType,
+  articleType,
+  authorType,
+  blogTagType,
+  blogSettingsType,
   certificateRecordType,
   siteImageType,
   destinationType,
+  ...articleBodyObjectTypes,
   aboutBreadcrumbType,
   aboutParagraphType,
   aboutFactType,

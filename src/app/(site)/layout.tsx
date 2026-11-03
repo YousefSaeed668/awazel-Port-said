@@ -19,9 +19,13 @@ export default async function SiteLayout({
 
   return (
     <SiteProviders>
-      <Header {...shell.header} />
+      <div className="print:hidden">
+        <Header {...shell.header} />
+      </div>
       <main>{children}</main>
-      <Footer {...shell.footer} />
+      <div className="print:hidden">
+        <Footer {...shell.footer} />
+      </div>
     </SiteProviders>
   );
 }

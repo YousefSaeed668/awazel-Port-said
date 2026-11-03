@@ -16,6 +16,7 @@ interface SectionHeadingProps {
   className?: string;
   titleClassName?: string;
   variant?: "default" | "home";
+  eyebrowVariant?: "badge" | "plain";
 }
 
 export function SectionHeading({
@@ -29,6 +30,7 @@ export function SectionHeading({
   className,
   titleClassName,
   variant = "default",
+  eyebrowVariant = "badge",
 }: SectionHeadingProps) {
   const Heading = `h${headingLevel}` as "h1" | "h2" | "h3";
   const centered = align === "center";
@@ -46,7 +48,9 @@ export function SectionHeading({
       )}
     >
       <div className={cn("min-w-0", centered ? "max-w-3xl" : "max-w-4xl")}>
-        {eyebrow ? (
+        {eyebrow && eyebrowVariant === "plain" ? (
+          <p className="text-xs font-medium text-link">{eyebrow}</p>
+        ) : eyebrow ? (
           <p
             className={cn(
               "flex items-center gap-2",
@@ -55,11 +59,19 @@ export function SectionHeading({
           >
             <span
               aria-hidden="true"
-              className={cn("h-0.5 shrink-0 rounded-full bg-brand-gold", home ? "w-6" : "w-8")}
+              className={cn(
+                "h-0.5 shrink-0 rounded-full bg-brand-gold",
+                home ? "w-6" : "w-8",
+              )}
             />
             <Badge
               variant="secondary"
-              className={cn("h-auto text-xs font-medium", home ? "rounded bg-muted px-2 py-1 text-muted-foreground" : "rounded-md px-3 py-1.5 text-muted-foreground ring-1 ring-border")}
+              className={cn(
+                "h-auto text-xs font-medium",
+                home
+                  ? "rounded bg-muted px-2 py-1 text-muted-foreground"
+                  : "rounded-md px-3 py-1.5 text-muted-foreground ring-1 ring-border",
+              )}
             >
               {eyebrow}
             </Badge>
@@ -70,14 +82,20 @@ export function SectionHeading({
           className={cn(
             "text-2xl font-bold leading-relaxed sm:text-3xl",
             home ? "text-brand-navy" : "text-black",
-            eyebrow && (home ? "mt-2" : "mt-4"),
+            eyebrow &&
+              (eyebrowVariant === "plain" ? "mt-1" : home ? "mt-2" : "mt-4"),
             titleClassName,
           )}
         >
           {title}
         </Heading>
         {description ? (
-          <p className={cn("text-sm leading-7 text-muted-foreground sm:text-base", home ? "mt-2" : "mt-3")}>
+          <p
+            className={cn(
+              "text-sm leading-7 text-muted-foreground sm:text-base",
+              home ? "mt-2" : "mt-3",
+            )}
+          >
             {description}
           </p>
         ) : null}

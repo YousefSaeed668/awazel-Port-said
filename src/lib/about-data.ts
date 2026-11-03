@@ -6,16 +6,6 @@ import type { SectionHeading } from "@/components/ui/section-heading";
 import type { CertificateCard, ServiceCard } from "@/components/company-cards";
 import type { WorkStages } from "@/components/work-stages";
 
-/**
- * About page UI contract and the fixture-backed approvals block.
- *
- * Editable About content lives in the `aboutPage` Sanity singleton and is
- * loaded by `getAboutPageContent`. The initial content snapshot used by
- * `npm run seed:about-page` is kept in `seed/about-page.json`.
- *
- * Approvals remain fixture-backed until certificate management is implemented.
- */
-
 type SectionIntro = Pick<
   ComponentProps<typeof SectionHeading>,
   "title" | "eyebrow" | "description" | "action"

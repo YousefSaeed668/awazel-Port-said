@@ -9,12 +9,17 @@ import {
 } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+import {
+  createArticleDuplicateAction,
+  createArticlePublishAction,
+} from "./src/sanity/document-actions/article";
 
 const singletonTypes = new Set([
   "siteSettings",
   "homePage",
   "aboutPage",
   "certificatesPage",
+  "blogSettings",
 ]);
 const singletonActionsToRemove = new Set(["delete", "unpublish", "duplicate"]);
 
@@ -43,6 +48,12 @@ const singletons = [
     schemaType: "certificatesPage",
     title: "الاعتمادات والشهادات",
   }),
+  defineSingleton({
+    id: "blogSettings",
+    documentId: "blogSettings",
+    schemaType: "blogSettings",
+    title: "إعدادات المدونة",
+  }),
 ];
 
 export default defineConfig({
@@ -60,13 +71,27 @@ export default defineConfig({
   plugins: [structureTool({ structure })],
   document: {
     singletons,
-    actions: (actions, { schemaType }) =>
-      singletonTypes.has(schemaType)
-        ? actions.filter(
-            (action) =>
-              !action.action ||
-              !singletonActionsToRemove.has(action.action),
-          )
-        : actions,
+    actions: (actions, { schemaType }) => {
+      if (singletonTypes.has(schemaType)) {
+        return actions.filter(
+          (action) =>
+            !action.action || !singletonActionsToRemove.has(action.action),
+        );
+      }
+
+      if (schemaType === "article") {
+        return actions.map((action) => {
+          if (action.action === "publish") {
+            return createArticlePublishAction(action);
+          }
+          if (action.action === "duplicate") {
+            return createArticleDuplicateAction(action);
+          }
+          return action;
+        });
+      }
+
+      return actions;
+    },
   },
 });

@@ -4,6 +4,11 @@ import { parseBody } from "next-sanity/webhook";
 
 import {
   ABOUT_PAGE_TAG,
+  articleTag,
+  BLOG_ARTICLES_TAG,
+  BLOG_AUTHORS_TAG,
+  BLOG_SETTINGS_TAG,
+  BLOG_TAGS_TAG,
   CERTIFICATES_PAGE_TAG,
   HOME_PAGE_TAG,
   SITE_SETTINGS_TAG,
@@ -20,6 +25,42 @@ const PUBLISHED_SINGLETON_TAGS: Record<string, string> = {
   aboutPage: ABOUT_PAGE_TAG,
   certificatesPage: CERTIFICATES_PAGE_TAG,
 };
+
+const BLOG_COLLECTION_TAGS: Record<string, string> = {
+  author: BLOG_AUTHORS_TAG,
+  blogTag: BLOG_TAGS_TAG,
+};
+
+function isDraftOrVersion(id: string) {
+  return id.startsWith("drafts.") || id.startsWith("versions.");
+}
+
+function tagsForDocument(id: string, type: string) {
+  const singletonTag = PUBLISHED_SINGLETON_TAGS[type];
+
+  // Singleton documents use their published id as the document id. This also
+  // ignores draft, version, and unrelated documents.
+  if (singletonTag) {
+    return id === type ? [singletonTag] : null;
+  }
+
+  if (isDraftOrVersion(id)) return null;
+
+  if (type === "article") {
+    return [articleTag(id), BLOG_ARTICLES_TAG];
+  }
+
+  if (type === "blogSettings") {
+    return [BLOG_SETTINGS_TAG];
+  }
+
+  const collectionTag = BLOG_COLLECTION_TAGS[type];
+  if (collectionTag) {
+    return [collectionTag, BLOG_ARTICLES_TAG];
+  }
+
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   const secret = process.env.SANITY_REVALIDATE_SECRET?.trim();
@@ -56,19 +97,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const tag = PUBLISHED_SINGLETON_TAGS[body._type];
+    const tags = tagsForDocument(body._id, body._type);
 
-    // Singleton documents use their published id as the document id. This
-    // also ignores draft, version, and unrelated documents.
-    if (!tag || body._id !== body._type) {
+    if (!tags) {
       return Response.json({ revalidated: false });
     }
 
-    revalidateTag(tag, { expire: 0 });
+    for (const tag of new Set(tags)) {
+      revalidateTag(tag, { expire: 0 });
+    }
 
     return Response.json({
       revalidated: true,
-      tag,
+      tags,
     });
   } catch (error) {
     console.error(

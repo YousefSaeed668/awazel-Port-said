@@ -201,6 +201,140 @@ export type AboutBreadcrumb = {
   destination?: Destination;
 };
 
+export type ArticleServicePromo = {
+  _type: "articleServicePromo";
+  title?: string;
+  description?: string;
+  action?: ArticlePromoAction;
+};
+
+export type ArticlePromoAction = {
+  _type: "articlePromoAction";
+  label?: string;
+  destination?: Destination;
+};
+
+export type ArticleNumberedSteps = {
+  _type: "articleNumberedSteps";
+  title?: string;
+  items?: Array<
+    {
+      _key: string;
+    } & ArticleStep
+  >;
+};
+
+export type ArticleStep = {
+  _type: "articleStep";
+  title?: string;
+  description?: string;
+};
+
+export type ArticleQaGroup = {
+  _type: "articleQaGroup";
+  title?: string;
+  items?: Array<
+    {
+      _key: string;
+    } & ArticleQaItem
+  >;
+};
+
+export type ArticleQaItem = {
+  _type: "articleQaItem";
+  question?: string;
+  answer?: string;
+};
+
+export type ArticleExplanation = {
+  _type: "articleExplanation";
+  title?: string;
+  text?: string;
+  image?: SiteImage;
+  imageCaption?: string;
+  points?: Array<string>;
+  imageSide?: "start" | "end";
+};
+
+export type ArticleCardGroup = {
+  _type: "articleCardGroup";
+  title?: string;
+  description?: string;
+  cards?: Array<
+    {
+      _key: string;
+    } & ArticleCard
+  >;
+};
+
+export type ArticleCard = {
+  _type: "articleCard";
+  title?: string;
+  description?: string;
+  icon?: "water" | "thermal" | "layers";
+};
+
+export type ArticleTable = {
+  _type: "articleTable";
+  caption?: string;
+  headers?: Array<string>;
+  rows?: Array<
+    {
+      _key: string;
+    } & ArticleTableRow
+  >;
+};
+
+export type ArticleTableRow = {
+  _type: "articleTableRow";
+  cells?: Array<string>;
+};
+
+export type ArticleReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "article";
+};
+
+export type ArticleCallout = {
+  _type: "articleCallout";
+  tone?: "info" | "warning" | "technical";
+  title?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<
+      | {
+          href?: string;
+          openInNewTab?: boolean;
+          _type: "articleLink";
+          _key: string;
+        }
+      | {
+          reference?: ArticleReference;
+          _type: "articleReference";
+          _key: string;
+        }
+    >;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type ArticleBodyImage = {
+  _type: "articleBodyImage";
+  image?: SiteImage;
+  caption?: string;
+};
+
 export type Destination = {
   _type: "destination";
   kind?: "internal" | "external";
@@ -250,6 +384,137 @@ export type CertificateRecord = {
     media?: unknown;
     _type: "file";
   };
+};
+
+export type BlogSettings = {
+  _id: string;
+  _type: "blogSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  whatsappNumber?: string;
+  sidebarDestination?: Destination;
+  wideDestination?: Destination;
+};
+
+export type BlogTag = {
+  _id: string;
+  _type: "blogTag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
+export type AuthorReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "author";
+};
+
+export type BlogTagReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "blogTag";
+};
+
+export type Article = {
+  _id: string;
+  _type: "article";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  cover?: SiteImage;
+  coverCaption?: string;
+  author?: AuthorReference;
+  tags?: Array<
+    {
+      _key: string;
+    } & BlogTagReference
+  >;
+  body?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<
+          | {
+              href?: string;
+              openInNewTab?: boolean;
+              _type: "articleLink";
+              _key: string;
+            }
+          | {
+              reference?: ArticleReference;
+              _type: "articleReference";
+              _key: string;
+            }
+        >;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & ArticleBodyImage)
+    | ({
+        _key: string;
+      } & ArticleCallout)
+    | ({
+        _key: string;
+      } & ArticleTable)
+    | ({
+        _key: string;
+      } & ArticleCardGroup)
+    | ({
+        _key: string;
+      } & ArticleExplanation)
+    | ({
+        _key: string;
+      } & ArticleQaGroup)
+    | ({
+        _key: string;
+      } & ArticleNumberedSteps)
+    | ({
+        _key: string;
+      } & ArticleServicePromo)
+  >;
+  publishedAt?: string;
+  updatedAt?: string;
+  previousSlugs?: Array<string>;
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+};
+
+export type Author = {
+  _id: string;
+  _type: "author";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  role?: string;
+  bio?: string;
+  image?: SiteImage;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
 };
 
 export type SiteSettings = {
@@ -600,12 +865,6 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
 export type AllSanitySchemaTypes =
   | Status
   | Scope
@@ -631,11 +890,32 @@ export type AllSanitySchemaTypes =
   | AboutFact
   | AboutParagraph
   | AboutBreadcrumb
+  | ArticleServicePromo
+  | ArticlePromoAction
+  | ArticleNumberedSteps
+  | ArticleStep
+  | ArticleQaGroup
+  | ArticleQaItem
+  | ArticleExplanation
+  | ArticleCardGroup
+  | ArticleCard
+  | ArticleTable
+  | ArticleTableRow
+  | ArticleReference
+  | ArticleCallout
+  | ArticleBodyImage
   | Destination
   | SanityImageAssetReference
   | SiteImage
   | SanityFileAssetReference
   | CertificateRecord
+  | BlogSettings
+  | BlogTag
+  | AuthorReference
+  | BlogTagReference
+  | Article
+  | Author
+  | Slug
   | SiteSettings
   | CertificatesPage
   | AboutPage
@@ -649,8 +929,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint
-  | Slug;
+  | Geopoint;
 
 // Source: src/sanity/queries/about-page.ts
 // Variable: ABOUT_PAGE_QUERY
@@ -799,6 +1078,694 @@ export type ABOUT_PAGE_QUERY_RESULT = {
   seo: {
     title: string | null;
     description: string | null;
+  } | null;
+} | null;
+
+// Source: src/sanity/queries/article.ts
+// Variable: ARTICLE_SLUG_QUERY
+// Query: *[    _type == "article" &&    defined(slug.current) &&    (slug.current == $slug || $slug in previousSlugs)  ][0]{    _id,    "slug": slug.current  }
+export type ARTICLE_SLUG_QUERY_RESULT = {
+  _id: string;
+  slug: string | null;
+} | null;
+
+// Source: src/sanity/queries/article.ts
+// Variable: ARTICLE_BY_ID_QUERY
+// Query: *[_type == "article" && _id == $id][0]{    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    coverCaption,    author->{  _id,  name,  role,  bio,  image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}}},    tags[]->{  _id,  title},    publishedAt,    updatedAt,    seo{title, description},      body[]{    _type,    _key,    _type == "block" => {      style,      listItem,      level,      children[]{        _type,        _key,        text,        marks      },      markDefs[]{        _key,        _type,        href,        openInNewTab,        "referenceId": reference->_id,        "referenceSlug": reference->slug.current      }    },    _type == "articleBodyImage" => {      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      caption    },    _type == "articleCallout" => {      tone,      title,      body[]{  _type,  _key,  _type == "block" => {    style,    listItem,    level,    children[]{      _type,      _key,      text,      marks    },    markDefs[]{      _key,      _type,      href,      openInNewTab,      "referenceId": reference->_id,      "referenceSlug": reference->slug.current    }  }}    },    _type == "articleTable" => {      caption,      headers,      rows[]{        _key,        cells      }    },    _type == "articleCardGroup" => {      title,      description,      cards[]{        _key,        title,        description,        icon      }    },    _type == "articleExplanation" => {      title,      text,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      imageCaption,      points,      imageSide    },    _type == "articleQaGroup" => {      title,      items[]{        _key,        question,        answer      }    },    _type == "articleNumberedSteps" => {      title,      items[]{        _key,        title,        description      }    },    _type == "articleServicePromo" => {      title,      description,      action{        label,        destination{  kind,  href,  openInNewTab}      }    }  }  }
+export type ARTICLE_BY_ID_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  cover: {
+    _type: "siteImage";
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+      aspectRatio: number | null;
+    } | null;
+  } | null;
+  coverCaption: string | null;
+  author: {
+    _id: string;
+    name: string | null;
+    role: string | null;
+    bio: string | null;
+    image: {
+      _type: "siteImage";
+      asset: {
+        _ref: string;
+        _type: "reference";
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string | null;
+      dimensions: {
+        width: number | null;
+        height: number | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+  } | null;
+  tags: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
+  publishedAt: string | null;
+  updatedAt: string | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+  body: Array<
+    | {
+        _type: "articleBodyImage";
+        _key: string;
+        image: {
+          _type: "siteImage";
+          asset: {
+            _ref: string;
+            _type: "reference";
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+            aspectRatio: number | null;
+          } | null;
+        } | null;
+        caption: string | null;
+      }
+    | {
+        _type: "articleCallout";
+        _key: string;
+        tone: "info" | "technical" | "warning" | null;
+        title: string | null;
+        body: Array<{
+          _type: "block";
+          _key: string;
+          style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+          listItem: "bullet" | "number" | null;
+          level: number | null;
+          children: Array<{
+            _type: "span";
+            _key: string;
+            text: string | null;
+            marks: Array<string> | null;
+          }> | null;
+          markDefs: Array<
+            | {
+                _key: string;
+                _type: "articleLink";
+                href: string | null;
+                openInNewTab: boolean | null;
+                referenceId: null;
+                referenceSlug: null;
+              }
+            | {
+                _key: string;
+                _type: "articleReference";
+                href: null;
+                openInNewTab: null;
+                referenceId: string | null;
+                referenceSlug: string | null;
+              }
+          > | null;
+        }> | null;
+      }
+    | {
+        _type: "articleCardGroup";
+        _key: string;
+        title: string | null;
+        description: string | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          description: string | null;
+          icon: "layers" | "thermal" | "water" | null;
+        }> | null;
+      }
+    | {
+        _type: "articleExplanation";
+        _key: string;
+        title: string | null;
+        text: string | null;
+        image: {
+          _type: "siteImage";
+          asset: {
+            _ref: string;
+            _type: "reference";
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+            aspectRatio: number | null;
+          } | null;
+        } | null;
+        imageCaption: string | null;
+        points: Array<string> | null;
+        imageSide: "end" | "start" | null;
+      }
+    | {
+        _type: "articleNumberedSteps";
+        _key: string;
+        title: string | null;
+        items: Array<{
+          _key: string;
+          title: string | null;
+          description: string | null;
+        }> | null;
+      }
+    | {
+        _type: "articleQaGroup";
+        _key: string;
+        title: string | null;
+        items: Array<{
+          _key: string;
+          question: string | null;
+          answer: string | null;
+        }> | null;
+      }
+    | {
+        _type: "articleServicePromo";
+        _key: string;
+        title: string | null;
+        description: string | null;
+        action: {
+          label: string | null;
+          destination: {
+            kind: "external" | "internal" | null;
+            href: string | null;
+            openInNewTab: boolean | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _type: "articleTable";
+        _key: string;
+        caption: string | null;
+        headers: Array<string> | null;
+        rows: Array<{
+          _key: string;
+          cells: Array<string> | null;
+        }> | null;
+      }
+    | {
+        _type: "block";
+        _key: string;
+        style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+        listItem: "bullet" | "number" | null;
+        level: number | null;
+        children: Array<{
+          _type: "span";
+          _key: string;
+          text: string | null;
+          marks: Array<string> | null;
+        }> | null;
+        markDefs: Array<
+          | {
+              _key: string;
+              _type: "articleLink";
+              href: string | null;
+              openInNewTab: boolean | null;
+              referenceId: null;
+              referenceSlug: null;
+            }
+          | {
+              _key: string;
+              _type: "articleReference";
+              href: null;
+              openInNewTab: null;
+              referenceId: string | null;
+              referenceSlug: string | null;
+            }
+        > | null;
+      }
+  > | null;
+} | null;
+
+// Source: src/sanity/queries/article.ts
+// Variable: RELATED_ARTICLES_QUERY
+// Query: *[    _type == "article" &&    _id != $articleId &&    defined(slug.current) &&    count(tags[_ref in $tagIds]) > 0  ] | order(count(tags[_ref in $tagIds]) desc, publishedAt desc, _id asc) [0...12]{    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    tags[]->{  _id,  title},    publishedAt,      body[]{    _type,    _key,    _type == "block" => {      style,      listItem,      level,      children[]{        _type,        _key,        text,        marks      },      markDefs[]{        _key,        _type,        href,        openInNewTab,        "referenceId": reference->_id,        "referenceSlug": reference->slug.current      }    },    _type == "articleBodyImage" => {      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      caption    },    _type == "articleCallout" => {      tone,      title,      body[]{  _type,  _key,  _type == "block" => {    style,    listItem,    level,    children[]{      _type,      _key,      text,      marks    },    markDefs[]{      _key,      _type,      href,      openInNewTab,      "referenceId": reference->_id,      "referenceSlug": reference->slug.current    }  }}    },    _type == "articleTable" => {      caption,      headers,      rows[]{        _key,        cells      }    },    _type == "articleCardGroup" => {      title,      description,      cards[]{        _key,        title,        description,        icon      }    },    _type == "articleExplanation" => {      title,      text,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      imageCaption,      points,      imageSide    },    _type == "articleQaGroup" => {      title,      items[]{        _key,        question,        answer      }    },    _type == "articleNumberedSteps" => {      title,      items[]{        _key,        title,        description      }    },    _type == "articleServicePromo" => {      title,      description,      action{        label,        destination{  kind,  href,  openInNewTab}      }    }  }  }
+export type RELATED_ARTICLES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  cover: {
+    _type: "siteImage";
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+      aspectRatio: number | null;
+    } | null;
+  } | null;
+  tags: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
+  publishedAt: string | null;
+  body: Array<
+    | {
+        _type: "articleBodyImage";
+        _key: string;
+        image: {
+          _type: "siteImage";
+          asset: {
+            _ref: string;
+            _type: "reference";
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+            aspectRatio: number | null;
+          } | null;
+        } | null;
+        caption: string | null;
+      }
+    | {
+        _type: "articleCallout";
+        _key: string;
+        tone: "info" | "technical" | "warning" | null;
+        title: string | null;
+        body: Array<{
+          _type: "block";
+          _key: string;
+          style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+          listItem: "bullet" | "number" | null;
+          level: number | null;
+          children: Array<{
+            _type: "span";
+            _key: string;
+            text: string | null;
+            marks: Array<string> | null;
+          }> | null;
+          markDefs: Array<
+            | {
+                _key: string;
+                _type: "articleLink";
+                href: string | null;
+                openInNewTab: boolean | null;
+                referenceId: null;
+                referenceSlug: null;
+              }
+            | {
+                _key: string;
+                _type: "articleReference";
+                href: null;
+                openInNewTab: null;
+                referenceId: string | null;
+                referenceSlug: string | null;
+              }
+          > | null;
+        }> | null;
+      }
+    | {
+        _type: "articleCardGroup";
+        _key: string;
+        title: string | null;
+        description: string | null;
+        cards: Array<{
+          _key: string;
+          title: string | null;
+          description: string | null;
+          icon: "layers" | "thermal" | "water" | null;
+        }> | null;
+      }
+    | {
+        _type: "articleExplanation";
+        _key: string;
+        title: string | null;
+        text: string | null;
+        image: {
+          _type: "siteImage";
+          asset: {
+            _ref: string;
+            _type: "reference";
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+            aspectRatio: number | null;
+          } | null;
+        } | null;
+        imageCaption: string | null;
+        points: Array<string> | null;
+        imageSide: "end" | "start" | null;
+      }
+    | {
+        _type: "articleNumberedSteps";
+        _key: string;
+        title: string | null;
+        items: Array<{
+          _key: string;
+          title: string | null;
+          description: string | null;
+        }> | null;
+      }
+    | {
+        _type: "articleQaGroup";
+        _key: string;
+        title: string | null;
+        items: Array<{
+          _key: string;
+          question: string | null;
+          answer: string | null;
+        }> | null;
+      }
+    | {
+        _type: "articleServicePromo";
+        _key: string;
+        title: string | null;
+        description: string | null;
+        action: {
+          label: string | null;
+          destination: {
+            kind: "external" | "internal" | null;
+            href: string | null;
+            openInNewTab: boolean | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _type: "articleTable";
+        _key: string;
+        caption: string | null;
+        headers: Array<string> | null;
+        rows: Array<{
+          _key: string;
+          cells: Array<string> | null;
+        }> | null;
+      }
+    | {
+        _type: "block";
+        _key: string;
+        style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+        listItem: "bullet" | "number" | null;
+        level: number | null;
+        children: Array<{
+          _type: "span";
+          _key: string;
+          text: string | null;
+          marks: Array<string> | null;
+        }> | null;
+        markDefs: Array<
+          | {
+              _key: string;
+              _type: "articleLink";
+              href: string | null;
+              openInNewTab: boolean | null;
+              referenceId: null;
+              referenceSlug: null;
+            }
+          | {
+              _key: string;
+              _type: "articleReference";
+              href: null;
+              openInNewTab: null;
+              referenceId: string | null;
+              referenceSlug: string | null;
+            }
+        > | null;
+      }
+  > | null;
+}>;
+
+// Source: src/sanity/queries/article.ts
+// Variable: ARTICLE_SITEMAP_QUERY
+// Query: *[_type == "article" && defined(slug.current)] | order(publishedAt desc){    "slug": slug.current,    publishedAt,    updatedAt  }
+export type ARTICLE_SITEMAP_QUERY_RESULT = Array<{
+  slug: string | null;
+  publishedAt: string | null;
+  updatedAt: string | null;
+}>;
+
+// Source: src/sanity/queries/article.ts
+// Variable: ARTICLE_INDEX_QUERY
+// Query: *[    _type == "article" &&    defined(slug.current) &&    defined(title) &&    defined(excerpt) &&    defined(publishedAt)  ] | order(publishedAt desc, _id asc) {    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    author->{      name,      role,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}}    },    tags[]->{  _id,  title},    publishedAt,      "bodyText": body[]{    _type,    caption,    title,    text,    description,    headers,    points,    imageCaption,    children[]{ text },    rows[]{ cells },    cards[]{ title, description },    items[]{ question, answer, title, description },    body[]{ children[]{ text } },    action{ label }  }  }
+export type ARTICLE_INDEX_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  cover: {
+    _type: "siteImage";
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+      aspectRatio: number | null;
+    } | null;
+  } | null;
+  author: {
+    name: string | null;
+    role: string | null;
+    image: {
+      _type: "siteImage";
+      asset: {
+        _ref: string;
+        _type: "reference";
+      } | null;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt: string | null;
+      dimensions: {
+        width: number | null;
+        height: number | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+  } | null;
+  tags: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
+  publishedAt: string | null;
+  bodyText: Array<
+    | {
+        _type: "articleBodyImage";
+        caption: string | null;
+        title: null;
+        text: null;
+        description: null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "articleCallout";
+        caption: null;
+        title: string | null;
+        text: null;
+        description: null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: null;
+        body: Array<{
+          children: Array<{
+            text: string | null;
+          }> | null;
+        }> | null;
+        action: null;
+      }
+    | {
+        _type: "articleCardGroup";
+        caption: null;
+        title: string | null;
+        text: null;
+        description: string | null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: Array<{
+          title: string | null;
+          description: string | null;
+        }> | null;
+        items: null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "articleExplanation";
+        caption: null;
+        title: string | null;
+        text: string | null;
+        description: null;
+        headers: null;
+        points: Array<string> | null;
+        imageCaption: string | null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "articleNumberedSteps";
+        caption: null;
+        title: string | null;
+        text: null;
+        description: null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: Array<{
+          question: null;
+          answer: null;
+          title: string | null;
+          description: string | null;
+        }> | null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "articleQaGroup";
+        caption: null;
+        title: string | null;
+        text: null;
+        description: null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: Array<{
+          question: string | null;
+          answer: string | null;
+          title: null;
+          description: null;
+        }> | null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "articleServicePromo";
+        caption: null;
+        title: string | null;
+        text: null;
+        description: string | null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: null;
+        cards: null;
+        items: null;
+        body: null;
+        action: {
+          label: string | null;
+        } | null;
+      }
+    | {
+        _type: "articleTable";
+        caption: string | null;
+        title: null;
+        text: null;
+        description: null;
+        headers: Array<string> | null;
+        points: null;
+        imageCaption: null;
+        children: null;
+        rows: Array<{
+          cells: Array<string> | null;
+        }> | null;
+        cards: null;
+        items: null;
+        body: null;
+        action: null;
+      }
+    | {
+        _type: "block";
+        caption: null;
+        title: null;
+        text: null;
+        description: null;
+        headers: null;
+        points: null;
+        imageCaption: null;
+        children: Array<{
+          text: string | null;
+        }> | null;
+        rows: null;
+        cards: null;
+        items: null;
+        body: null;
+        action: null;
+      }
+  > | null;
+}>;
+
+// Source: src/sanity/queries/article.ts
+// Variable: BLOG_SETTINGS_QUERY
+// Query: *[_type == "blogSettings" && _id == "blogSettings"][0]{    whatsappNumber,    sidebarDestination{  kind,  href,  openInNewTab},    wideDestination{  kind,  href,  openInNewTab}  }
+export type BLOG_SETTINGS_QUERY_RESULT = {
+  whatsappNumber: string | null;
+  sidebarDestination: {
+    kind: "external" | "internal" | null;
+    href: string | null;
+    openInNewTab: boolean | null;
+  } | null;
+  wideDestination: {
+    kind: "external" | "internal" | null;
+    href: string | null;
+    openInNewTab: boolean | null;
   } | null;
 } | null;
 
@@ -1225,6 +2192,12 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 declare global {
   interface SanityQueries {
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    _id,\n    intro{\n      breadcrumbs[]{\n        _key,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      eyebrow,\n      title,\n      description\n    },\n    company{\n      eyebrow,\n      title,\n      paragraphs[]{_key, text},\n      facts[]{_key, label, value, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{\n        title,\n        description,\n        metric{value, label}\n      }\n    },\n    capabilities{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        action{\n  enabled,\n  label,\n  destination{kind, href, openInNewTab}\n}\n      }\n    },\n    methodology{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        phase{text, tone},\n        note{text, tone}\n      }\n    },\n    values{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        checks[]{_key, label}\n      }\n    },\n    profile{\n      badge,\n      version,\n      title,\n      description,\n      downloadLabel,\n      file{\n        asset->{\n          _id,\n          url,\n          originalFilename,\n          mimeType,\n          size\n        }\n      },\n      unavailableLabel,\n      unavailableHint\n    },\n    seo{title, description}\n  }\n': ABOUT_PAGE_QUERY_RESULT;
+    '\n  *[\n    _type == "article" &&\n    defined(slug.current) &&\n    (slug.current == $slug || $slug in previousSlugs)\n  ][0]{\n    _id,\n    "slug": slug.current\n  }\n': ARTICLE_SLUG_QUERY_RESULT;
+    '\n  *[_type == "article" && _id == $id][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    cover{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n    coverCaption,\n    author->{\n  _id,\n  name,\n  role,\n  bio,\n  image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n}\n},\n    tags[]->{\n  _id,\n  title\n},\n    publishedAt,\n    updatedAt,\n    seo{title, description},\n    \n  body[]{\n    _type,\n    _key,\n    _type == "block" => {\n      style,\n      listItem,\n      level,\n      children[]{\n        _type,\n        _key,\n        text,\n        marks\n      },\n      markDefs[]{\n        _key,\n        _type,\n        href,\n        openInNewTab,\n        "referenceId": reference->_id,\n        "referenceSlug": reference->slug.current\n      }\n    },\n    _type == "articleBodyImage" => {\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      caption\n    },\n    _type == "articleCallout" => {\n      tone,\n      title,\n      body[]{\n  _type,\n  _key,\n  _type == "block" => {\n    style,\n    listItem,\n    level,\n    children[]{\n      _type,\n      _key,\n      text,\n      marks\n    },\n    markDefs[]{\n      _key,\n      _type,\n      href,\n      openInNewTab,\n      "referenceId": reference->_id,\n      "referenceSlug": reference->slug.current\n    }\n  }\n}\n    },\n    _type == "articleTable" => {\n      caption,\n      headers,\n      rows[]{\n        _key,\n        cells\n      }\n    },\n    _type == "articleCardGroup" => {\n      title,\n      description,\n      cards[]{\n        _key,\n        title,\n        description,\n        icon\n      }\n    },\n    _type == "articleExplanation" => {\n      title,\n      text,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      imageCaption,\n      points,\n      imageSide\n    },\n    _type == "articleQaGroup" => {\n      title,\n      items[]{\n        _key,\n        question,\n        answer\n      }\n    },\n    _type == "articleNumberedSteps" => {\n      title,\n      items[]{\n        _key,\n        title,\n        description\n      }\n    },\n    _type == "articleServicePromo" => {\n      title,\n      description,\n      action{\n        label,\n        destination{\n  kind,\n  href,\n  openInNewTab\n}\n      }\n    }\n  }\n\n  }\n': ARTICLE_BY_ID_QUERY_RESULT;
+    '\n  *[\n    _type == "article" &&\n    _id != $articleId &&\n    defined(slug.current) &&\n    count(tags[_ref in $tagIds]) > 0\n  ] | order(count(tags[_ref in $tagIds]) desc, publishedAt desc, _id asc) [0...12]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    cover{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n    tags[]->{\n  _id,\n  title\n},\n    publishedAt,\n    \n  body[]{\n    _type,\n    _key,\n    _type == "block" => {\n      style,\n      listItem,\n      level,\n      children[]{\n        _type,\n        _key,\n        text,\n        marks\n      },\n      markDefs[]{\n        _key,\n        _type,\n        href,\n        openInNewTab,\n        "referenceId": reference->_id,\n        "referenceSlug": reference->slug.current\n      }\n    },\n    _type == "articleBodyImage" => {\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      caption\n    },\n    _type == "articleCallout" => {\n      tone,\n      title,\n      body[]{\n  _type,\n  _key,\n  _type == "block" => {\n    style,\n    listItem,\n    level,\n    children[]{\n      _type,\n      _key,\n      text,\n      marks\n    },\n    markDefs[]{\n      _key,\n      _type,\n      href,\n      openInNewTab,\n      "referenceId": reference->_id,\n      "referenceSlug": reference->slug.current\n    }\n  }\n}\n    },\n    _type == "articleTable" => {\n      caption,\n      headers,\n      rows[]{\n        _key,\n        cells\n      }\n    },\n    _type == "articleCardGroup" => {\n      title,\n      description,\n      cards[]{\n        _key,\n        title,\n        description,\n        icon\n      }\n    },\n    _type == "articleExplanation" => {\n      title,\n      text,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      imageCaption,\n      points,\n      imageSide\n    },\n    _type == "articleQaGroup" => {\n      title,\n      items[]{\n        _key,\n        question,\n        answer\n      }\n    },\n    _type == "articleNumberedSteps" => {\n      title,\n      items[]{\n        _key,\n        title,\n        description\n      }\n    },\n    _type == "articleServicePromo" => {\n      title,\n      description,\n      action{\n        label,\n        destination{\n  kind,\n  href,\n  openInNewTab\n}\n      }\n    }\n  }\n\n  }\n': RELATED_ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && defined(slug.current)] | order(publishedAt desc){\n    "slug": slug.current,\n    publishedAt,\n    updatedAt\n  }\n': ARTICLE_SITEMAP_QUERY_RESULT;
+    '\n  *[\n    _type == "article" &&\n    defined(slug.current) &&\n    defined(title) &&\n    defined(excerpt) &&\n    defined(publishedAt)\n  ] | order(publishedAt desc, _id asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    cover{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n    author->{\n      name,\n      role,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n}\n    },\n    tags[]->{\n  _id,\n  title\n},\n    publishedAt,\n    \n  "bodyText": body[]{\n    _type,\n    caption,\n    title,\n    text,\n    description,\n    headers,\n    points,\n    imageCaption,\n    children[]{ text },\n    rows[]{ cells },\n    cards[]{ title, description },\n    items[]{ question, answer, title, description },\n    body[]{ children[]{ text } },\n    action{ label }\n  }\n\n  }\n': ARTICLE_INDEX_QUERY_RESULT;
+    '\n  *[_type == "blogSettings" && _id == "blogSettings"][0]{\n    whatsappNumber,\n    sidebarDestination{\n  kind,\n  href,\n  openInNewTab\n},\n    wideDestination{\n  kind,\n  href,\n  openInNewTab\n}\n  }\n': BLOG_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "certificatesPage" && _id == "certificatesPage"][0]{\n    _id,\n    intro{\n      eyebrow,\n      title,\n      description\n    },\n    certificates{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        issuerName,\n        issuerSecondaryName,\n        issuerLogo{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n        certificateTitle,\n        certificateSubtitle,\n        reference,\n        status{label, tone},\n        authorizationDescription,\n        issuedOn,\n        validUntil,\n        validityNote,\n        scope{title, description, items},\n        document{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n      }\n    },\n    seo{title, description}\n  }\n': CERTIFICATES_PAGE_QUERY_RESULT;
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    profile{\n      file{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n    }\n  }\n': COMPANY_PROFILE_FILE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
