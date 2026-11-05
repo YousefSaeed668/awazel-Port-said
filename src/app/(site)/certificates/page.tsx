@@ -6,6 +6,7 @@ import { MaxWidth } from "@/components/MaxWidth";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { requireNavigationPage } from "@/sanity/data/page-availability";
 import type {
   CertificatesPageContent,
   CompanyProfileFile,
@@ -25,6 +26,7 @@ const breadcrumbs = [
 ] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requireNavigationPage("/certificates");
   const { seo } = await getCertificatesPageContent();
 
   return {
@@ -37,6 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CertificatesPage() {
+  await requireNavigationPage("/certificates");
   const [content, profileFile] = await Promise.all([
     getCertificatesPageContent(),
     getCompanyProfileFile(),

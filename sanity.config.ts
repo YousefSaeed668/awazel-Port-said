@@ -19,11 +19,19 @@ const singletonTypes = new Set([
   "homePage",
   "aboutPage",
   "certificatesPage",
+  "servicesPage",
   "blogSettings",
+  "privacyPage",
 ]);
 const singletonActionsToRemove = new Set(["delete", "unpublish", "duplicate"]);
 
 const singletons = [
+  defineSingleton({
+    id: "privacyPage",
+    documentId: "privacyPage",
+    schemaType: "privacyPage",
+    title: "سياسة الخصوصية",
+  }),
   defineSingleton({
     id: "homePage",
     documentId: "homePage",
@@ -53,6 +61,12 @@ const singletons = [
     documentId: "blogSettings",
     schemaType: "blogSettings",
     title: "إعدادات المدونة",
+  }),
+  defineSingleton({
+    id: "servicesPage",
+    documentId: "servicesPage",
+    schemaType: "servicesPage",
+    title: "جميع الخدمات",
   }),
 ];
 

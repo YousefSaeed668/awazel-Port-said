@@ -6,7 +6,9 @@ export const structure: StructureResolver = (S) =>
     .items([
       S.listItem().title("الصفحة الرئيسية").singleton("homePage"),
       S.listItem().title("من نحن").singleton("aboutPage"),
+      S.listItem().title("جميع الخدمات").singleton("servicesPage"),
       S.listItem().title("الاعتمادات والشهادات").singleton("certificatesPage"),
+      S.listItem().title("سياسة الخصوصية").singleton("privacyPage"),
       S.divider(),
       S.listItem()
         .title("المقالات")

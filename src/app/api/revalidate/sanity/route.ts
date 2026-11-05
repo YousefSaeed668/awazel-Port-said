@@ -12,6 +12,8 @@ import {
   CERTIFICATES_PAGE_TAG,
   HOME_PAGE_TAG,
   SITE_SETTINGS_TAG,
+  SERVICES_PAGE_TAG,
+  PRIVACY_PAGE_TAG,
 } from "@/sanity/lib/cache-tags";
 
 type SanityWebhookPayload = {
@@ -24,6 +26,8 @@ const PUBLISHED_SINGLETON_TAGS: Record<string, string> = {
   homePage: HOME_PAGE_TAG,
   aboutPage: ABOUT_PAGE_TAG,
   certificatesPage: CERTIFICATES_PAGE_TAG,
+  servicesPage: SERVICES_PAGE_TAG,
+  privacyPage: PRIVACY_PAGE_TAG,
 };
 
 const BLOG_COLLECTION_TAGS: Record<string, string> = {

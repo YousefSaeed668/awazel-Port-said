@@ -15,6 +15,22 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: sanity.schema.json
+export type Disclosure = {
+  title?: string;
+  text?: string;
+};
+
+export type Footnote = {
+  title?: string;
+  text?: string;
+};
+
+export type Note = {
+  title?: string;
+  text?: string;
+  tone?: "muted" | "blue";
+};
+
 export type Status = {
   label?: string;
   tone?: "valid" | "pending" | "expired" | "neutral";
@@ -565,6 +581,111 @@ export type SiteSettings = {
   };
 };
 
+export type ServiceTechnology = {
+  _type: "serviceTechnology";
+  title?: string;
+  englishTitle?: string;
+  description?: string;
+  icon?: "foam" | "spray" | "layers" | "slope";
+  noteLabel?: string;
+  note?: string;
+};
+
+export type ServiceApplication = {
+  _type: "serviceApplication";
+  title?: string;
+  description?: string;
+  tags?: Array<{
+    label?: string;
+    _key: string;
+  }>;
+  image?: SiteImage;
+  imageBadge?: string;
+  systemsLabel?: string;
+  systems?: Array<{
+    label?: string;
+    _key: string;
+  }>;
+  metrics?: Array<{
+    label?: string;
+    value?: string;
+    unit?: string;
+    _key: string;
+  }>;
+};
+
+export type ServicesPage = {
+  _id: string;
+  _type: "servicesPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  intro?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    breadcrumbs?: Array<
+      {
+        _key: string;
+      } & AboutBreadcrumb
+    >;
+  };
+  applications?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & ServiceApplication
+    >;
+  };
+  technologies?: {
+    heading?: HomePageSectionHeading;
+    note?: string;
+    items?: Array<
+      {
+        _key: string;
+      } & ServiceTechnology
+    >;
+  };
+  assessment?: {
+    heading?: HomePageSectionHeading;
+    factors?: Array<{
+      title?: string;
+      description?: string;
+      _key: string;
+    }>;
+    project?: {
+      badge?: string;
+      location?: string;
+      image?: SiteImage;
+      imageLabel?: string;
+      title?: string;
+      description?: string;
+      durationLabel?: string;
+      duration?: string;
+    };
+  };
+  faq?: {
+    heading?: HomePageSectionHeading;
+    items?: Array<
+      {
+        _key: string;
+      } & HomePageFaqItem
+    >;
+  };
+  consultation?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    primaryAction?: SiteAction;
+    secondaryAction?: SiteAction;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+};
+
 export type CertificatesPage = {
   _id: string;
   _type: "certificatesPage";
@@ -768,6 +889,114 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
+export type PrivacySection = {
+  _type: "privacySection";
+  title?: string;
+  tocLabel?: string;
+  paragraphs?: Array<
+    {
+      _key: string;
+    } & AboutParagraph
+  >;
+  cards?: Array<{
+    title?: string;
+    description?: string;
+    icon?: "contact" | "building" | "server" | "key" | "lock";
+    items?: Array<
+      {
+        _key: string;
+      } & AboutParagraph
+    >;
+    _key: string;
+  }>;
+  items?: Array<{
+    title?: string;
+    description?: string;
+    _key: string;
+  }>;
+  disclosure?: Disclosure;
+  itemsStyle?: "rows" | "bullets";
+  footnote?: Footnote;
+  note?: Note;
+  showContact?: boolean;
+  showPublication?: boolean;
+};
+
+export type PrivacyPage = {
+  _id: string;
+  _type: "privacyPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  intro?: {
+    context?: string;
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    breadcrumbs?: Array<
+      {
+        _key: string;
+      } & AboutBreadcrumb
+    >;
+    updatedLabel?: string;
+    updatedOn?: string;
+    versionLabel?: string;
+    version?: string;
+    compliance?: string;
+  };
+  scope?: {
+    title?: string;
+    description?: string;
+  };
+  sections?: Array<
+    {
+      _key: string;
+    } & PrivacySection
+  >;
+  contact?: {
+    title?: string;
+    subtitle?: string;
+    emailLabel?: string;
+    email?: string;
+    phoneLabel?: string;
+    phone?: string;
+    addressLabel?: string;
+    address?: string;
+    hoursLabel?: string;
+    hours?: string;
+  };
+  publication?: {
+    label?: string;
+    reference?: string;
+  };
+  sidebar?: {
+    tocTitle?: string;
+    countLabel?: string;
+    projectTitle?: string;
+    projectDescription?: string;
+    action?: SiteAction;
+    contactTitle?: string;
+    emailLabel?: string;
+    location?: string;
+  };
+  consultation?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    primaryAction?: SiteAction;
+    secondaryAction?: SiteAction;
+  };
+  whatsapp?: {
+    enabled?: boolean;
+    label?: string;
+    number?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -866,6 +1095,9 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | Disclosure
+  | Footnote
+  | Note
   | Status
   | Scope
   | HomePageFaqItem
@@ -917,11 +1149,16 @@ export type AllSanitySchemaTypes =
   | Author
   | Slug
   | SiteSettings
+  | ServiceTechnology
+  | ServiceApplication
+  | ServicesPage
   | CertificatesPage
   | AboutPage
   | HomePage
   | SanityImageCrop
   | SanityImageHotspot
+  | PrivacySection
+  | PrivacyPage
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -2018,6 +2255,293 @@ export type HOME_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: src/sanity/queries/privacy-page.ts
+// Variable: PRIVACY_PAGE_QUERY
+// Query: *[_type == "privacyPage" && _id == "privacyPage"][0]{    intro{context, eyebrow, title, description, updatedLabel, updatedOn, versionLabel, version, compliance,      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}},    scope{title, description},    sections[]{_key, title, tocLabel, paragraphs[]{_key, text},      cards[]{_key, title, description, icon, items[]{_key, text}},      items[]{_key, title, description}, itemsStyle, disclosure{title, text}, footnote{title, text},      note{title, text, tone}, showContact, showPublication},    contact{title, subtitle, emailLabel, email, phoneLabel, phone, addressLabel, address, hoursLabel, hours},    publication{label, reference},    sidebar{tocTitle, countLabel, projectTitle, projectDescription, contactTitle, emailLabel, location,      action{enabled, label, destination{kind, href, openInNewTab}}},    consultation{eyebrow, title, description,      primaryAction{enabled, label, destination{kind, href, openInNewTab}},      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}},    whatsapp{enabled, label, number}, seo{title, description}  }
+export type PRIVACY_PAGE_QUERY_RESULT = {
+  intro: {
+    context: string | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    updatedLabel: string | null;
+    updatedOn: string | null;
+    versionLabel: string | null;
+    version: string | null;
+    compliance: string | null;
+    breadcrumbs: Array<{
+      _key: string;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    }> | null;
+  } | null;
+  scope: {
+    title: string | null;
+    description: string | null;
+  } | null;
+  sections: Array<{
+    _key: string;
+    title: string | null;
+    tocLabel: string | null;
+    paragraphs: Array<{
+      _key: string;
+      text: string | null;
+    }> | null;
+    cards: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon: "building" | "contact" | "key" | "lock" | "server" | null;
+      items: Array<{
+        _key: string;
+        text: string | null;
+      }> | null;
+    }> | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+    }> | null;
+    itemsStyle: "bullets" | "rows" | null;
+    disclosure: {
+      title: string | null;
+      text: string | null;
+    } | null;
+    footnote: {
+      title: string | null;
+      text: string | null;
+    } | null;
+    note: {
+      title: string | null;
+      text: string | null;
+      tone: "blue" | "muted" | null;
+    } | null;
+    showContact: boolean | null;
+    showPublication: boolean | null;
+  }> | null;
+  contact: {
+    title: string | null;
+    subtitle: string | null;
+    emailLabel: string | null;
+    email: string | null;
+    phoneLabel: string | null;
+    phone: string | null;
+    addressLabel: string | null;
+    address: string | null;
+    hoursLabel: string | null;
+    hours: string | null;
+  } | null;
+  publication: {
+    label: string | null;
+    reference: string | null;
+  } | null;
+  sidebar: {
+    tocTitle: string | null;
+    countLabel: string | null;
+    projectTitle: string | null;
+    projectDescription: string | null;
+    contactTitle: string | null;
+    emailLabel: string | null;
+    location: string | null;
+    action: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+  consultation: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+    secondaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+  whatsapp: {
+    enabled: boolean | null;
+    label: string | null;
+    number: string | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
+
+// Source: src/sanity/queries/services-page.ts
+// Variable: SERVICES_PAGE_QUERY
+// Query: *[_type == "servicesPage" && _id == "servicesPage"][0]{    intro{      eyebrow, title, description,      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}    },    applications{      heading{eyebrow, title, description},      items[]{        _key, title, description, tags[]{_key, label},        image{  alt, crop, hotspot, asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height}}, imageBadge, systemsLabel,        systems[]{_key, label}, metrics[]{_key, label, value, unit}      }    },    technologies{      heading{eyebrow, title, description}, note,      items[]{_key, title, englishTitle, description, icon, noteLabel, note}    },    assessment{      heading{eyebrow, title, description},      factors[]{_key, title, description},      project{badge, location, image{  alt, crop, hotspot, asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height}}, imageLabel, title, description, durationLabel, duration}    },    faq{heading{eyebrow, title, description}, items[]{_key, question, answer}},    consultation{      eyebrow, title, description,      primaryAction{enabled, label, destination{kind, href, openInNewTab}},      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}    },    seo{title, description}  }
+export type SERVICES_PAGE_QUERY_RESULT = {
+  intro: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    breadcrumbs: Array<{
+      _key: string;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    }> | null;
+  } | null;
+  applications: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      tags: Array<{
+        _key: string;
+        label: string | null;
+      }> | null;
+      image: {
+        alt: string | null;
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _ref: string;
+          _type: "reference";
+        } | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+      imageBadge: string | null;
+      systemsLabel: string | null;
+      systems: Array<{
+        _key: string;
+        label: string | null;
+      }> | null;
+      metrics: Array<{
+        _key: string;
+        label: string | null;
+        value: string | null;
+        unit: string | null;
+      }> | null;
+    }> | null;
+  } | null;
+  technologies: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    note: string | null;
+    items: Array<{
+      _key: string;
+      title: string | null;
+      englishTitle: string | null;
+      description: string | null;
+      icon: "foam" | "layers" | "slope" | "spray" | null;
+      noteLabel: string | null;
+      note: string | null;
+    }> | null;
+  } | null;
+  assessment: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    factors: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+    }> | null;
+    project: {
+      badge: string | null;
+      location: string | null;
+      image: {
+        alt: string | null;
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _ref: string;
+          _type: "reference";
+        } | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+      imageLabel: string | null;
+      title: string | null;
+      description: string | null;
+      durationLabel: string | null;
+      duration: string | null;
+    } | null;
+  } | null;
+  faq: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      _key: string;
+      question: string | null;
+      answer: string | null;
+    }> | null;
+  } | null;
+  consultation: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+    secondaryAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
+
 // Source: src/sanity/queries/site-settings.ts
 // Variable: SITE_SETTINGS_QUERY
 // Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    _id,    brand{      companyName,      tagline,      logo{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      }    },    header{      navigation[]{        _key,        label,        enabled,        destination{kind, href, openInNewTab}      },      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      }    },    footer{      companyDescription,      footerLogo{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      },      badges[]{_key, label, enabled},      quickLinks{        heading,        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        }      },      serviceLinks{        heading,        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        }      },      contactColumn{        heading,        phoneLabel,        emailLabel,        addressLabel,        hoursLabel,        action{          enabled,          label,          destination{kind, href, openInNewTab}        }      },      cta{        enabled,        eyebrow,        title,        description,        primaryLabel,        primaryDestination{kind, href, openInNewTab},        whatsappLabel,        contactLabel,        supportingText      },      legal{        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        },        copyright      }    },    contact{      phone,      whatsapp,      email,      address,      workingHours    },    defaultSeo{      title,      description,      siteName,      image{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      }    }  }
@@ -2201,6 +2725,8 @@ declare global {
     '\n  *[_type == "certificatesPage" && _id == "certificatesPage"][0]{\n    _id,\n    intro{\n      eyebrow,\n      title,\n      description\n    },\n    certificates{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        issuerName,\n        issuerSecondaryName,\n        issuerLogo{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n        certificateTitle,\n        certificateSubtitle,\n        reference,\n        status{label, tone},\n        authorizationDescription,\n        issuedOn,\n        validUntil,\n        validityNote,\n        scope{title, description, items},\n        document{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n      }\n    },\n    seo{title, description}\n  }\n': CERTIFICATES_PAGE_QUERY_RESULT;
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    profile{\n      file{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n    }\n  }\n': COMPANY_PROFILE_FILE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "privacyPage" && _id == "privacyPage"][0]{\n    intro{context, eyebrow, title, description, updatedLabel, updatedOn, versionLabel, version, compliance,\n      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}},\n    scope{title, description},\n    sections[]{_key, title, tocLabel, paragraphs[]{_key, text},\n      cards[]{_key, title, description, icon, items[]{_key, text}},\n      items[]{_key, title, description}, itemsStyle, disclosure{title, text}, footnote{title, text},\n      note{title, text, tone}, showContact, showPublication},\n    contact{title, subtitle, emailLabel, email, phoneLabel, phone, addressLabel, address, hoursLabel, hours},\n    publication{label, reference},\n    sidebar{tocTitle, countLabel, projectTitle, projectDescription, contactTitle, emailLabel, location,\n      action{enabled, label, destination{kind, href, openInNewTab}}},\n    consultation{eyebrow, title, description,\n      primaryAction{enabled, label, destination{kind, href, openInNewTab}},\n      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}},\n    whatsapp{enabled, label, number}, seo{title, description}\n  }\n': PRIVACY_PAGE_QUERY_RESULT;
+    '\n  *[_type == "servicesPage" && _id == "servicesPage"][0]{\n    intro{\n      eyebrow, title, description,\n      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}\n    },\n    applications{\n      heading{eyebrow, title, description},\n      items[]{\n        _key, title, description, tags[]{_key, label},\n        image{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n}, imageBadge, systemsLabel,\n        systems[]{_key, label}, metrics[]{_key, label, value, unit}\n      }\n    },\n    technologies{\n      heading{eyebrow, title, description}, note,\n      items[]{_key, title, englishTitle, description, icon, noteLabel, note}\n    },\n    assessment{\n      heading{eyebrow, title, description},\n      factors[]{_key, title, description},\n      project{badge, location, image{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n}, imageLabel, title, description, durationLabel, duration}\n    },\n    faq{heading{eyebrow, title, description}, items[]{_key, question, answer}},\n    consultation{\n      eyebrow, title, description,\n      primaryAction{enabled, label, destination{kind, href, openInNewTab}},\n      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}\n    },\n    seo{title, description}\n  }\n': SERVICES_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    brand{\n      companyName,\n      tagline,\n      logo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    },\n    header{\n      navigation[]{\n        _key,\n        label,\n        enabled,\n        destination{kind, href, openInNewTab}\n      },\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    footer{\n      companyDescription,\n      footerLogo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      },\n      badges[]{_key, label, enabled},\n      quickLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      serviceLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      contactColumn{\n        heading,\n        phoneLabel,\n        emailLabel,\n        addressLabel,\n        hoursLabel,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      cta{\n        enabled,\n        eyebrow,\n        title,\n        description,\n        primaryLabel,\n        primaryDestination{kind, href, openInNewTab},\n        whatsappLabel,\n        contactLabel,\n        supportingText\n      },\n      legal{\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        },\n        copyright\n      }\n    },\n    contact{\n      phone,\n      whatsapp,\n      email,\n      address,\n      workingHours\n    },\n    defaultSeo{\n      title,\n      description,\n      siteName,\n      image{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }
 }

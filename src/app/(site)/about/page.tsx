@@ -19,6 +19,7 @@ import { MediaFrame } from "@/components/ui/media-frame";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { aboutData, type AboutPageContent, type AboutPageData } from "@/lib/about-data";
 import { getAboutPageContent } from "@/sanity/data/about-page";
+import { requireNavigationPage } from "@/sanity/data/page-availability";
 import { CertificateCard, ServiceCard } from "@/components/company-cards";
 import { WorkStages } from "@/components/work-stages";
 import { cn } from "cn";
@@ -37,6 +38,7 @@ const valueIcons = {
 } as const;
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requireNavigationPage("/about");
   const { seo } = await getAboutPageContent();
 
   return {
@@ -49,6 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
+  await requireNavigationPage("/about");
   const content = await getAboutPageContent();
   const { approvals } = aboutData;
 

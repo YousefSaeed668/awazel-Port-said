@@ -12,7 +12,10 @@ import {
 import { articleType } from "./article";
 import { articleBodyObjectTypes } from "./articleBody";
 import { authorType, blogSettingsType, blogTagType } from "./blogTaxonomy";
-import { certificatesPageType, certificateRecordType } from "./certificatesPage";
+import {
+  certificatesPageType,
+  certificateRecordType,
+} from "./certificatesPage";
 import { destinationType } from "./destination";
 import { homePageType } from "./homePage";
 import {
@@ -35,11 +38,23 @@ import {
   siteLinkType,
 } from "./objects";
 import { siteSettingsType } from "./siteSettings";
+import { privacyPageType } from "./privacyPage";
+import { privacySectionType } from "./privacyPageSections";
+import { servicesPageType } from "./servicesPage";
+import {
+  serviceApplicationType,
+  serviceTechnologyType,
+} from "./servicesPageSections";
 
 export const schemaTypes = [
+  privacyPageType,
+  privacySectionType,
   homePageType,
   aboutPageType,
   certificatesPageType,
+  servicesPageType,
+  serviceApplicationType,
+  serviceTechnologyType,
   siteSettingsType,
   articleType,
   authorType,

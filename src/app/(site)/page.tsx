@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { homepageData } from "@/lib/data";
 import { getHomePageContent } from "@/sanity/data/home-page";
+import { requireNavigationPage } from "@/sanity/data/page-availability";
 
 import { ArticlesSection } from "./_home/blog-section";
 import {
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  await requireNavigationPage("/");
   const homePage = await getHomePageContent();
 
   return (

@@ -9,6 +9,7 @@ import {
   normalizeArticleSlug,
 } from "@/sanity/data/article";
 import { getSiteShell } from "@/sanity/data/site-settings";
+import { requireNavigationPage } from "@/sanity/data/page-availability";
 
 import { ArticleStructuredData } from "./_article/article-structured-data";
 import { ArticleView } from "./_article/article-view";
@@ -20,14 +21,12 @@ type ArticleRouteProps = {
 export async function generateMetadata({
   params,
 }: ArticleRouteProps): Promise<Metadata> {
+  await requireNavigationPage("/blog");
   const { slug } = await params;
   const lookup = await getArticlePage(normalizeArticleSlug(slug));
 
   if (lookup.status === "missing") {
-    return {
-      title: "المقال غير موجود",
-      robots: { index: false, follow: false },
-    };
+    notFound();
   }
 
   if (lookup.status === "redirect") {
@@ -77,6 +76,7 @@ export async function generateMetadata({
 }
 
 export default async function ArticlePage({ params }: ArticleRouteProps) {
+  await requireNavigationPage("/blog");
   const { slug } = await params;
   const lookup = await getArticlePage(normalizeArticleSlug(slug));
 
