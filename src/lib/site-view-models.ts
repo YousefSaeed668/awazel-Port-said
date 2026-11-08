@@ -23,6 +23,17 @@ export type ContactRowViewModel = {
   ltr: boolean;
 };
 
+export type ContactDetailsViewModel = {
+  phone: string | null;
+  phoneHref: string | null;
+  whatsapp: string | null;
+  whatsappHref: string | null;
+  email: string | null;
+  emailHref: string | null;
+  address: string;
+  workingHours: string | null;
+};
+
 export type HeaderViewModel = {
   companyName: string;
   logo: SiteImageViewModel;
@@ -75,5 +86,6 @@ export type DefaultSeoViewModel = {
 export type SiteShellViewModel = {
   header: HeaderViewModel;
   footer: FooterViewModel;
+  contact: ContactDetailsViewModel;
   defaultSeo: DefaultSeoViewModel;
 };

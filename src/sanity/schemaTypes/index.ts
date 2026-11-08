@@ -40,6 +40,10 @@ import {
 import { siteSettingsType } from "./siteSettings";
 import { privacyPageType } from "./privacyPage";
 import { privacySectionType } from "./privacyPageSections";
+import { projectType } from "./project";
+import { projectBodyObjectTypes } from "./projectBody";
+import { projectDetailObjectTypes } from "./projectDetail";
+import { projectsPageType } from "./projectsPage";
 import { servicesPageType } from "./servicesPage";
 import {
   serviceApplicationType,
@@ -52,6 +56,8 @@ export const schemaTypes = [
   homePageType,
   aboutPageType,
   certificatesPageType,
+  projectsPageType,
+  projectType,
   servicesPageType,
   serviceApplicationType,
   serviceTechnologyType,
@@ -64,6 +70,8 @@ export const schemaTypes = [
   siteImageType,
   destinationType,
   ...articleBodyObjectTypes,
+  ...projectBodyObjectTypes,
+  ...projectDetailObjectTypes,
   aboutBreadcrumbType,
   aboutParagraphType,
   aboutFactType,

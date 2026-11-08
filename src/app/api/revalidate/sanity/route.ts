@@ -11,6 +11,9 @@ import {
   BLOG_TAGS_TAG,
   CERTIFICATES_PAGE_TAG,
   HOME_PAGE_TAG,
+  PROJECTS_PAGE_TAG,
+  PROJECTS_TAG,
+  projectTag,
   SITE_SETTINGS_TAG,
   SERVICES_PAGE_TAG,
   PRIVACY_PAGE_TAG,
@@ -27,6 +30,7 @@ const PUBLISHED_SINGLETON_TAGS: Record<string, string> = {
   aboutPage: ABOUT_PAGE_TAG,
   certificatesPage: CERTIFICATES_PAGE_TAG,
   servicesPage: SERVICES_PAGE_TAG,
+  projectsPage: PROJECTS_PAGE_TAG,
   privacyPage: PRIVACY_PAGE_TAG,
 };
 
@@ -42,8 +46,7 @@ function isDraftOrVersion(id: string) {
 function tagsForDocument(id: string, type: string) {
   const singletonTag = PUBLISHED_SINGLETON_TAGS[type];
 
-  // Singleton documents use their published id as the document id. This also
-  // ignores draft, version, and unrelated documents.
+  
   if (singletonTag) {
     return id === type ? [singletonTag] : null;
   }
@@ -52,6 +55,10 @@ function tagsForDocument(id: string, type: string) {
 
   if (type === "article") {
     return [articleTag(id), BLOG_ARTICLES_TAG];
+  }
+
+  if (type === "project") {
+    return [projectTag(id), PROJECTS_TAG];
   }
 
   if (type === "blogSettings") {

@@ -20,6 +20,7 @@ const singletonTypes = new Set([
   "aboutPage",
   "certificatesPage",
   "servicesPage",
+  "projectsPage",
   "blogSettings",
   "privacyPage",
 ]);
@@ -67,6 +68,12 @@ const singletons = [
     documentId: "servicesPage",
     schemaType: "servicesPage",
     title: "جميع الخدمات",
+  }),
+  defineSingleton({
+    id: "projectsPage",
+    documentId: "projectsPage",
+    schemaType: "projectsPage",
+    title: "جميع المشاريع",
   }),
 ];
 

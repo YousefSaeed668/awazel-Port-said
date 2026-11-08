@@ -10,6 +10,7 @@ import {
   type ResolvedDestination,
 } from "@/lib/links";
 import type {
+  ContactDetailsViewModel,
   ContactRowViewModel,
   DefaultSeoViewModel,
   FooterViewModel,
@@ -189,6 +190,26 @@ function mapHeader(document: SiteSettingsDocument): HeaderViewModel {
   };
 }
 
+function mapContact(document: SiteSettingsDocument): ContactDetailsViewModel {
+  const contact = document.contact;
+  const phone = optionalText(contact?.phone);
+  const email = optionalText(contact?.email);
+  const whatsapp = optionalText(contact?.whatsapp);
+  const address = requiredText(contact?.address, "contact.address");
+  const workingHours = optionalText(contact?.workingHours);
+
+  return {
+    phone,
+    phoneHref: getTelHref(phone) ?? null,
+    whatsapp,
+    whatsappHref: getWhatsAppHref(whatsapp) ?? null,
+    email,
+    emailHref: getMailtoHref(email) ?? null,
+    address,
+    workingHours,
+  };
+}
+
 function mapFooter(
   document: SiteSettingsDocument,
   header: HeaderViewModel,
@@ -200,7 +221,7 @@ function mapFooter(
   }
 
   const footer = document.footer;
-  const contact = document.contact;
+  const contactDetails = mapContact(document);
   const contactColumn = footer.contactColumn;
 
   if (!contactColumn) {
@@ -210,10 +231,7 @@ function mapFooter(
   }
 
   const contactRows: ContactRowViewModel[] = [];
-  const phone = optionalText(contact?.phone);
-  const email = optionalText(contact?.email);
-  const address = requiredText(contact?.address, "contact.address");
-  const workingHours = optionalText(contact?.workingHours);
+  const { phone, email, address, workingHours } = contactDetails;
 
   if (phone) {
     contactRows.push({
@@ -282,7 +300,7 @@ function mapFooter(
       ),
     };
 
-    const whatsappHref = getWhatsAppHref(contact?.whatsapp);
+    const whatsappHref = contactDetails.whatsappHref;
     const supportingText = optionalText(footer.cta.supportingText);
     const telHref = getTelHref(phone);
 
@@ -394,6 +412,7 @@ function mapSiteSettings(
   return {
     header,
     footer: mapFooter(document, header),
+    contact: mapContact(document),
     defaultSeo: mapDefaultSeo(document),
   };
 }

@@ -12,8 +12,6 @@ function pathname(href: string) {
   return path.replace(/\/+$/, "") || "/";
 }
 
-// The shell mapper has already removed disabled navigation entries. Exact
-// path matching also permits section anchors without enabling unrelated pages.
 export function isNavigationPageAvailable(
   header: HeaderViewModel,
   path: string,

@@ -14,7 +14,6 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
-// Source: sanity.schema.json
 export type Disclosure = {
   title?: string;
   text?: string;
@@ -215,6 +214,59 @@ export type AboutBreadcrumb = {
   _type: "aboutBreadcrumb";
   label?: string;
   destination?: Destination;
+};
+
+export type ProjectVerification = {
+  _type: "projectVerification";
+  title?: string;
+  description?: string;
+  icon?: "shield" | "energy" | "test" | "document";
+  footer?: string;
+  tone?: "neutral" | "info" | "success";
+};
+
+export type ProjectApproval = {
+  _type: "projectApproval";
+  name?: string;
+  description?: string;
+};
+
+export type ProjectTechnicalSpec = {
+  _type: "projectTechnicalSpec";
+  label?: string;
+  value?: string;
+  emphasis?: boolean;
+};
+
+export type ProjectCallout = {
+  _type: "projectCallout";
+  tone?: "info" | "warning" | "technical";
+  title?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      openInNewTab?: boolean;
+      _type: "projectLink";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type ProjectBodyImage = {
+  _type: "projectBodyImage";
+  image?: SiteImage;
+  caption?: string;
 };
 
 export type ArticleServicePromo = {
@@ -686,6 +738,145 @@ export type ServicesPage = {
   };
 };
 
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  summary?: string;
+  category?:
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0637\u062D"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0627\u0633\u0627\u062A \u0648\u0627\u0644\u0642\u0648\u0627\u0639\u062F"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062E\u0632\u0627\u0646\u0627\u062A \u0627\u0644\u0623\u0631\u0636\u064A\u0629"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062D\u0645\u0627\u0645\u0627\u062A \u0648\u0627\u0644\u0645\u0637\u0627\u0628\u062E"
+    | "\u0627\u0644\u0639\u0632\u0644 \u0627\u0644\u062D\u0631\u0627\u0631\u064A \u0648\u062A\u0631\u0634\u064A\u062F \u0627\u0644\u0637\u0627\u0642\u0629";
+  status?: {
+    label?: string;
+    tone?: "completed" | "certified" | "inProgress" | "neutral";
+  };
+  location?: string;
+  completedAt?: string;
+  measurement?: {
+    label?: string;
+    value?: string;
+  };
+  system?: {
+    label?: string;
+    value?: string;
+  };
+  highlight?: string;
+  cover?: SiteImage;
+  gallery?: Array<
+    {
+      _key: string;
+    } & SiteImage
+  >;
+  body?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          openInNewTab?: boolean;
+          _type: "projectLink";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & ProjectBodyImage)
+    | ({
+        _key: string;
+      } & ProjectCallout)
+  >;
+  detail?: {
+    approvalNumber?: string;
+    warranty?: string;
+    scope?: string;
+    coverStandard?: string;
+    coverNote?: string;
+    engineeringRole?: {
+      description?: string;
+      tags?: Array<string>;
+    };
+    technicalSpecs?: {
+      note?: string;
+      rows?: Array<
+        {
+          _key: string;
+        } & ProjectTechnicalSpec
+      >;
+    };
+    approvals?: {
+      items?: Array<
+        {
+          _key: string;
+        } & ProjectApproval
+      >;
+    };
+    verification?: {
+      items?: Array<
+        {
+          _key: string;
+        } & ProjectVerification
+      >;
+    };
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+};
+
+export type ProjectsPage = {
+  _id: string;
+  _type: "projectsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  intro?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    context?: string;
+    breadcrumbs?: Array<
+      {
+        _key: string;
+      } & AboutBreadcrumb
+    >;
+  };
+  assurance?: {
+    items?: Array<{
+      title?: string;
+      description?: string;
+      icon?: "shield" | "compliance" | "test";
+      _key: string;
+    }>;
+  };
+  closing?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    whatsappAction?: SiteAction;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+};
+
 export type CertificatesPage = {
   _id: string;
   _type: "certificatesPage";
@@ -1122,6 +1313,11 @@ export type AllSanitySchemaTypes =
   | AboutFact
   | AboutParagraph
   | AboutBreadcrumb
+  | ProjectVerification
+  | ProjectApproval
+  | ProjectTechnicalSpec
+  | ProjectCallout
+  | ProjectBodyImage
   | ArticleServicePromo
   | ArticlePromoAction
   | ArticleNumberedSteps
@@ -1152,6 +1348,8 @@ export type AllSanitySchemaTypes =
   | ServiceTechnology
   | ServiceApplication
   | ServicesPage
+  | Project
+  | ProjectsPage
   | CertificatesPage
   | AboutPage
   | HomePage
@@ -1168,9 +1366,6 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: src/sanity/queries/about-page.ts
-// Variable: ABOUT_PAGE_QUERY
-// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{    _id,    intro{      breadcrumbs[]{        _key,        label,        destination{kind, href, openInNewTab}      },      eyebrow,      title,      description    },    company{      eyebrow,      title,      paragraphs[]{_key, text},      facts[]{_key, label, value, icon},      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{        title,        description,        metric{value, label}      }    },    capabilities{      heading{eyebrow, title, description},      items[]{        _key,        title,        description,        icon,        action{  enabled,  label,  destination{kind, href, openInNewTab}}      }    },    methodology{      heading{eyebrow, title, description},      label,      items[]{        _key,        title,        description,        phase{text, tone},        note{text, tone}      }    },    values{      heading{eyebrow, title, description},      items[]{        _key,        title,        description,        icon,        checks[]{_key, label}      }    },    profile{      badge,      version,      title,      description,      downloadLabel,      file{        asset->{          _id,          url,          originalFilename,          mimeType,          size        }      },      unavailableLabel,      unavailableHint    },    seo{title, description}  }
 export type ABOUT_PAGE_QUERY_RESULT = {
   _id: "aboutPage";
   intro: {
@@ -1318,17 +1513,11 @@ export type ABOUT_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/article.ts
-// Variable: ARTICLE_SLUG_QUERY
-// Query: *[    _type == "article" &&    defined(slug.current) &&    (slug.current == $slug || $slug in previousSlugs)  ][0]{    _id,    "slug": slug.current  }
 export type ARTICLE_SLUG_QUERY_RESULT = {
   _id: string;
   slug: string | null;
 } | null;
 
-// Source: src/sanity/queries/article.ts
-// Variable: ARTICLE_BY_ID_QUERY
-// Query: *[_type == "article" && _id == $id][0]{    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    coverCaption,    author->{  _id,  name,  role,  bio,  image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}}},    tags[]->{  _id,  title},    publishedAt,    updatedAt,    seo{title, description},      body[]{    _type,    _key,    _type == "block" => {      style,      listItem,      level,      children[]{        _type,        _key,        text,        marks      },      markDefs[]{        _key,        _type,        href,        openInNewTab,        "referenceId": reference->_id,        "referenceSlug": reference->slug.current      }    },    _type == "articleBodyImage" => {      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      caption    },    _type == "articleCallout" => {      tone,      title,      body[]{  _type,  _key,  _type == "block" => {    style,    listItem,    level,    children[]{      _type,      _key,      text,      marks    },    markDefs[]{      _key,      _type,      href,      openInNewTab,      "referenceId": reference->_id,      "referenceSlug": reference->slug.current    }  }}    },    _type == "articleTable" => {      caption,      headers,      rows[]{        _key,        cells      }    },    _type == "articleCardGroup" => {      title,      description,      cards[]{        _key,        title,        description,        icon      }    },    _type == "articleExplanation" => {      title,      text,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      imageCaption,      points,      imageSide    },    _type == "articleQaGroup" => {      title,      items[]{        _key,        question,        answer      }    },    _type == "articleNumberedSteps" => {      title,      items[]{        _key,        title,        description      }    },    _type == "articleServicePromo" => {      title,      description,      action{        label,        destination{  kind,  href,  openInNewTab}      }    }  }  }
 export type ARTICLE_BY_ID_QUERY_RESULT = {
   _id: string;
   title: string | null;
@@ -1557,9 +1746,6 @@ export type ARTICLE_BY_ID_QUERY_RESULT = {
   > | null;
 } | null;
 
-// Source: src/sanity/queries/article.ts
-// Variable: RELATED_ARTICLES_QUERY
-// Query: *[    _type == "article" &&    _id != $articleId &&    defined(slug.current) &&    count(tags[_ref in $tagIds]) > 0  ] | order(count(tags[_ref in $tagIds]) desc, publishedAt desc, _id asc) [0...12]{    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    tags[]->{  _id,  title},    publishedAt,      body[]{    _type,    _key,    _type == "block" => {      style,      listItem,      level,      children[]{        _type,        _key,        text,        marks      },      markDefs[]{        _key,        _type,        href,        openInNewTab,        "referenceId": reference->_id,        "referenceSlug": reference->slug.current      }    },    _type == "articleBodyImage" => {      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      caption    },    _type == "articleCallout" => {      tone,      title,      body[]{  _type,  _key,  _type == "block" => {    style,    listItem,    level,    children[]{      _type,      _key,      text,      marks    },    markDefs[]{      _key,      _type,      href,      openInNewTab,      "referenceId": reference->_id,      "referenceSlug": reference->slug.current    }  }}    },    _type == "articleTable" => {      caption,      headers,      rows[]{        _key,        cells      }    },    _type == "articleCardGroup" => {      title,      description,      cards[]{        _key,        title,        description,        icon      }    },    _type == "articleExplanation" => {      title,      text,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      imageCaption,      points,      imageSide    },    _type == "articleQaGroup" => {      title,      items[]{        _key,        question,        answer      }    },    _type == "articleNumberedSteps" => {      title,      items[]{        _key,        title,        description      }    },    _type == "articleServicePromo" => {      title,      description,      action{        label,        destination{  kind,  href,  openInNewTab}      }    }  }  }
 export type RELATED_ARTICLES_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -1760,18 +1946,12 @@ export type RELATED_ARTICLES_QUERY_RESULT = Array<{
   > | null;
 }>;
 
-// Source: src/sanity/queries/article.ts
-// Variable: ARTICLE_SITEMAP_QUERY
-// Query: *[_type == "article" && defined(slug.current)] | order(publishedAt desc){    "slug": slug.current,    publishedAt,    updatedAt  }
 export type ARTICLE_SITEMAP_QUERY_RESULT = Array<{
   slug: string | null;
   publishedAt: string | null;
   updatedAt: string | null;
 }>;
 
-// Source: src/sanity/queries/article.ts
-// Variable: ARTICLE_INDEX_QUERY
-// Query: *[    _type == "article" &&    defined(slug.current) &&    defined(title) &&    defined(excerpt) &&    defined(publishedAt)  ] | order(publishedAt desc, _id asc) {    _id,    title,    "slug": slug.current,    excerpt,    cover{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},    author->{      name,      role,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}}    },    tags[]->{  _id,  title},    publishedAt,      "bodyText": body[]{    _type,    caption,    title,    text,    description,    headers,    points,    imageCaption,    children[]{ text },    rows[]{ cells },    cards[]{ title, description },    items[]{ question, answer, title, description },    body[]{ children[]{ text } },    action{ label }  }  }
 export type ARTICLE_INDEX_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -1989,9 +2169,6 @@ export type ARTICLE_INDEX_QUERY_RESULT = Array<{
   > | null;
 }>;
 
-// Source: src/sanity/queries/article.ts
-// Variable: BLOG_SETTINGS_QUERY
-// Query: *[_type == "blogSettings" && _id == "blogSettings"][0]{    whatsappNumber,    sidebarDestination{  kind,  href,  openInNewTab},    wideDestination{  kind,  href,  openInNewTab}  }
 export type BLOG_SETTINGS_QUERY_RESULT = {
   whatsappNumber: string | null;
   sidebarDestination: {
@@ -2006,9 +2183,6 @@ export type BLOG_SETTINGS_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/certificates-page.ts
-// Variable: CERTIFICATES_PAGE_QUERY
-// Query: *[_type == "certificatesPage" && _id == "certificatesPage"][0]{    _id,    intro{      eyebrow,      title,      description    },    certificates{      heading{eyebrow, title, description},      items[]{        _key,        issuerName,        issuerSecondaryName,        issuerLogo{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},        certificateTitle,        certificateSubtitle,        reference,        status{label, tone},        authorizationDescription,        issuedOn,        validUntil,        validityNote,        scope{title, description, items},        document{  asset->{    _id,    url,    originalFilename,    mimeType,    size  }}      }    },    seo{title, description}  }
 export type CERTIFICATES_PAGE_QUERY_RESULT = {
   _id: "certificatesPage";
   intro: {
@@ -2075,9 +2249,6 @@ export type CERTIFICATES_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/certificates-page.ts
-// Variable: COMPANY_PROFILE_FILE_QUERY
-// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{    profile{      file{  asset->{    _id,    url,    originalFilename,    mimeType,    size  }}    }  }
 export type COMPANY_PROFILE_FILE_QUERY_RESULT = {
   profile: {
     file: {
@@ -2092,9 +2263,6 @@ export type COMPANY_PROFILE_FILE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/home-page.ts
-// Variable: HOME_PAGE_QUERY
-// Query: *[_type == "homePage" && _id == "homePage"][0]{    _id,    hero{      eyebrow,      title,      highlight,      description,      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      secondaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      highlights[]{_key, label, icon},      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{title, status, location}    },    company{      eyebrow,      title,      description,      image{  ...,  alt,  asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}},      panel{title, description},      features[]{_key, title, description, icon},      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      },      secondaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      }    },    workStages{      heading{eyebrow, title, description},      label,      items[]{        _key,        title,        description,        icon,        note{text, tone}      }    },    quality{      eyebrow,      title,      description,      checks[]{_key, title, description, icon},      warranty{        badge,        title,        description,        items,        action{          enabled,          label,          destination{kind, href, openInNewTab}        }      }    },    faq{      heading{eyebrow, title, description},      items[]{_key, question, answer}    }  }
 export type HOME_PAGE_QUERY_RESULT = {
   _id: "homePage";
   hero: {
@@ -2255,9 +2423,6 @@ export type HOME_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/privacy-page.ts
-// Variable: PRIVACY_PAGE_QUERY
-// Query: *[_type == "privacyPage" && _id == "privacyPage"][0]{    intro{context, eyebrow, title, description, updatedLabel, updatedOn, versionLabel, version, compliance,      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}},    scope{title, description},    sections[]{_key, title, tocLabel, paragraphs[]{_key, text},      cards[]{_key, title, description, icon, items[]{_key, text}},      items[]{_key, title, description}, itemsStyle, disclosure{title, text}, footnote{title, text},      note{title, text, tone}, showContact, showPublication},    contact{title, subtitle, emailLabel, email, phoneLabel, phone, addressLabel, address, hoursLabel, hours},    publication{label, reference},    sidebar{tocTitle, countLabel, projectTitle, projectDescription, contactTitle, emailLabel, location,      action{enabled, label, destination{kind, href, openInNewTab}}},    consultation{eyebrow, title, description,      primaryAction{enabled, label, destination{kind, href, openInNewTab}},      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}},    whatsapp{enabled, label, number}, seo{title, description}  }
 export type PRIVACY_PAGE_QUERY_RESULT = {
   intro: {
     context: string | null;
@@ -2391,9 +2556,304 @@ export type PRIVACY_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/services-page.ts
-// Variable: SERVICES_PAGE_QUERY
-// Query: *[_type == "servicesPage" && _id == "servicesPage"][0]{    intro{      eyebrow, title, description,      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}    },    applications{      heading{eyebrow, title, description},      items[]{        _key, title, description, tags[]{_key, label},        image{  alt, crop, hotspot, asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height}}, imageBadge, systemsLabel,        systems[]{_key, label}, metrics[]{_key, label, value, unit}      }    },    technologies{      heading{eyebrow, title, description}, note,      items[]{_key, title, englishTitle, description, icon, noteLabel, note}    },    assessment{      heading{eyebrow, title, description},      factors[]{_key, title, description},      project{badge, location, image{  alt, crop, hotspot, asset{_ref, _type},  "dimensions": asset->metadata.dimensions{width, height}}, imageLabel, title, description, durationLabel, duration}    },    faq{heading{eyebrow, title, description}, items[]{_key, question, answer}},    consultation{      eyebrow, title, description,      primaryAction{enabled, label, destination{kind, href, openInNewTab}},      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}    },    seo{title, description}  }
+export type PROJECTS_PAGE_QUERY_RESULT = {
+  intro: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    context: string | null;
+    breadcrumbs: Array<{
+      _key: string;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    }> | null;
+  } | null;
+  assurance: {
+    items: Array<{
+      _key: string;
+      title: string | null;
+      description: string | null;
+      icon: "compliance" | "shield" | "test" | null;
+    }> | null;
+  } | null;
+  closing: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    whatsappAction: {
+      enabled: boolean | null;
+      label: string | null;
+      destination: {
+        kind: "external" | "internal" | null;
+        href: string | null;
+        openInNewTab: boolean | null;
+      } | null;
+    } | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
+
+export type PROJECT_INDEX_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  summary: string | null;
+  cover: {
+    alt: string | null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+    } | null;
+  } | null;
+  category:
+    | "\u0627\u0644\u0639\u0632\u0644 \u0627\u0644\u062D\u0631\u0627\u0631\u064A \u0648\u062A\u0631\u0634\u064A\u062F \u0627\u0644\u0637\u0627\u0642\u0629"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0627\u0633\u0627\u062A \u0648\u0627\u0644\u0642\u0648\u0627\u0639\u062F"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0637\u062D"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062D\u0645\u0627\u0645\u0627\u062A \u0648\u0627\u0644\u0645\u0637\u0627\u0628\u062E"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062E\u0632\u0627\u0646\u0627\u062A \u0627\u0644\u0623\u0631\u0636\u064A\u0629"
+    | null;
+  status: {
+    label: string | null;
+    tone: "certified" | "completed" | "inProgress" | "neutral" | null;
+  } | null;
+  location: string | null;
+  completedAt: string | null;
+  measurement: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  system: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  highlight: string | null;
+}>;
+
+export type PROJECT_SLUG_QUERY_RESULT = string | null;
+
+export type PROJECT_DETAIL_QUERY_RESULT = {
+  _id: string;
+  _updatedAt: string;
+  title: string | null;
+  slug: string | null;
+  summary: string | null;
+  category:
+    | "\u0627\u0644\u0639\u0632\u0644 \u0627\u0644\u062D\u0631\u0627\u0631\u064A \u0648\u062A\u0631\u0634\u064A\u062F \u0627\u0644\u0637\u0627\u0642\u0629"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0627\u0633\u0627\u062A \u0648\u0627\u0644\u0642\u0648\u0627\u0639\u062F"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0637\u062D"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062D\u0645\u0627\u0645\u0627\u062A \u0648\u0627\u0644\u0645\u0637\u0627\u0628\u062E"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062E\u0632\u0627\u0646\u0627\u062A \u0627\u0644\u0623\u0631\u0636\u064A\u0629"
+    | null;
+  status: {
+    label: string | null;
+    tone: "certified" | "completed" | "inProgress" | "neutral" | null;
+  } | null;
+  location: string | null;
+  completedAt: string | null;
+  measurement: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  system: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  highlight: string | null;
+  cover: {
+    alt: string | null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+    } | null;
+  } | null;
+  gallery: Array<{
+    _key: string;
+    alt: string | null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+    } | null;
+  }> | null;
+  body: Array<
+    | {
+        _type: "block";
+        _key: string;
+        style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+        listItem: "bullet" | "number" | null;
+        level: number | null;
+        children: Array<{
+          _type: "span";
+          _key: string;
+          text: string | null;
+          marks: Array<string> | null;
+        }> | null;
+        markDefs: Array<{
+          _key: string;
+          _type: "projectLink";
+          href: string | null;
+          openInNewTab: boolean | null;
+        }> | null;
+      }
+    | {
+        _type: "projectBodyImage";
+        _key: string;
+        caption: string | null;
+        image: {
+          alt: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _ref: string;
+            _type: "reference";
+          } | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _type: "projectCallout";
+        _key: string;
+        tone: "info" | "technical" | "warning" | null;
+        title: string | null;
+        body: Array<{
+          _type: "block";
+          _key: string;
+          style: "blockquote" | "h2" | "h3" | "h4" | "normal" | null;
+          listItem: "bullet" | "number" | null;
+          level: number | null;
+          children: Array<{
+            _type: "span";
+            _key: string;
+            text: string | null;
+            marks: Array<string> | null;
+          }> | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "projectLink";
+            href: string | null;
+            openInNewTab: boolean | null;
+          }> | null;
+        }> | null;
+      }
+  > | null;
+  detail: {
+    approvalNumber: string | null;
+    warranty: string | null;
+    scope: string | null;
+    coverStandard: string | null;
+    coverNote: string | null;
+    engineeringRole: {
+      description: string | null;
+      tags: Array<string> | null;
+    } | null;
+    technicalSpecs: {
+      note: string | null;
+      rows: Array<{
+        _key: string;
+        label: string | null;
+        value: string | null;
+        emphasis: boolean | null;
+      }> | null;
+    } | null;
+    approvals: {
+      items: Array<{
+        _key: string;
+        name: string | null;
+        description: string | null;
+      }> | null;
+    } | null;
+    verification: {
+      items: Array<{
+        _key: string;
+        title: string | null;
+        description: string | null;
+        icon: "document" | "energy" | "shield" | "test" | null;
+        footer: string | null;
+        tone: "info" | "neutral" | "success" | null;
+      }> | null;
+    } | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
+} | null;
+
+export type RELATED_PROJECTS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  summary: string | null;
+  cover: {
+    alt: string | null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _ref: string;
+      _type: "reference";
+    } | null;
+    dimensions: {
+      width: number | null;
+      height: number | null;
+    } | null;
+  } | null;
+  category:
+    | "\u0627\u0644\u0639\u0632\u0644 \u0627\u0644\u062D\u0631\u0627\u0631\u064A \u0648\u062A\u0631\u0634\u064A\u062F \u0627\u0644\u0637\u0627\u0642\u0629"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0627\u0633\u0627\u062A \u0648\u0627\u0644\u0642\u0648\u0627\u0639\u062F"
+    | "\u0639\u0632\u0644 \u0627\u0644\u0623\u0633\u0637\u062D"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062D\u0645\u0627\u0645\u0627\u062A \u0648\u0627\u0644\u0645\u0637\u0627\u0628\u062E"
+    | "\u0639\u0632\u0644 \u0627\u0644\u062E\u0632\u0627\u0646\u0627\u062A \u0627\u0644\u0623\u0631\u0636\u064A\u0629"
+    | null;
+  status: {
+    label: string | null;
+    tone: "certified" | "completed" | "inProgress" | "neutral" | null;
+  } | null;
+  location: string | null;
+  completedAt: string | null;
+  measurement: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  system: {
+    label: string | null;
+    value: string | null;
+  } | null;
+  highlight: string | null;
+}>;
+
+export type PROJECT_SITEMAP_QUERY_RESULT = Array<{
+  slug: string | null;
+  _updatedAt: string;
+  completedAt: string | null;
+}>;
+
 export type SERVICES_PAGE_QUERY_RESULT = {
   intro: {
     eyebrow: string | null;
@@ -2542,9 +3002,6 @@ export type SERVICES_PAGE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: src/sanity/queries/site-settings.ts
-// Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    _id,    brand{      companyName,      tagline,      logo{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      }    },    header{      navigation[]{        _key,        label,        enabled,        destination{kind, href, openInNewTab}      },      primaryAction{        enabled,        label,        destination{kind, href, openInNewTab}      }    },    footer{      companyDescription,      footerLogo{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      },      badges[]{_key, label, enabled},      quickLinks{        heading,        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        }      },      serviceLinks{        heading,        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        }      },      contactColumn{        heading,        phoneLabel,        emailLabel,        addressLabel,        hoursLabel,        action{          enabled,          label,          destination{kind, href, openInNewTab}        }      },      cta{        enabled,        eyebrow,        title,        description,        primaryLabel,        primaryDestination{kind, href, openInNewTab},        whatsappLabel,        contactLabel,        supportingText      },      legal{        links[]{          _key,          label,          enabled,          destination{kind, href, openInNewTab}        },        copyright      }    },    contact{      phone,      whatsapp,      email,      address,      workingHours    },    defaultSeo{      title,      description,      siteName,      image{        ...,        alt,        asset{_ref, _type},        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}      }    }  }
 export type SITE_SETTINGS_QUERY_RESULT = {
   _id: "siteSettings";
   brand: {
@@ -2712,7 +3169,6 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    _id,\n    intro{\n      breadcrumbs[]{\n        _key,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      eyebrow,\n      title,\n      description\n    },\n    company{\n      eyebrow,\n      title,\n      paragraphs[]{_key, text},\n      facts[]{_key, label, value, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{\n        title,\n        description,\n        metric{value, label}\n      }\n    },\n    capabilities{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        action{\n  enabled,\n  label,\n  destination{kind, href, openInNewTab}\n}\n      }\n    },\n    methodology{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        phase{text, tone},\n        note{text, tone}\n      }\n    },\n    values{\n      heading{eyebrow, title, description},\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        checks[]{_key, label}\n      }\n    },\n    profile{\n      badge,\n      version,\n      title,\n      description,\n      downloadLabel,\n      file{\n        asset->{\n          _id,\n          url,\n          originalFilename,\n          mimeType,\n          size\n        }\n      },\n      unavailableLabel,\n      unavailableHint\n    },\n    seo{title, description}\n  }\n': ABOUT_PAGE_QUERY_RESULT;
@@ -2726,11 +3182,17 @@ declare global {
     '\n  *[_type == "aboutPage" && _id == "aboutPage"][0]{\n    profile{\n      file{\n  asset->{\n    _id,\n    url,\n    originalFilename,\n    mimeType,\n    size\n  }\n}\n    }\n  }\n': COMPANY_PROFILE_FILE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    hero{\n      eyebrow,\n      title,\n      highlight,\n      description,\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      highlights[]{_key, label, icon},\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, status, location}\n    },\n    company{\n      eyebrow,\n      title,\n      description,\n      image{\n  ...,\n  alt,\n  asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n},\n      panel{title, description},\n      features[]{_key, title, description, icon},\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      },\n      secondaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    workStages{\n      heading{eyebrow, title, description},\n      label,\n      items[]{\n        _key,\n        title,\n        description,\n        icon,\n        note{text, tone}\n      }\n    },\n    quality{\n      eyebrow,\n      title,\n      description,\n      checks[]{_key, title, description, icon},\n      warranty{\n        badge,\n        title,\n        description,\n        items,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      }\n    },\n    faq{\n      heading{eyebrow, title, description},\n      items[]{_key, question, answer}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "privacyPage" && _id == "privacyPage"][0]{\n    intro{context, eyebrow, title, description, updatedLabel, updatedOn, versionLabel, version, compliance,\n      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}},\n    scope{title, description},\n    sections[]{_key, title, tocLabel, paragraphs[]{_key, text},\n      cards[]{_key, title, description, icon, items[]{_key, text}},\n      items[]{_key, title, description}, itemsStyle, disclosure{title, text}, footnote{title, text},\n      note{title, text, tone}, showContact, showPublication},\n    contact{title, subtitle, emailLabel, email, phoneLabel, phone, addressLabel, address, hoursLabel, hours},\n    publication{label, reference},\n    sidebar{tocTitle, countLabel, projectTitle, projectDescription, contactTitle, emailLabel, location,\n      action{enabled, label, destination{kind, href, openInNewTab}}},\n    consultation{eyebrow, title, description,\n      primaryAction{enabled, label, destination{kind, href, openInNewTab}},\n      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}},\n    whatsapp{enabled, label, number}, seo{title, description}\n  }\n': PRIVACY_PAGE_QUERY_RESULT;
+    '\n  *[_type == "projectsPage" && _id == "projectsPage"][0]{\n    intro{\n      eyebrow,\n      title,\n      description,\n      context,\n      breadcrumbs[]{_key, label, destination{\n  kind,\n  href,\n  openInNewTab\n}}\n    },\n    assurance{\n      items[]{_key, title, description, icon}\n    },\n    closing{\n      eyebrow,\n      title,\n      description,\n      whatsappAction{\n        enabled,\n        label,\n        destination{\n  kind,\n  href,\n  openInNewTab\n}\n      }\n    },\n    seo{title, description}\n  }\n': PROJECTS_PAGE_QUERY_RESULT;
+    '\n  *[\n    _type == "project" &&\n    defined(slug.current) &&\n    defined(title) &&\n    defined(summary) &&\n    defined(cover.asset) &&\n    defined(category) &&\n    defined(status.label) &&\n    defined(status.tone) &&\n    defined(location) &&\n    defined(completedAt) &&\n    defined(measurement.label) &&\n    defined(measurement.value) &&\n    defined(system.label) &&\n    defined(system.value)\n  ] | order(completedAt desc, _id asc) {\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  cover{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n},\n  category,\n  status{label, tone},\n  location,\n  completedAt,\n  measurement{label, value},\n  system{label, value},\n  highlight\n}\n': PROJECT_INDEX_QUERY_RESULT;
+    '\n  *[_type == "project" && slug.current == $slug][0]._id\n': PROJECT_SLUG_QUERY_RESULT;
+    '\n  *[_type == "project" && _id == $id && defined(slug.current)][0]{\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    summary,\n    category,\n    status{label, tone},\n    location,\n    completedAt,\n    measurement{label, value},\n    system{label, value},\n    highlight,\n    cover{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n},\n    gallery[]{_key, \n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n},\n    \n  body[]{\n    _type,\n    _key,\n    _type == "block" => {\n      style,\n      listItem,\n      level,\n      children[]{_type, _key, text, marks},\n      markDefs[]{_key, _type, href, openInNewTab}\n    },\n    _type == "projectBodyImage" => {\n      _key,\n      caption,\n      image{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n}\n    },\n    _type == "projectCallout" => {\n      _key,\n      tone,\n      title,\n      body[]{\n  _type,\n  _key,\n  _type == "block" => {\n    style,\n    listItem,\n    level,\n    children[]{_type, _key, text, marks},\n    markDefs[]{_key, _type, href, openInNewTab}\n  }\n}\n    }\n  }\n,\n    \n  detail{\n    approvalNumber,\n    warranty,\n    scope,\n    coverStandard,\n    coverNote,\n    engineeringRole{\n      description,\n      tags\n    },\n    technicalSpecs{\n      note,\n      rows[]{_key, label, value, emphasis}\n    },\n    approvals{\n      items[]{_key, name, description}\n    },\n    verification{\n      items[]{_key, title, description, icon, footer, tone}\n    }\n  }\n,\n    seo{title, description}\n  }\n': PROJECT_DETAIL_QUERY_RESULT;
+    '\n  *[\n    _type == "project" &&\n    _id != $id &&\n    category == $category &&\n    defined(slug.current) &&\n    defined(title) &&\n    defined(summary) &&\n    defined(cover.asset) &&\n    defined(status.label) &&\n    defined(status.tone) &&\n    defined(location) &&\n    defined(completedAt) &&\n    defined(measurement.label) &&\n    defined(measurement.value) &&\n    defined(system.label) &&\n    defined(system.value)\n  ] | order(completedAt desc, _id asc)[0...2] {\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  cover{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n},\n  category,\n  status{label, tone},\n  location,\n  completedAt,\n  measurement{label, value},\n  system{label, value},\n  highlight\n}\n': RELATED_PROJECTS_QUERY_RESULT;
+    '\n  *[_type == "project" && defined(slug.current)] | order(completedAt desc, _id asc) {\n    "slug": slug.current,\n    _updatedAt,\n    completedAt\n  }\n': PROJECT_SITEMAP_QUERY_RESULT;
     '\n  *[_type == "servicesPage" && _id == "servicesPage"][0]{\n    intro{\n      eyebrow, title, description,\n      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}\n    },\n    applications{\n      heading{eyebrow, title, description},\n      items[]{\n        _key, title, description, tags[]{_key, label},\n        image{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n}, imageBadge, systemsLabel,\n        systems[]{_key, label}, metrics[]{_key, label, value, unit}\n      }\n    },\n    technologies{\n      heading{eyebrow, title, description}, note,\n      items[]{_key, title, englishTitle, description, icon, noteLabel, note}\n    },\n    assessment{\n      heading{eyebrow, title, description},\n      factors[]{_key, title, description},\n      project{badge, location, image{\n  alt, crop, hotspot, asset{_ref, _type},\n  "dimensions": asset->metadata.dimensions{width, height}\n}, imageLabel, title, description, durationLabel, duration}\n    },\n    faq{heading{eyebrow, title, description}, items[]{_key, question, answer}},\n    consultation{\n      eyebrow, title, description,\n      primaryAction{enabled, label, destination{kind, href, openInNewTab}},\n      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}\n    },\n    seo{title, description}\n  }\n': SERVICES_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    brand{\n      companyName,\n      tagline,\n      logo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    },\n    header{\n      navigation[]{\n        _key,\n        label,\n        enabled,\n        destination{kind, href, openInNewTab}\n      },\n      primaryAction{\n        enabled,\n        label,\n        destination{kind, href, openInNewTab}\n      }\n    },\n    footer{\n      companyDescription,\n      footerLogo{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      },\n      badges[]{_key, label, enabled},\n      quickLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      serviceLinks{\n        heading,\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      contactColumn{\n        heading,\n        phoneLabel,\n        emailLabel,\n        addressLabel,\n        hoursLabel,\n        action{\n          enabled,\n          label,\n          destination{kind, href, openInNewTab}\n        }\n      },\n      cta{\n        enabled,\n        eyebrow,\n        title,\n        description,\n        primaryLabel,\n        primaryDestination{kind, href, openInNewTab},\n        whatsappLabel,\n        contactLabel,\n        supportingText\n      },\n      legal{\n        links[]{\n          _key,\n          label,\n          enabled,\n          destination{kind, href, openInNewTab}\n        },\n        copyright\n      }\n    },\n    contact{\n      phone,\n      whatsapp,\n      email,\n      address,\n      workingHours\n    },\n    defaultSeo{\n      title,\n      description,\n      siteName,\n      image{\n        ...,\n        alt,\n        asset{_ref, _type},\n        "dimensions": asset->metadata.dimensions{width, height, aspectRatio}\n      }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }
 }
-// Lets @sanity/client releases that predate the global registry read it too
+
 declare module "@sanity/client" {
   interface SanityQueries extends globalThis.SanityQueries {}
 }

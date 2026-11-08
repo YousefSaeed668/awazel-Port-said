@@ -207,10 +207,7 @@ export function isArticlePublishPlanApplied(
   });
 }
 
-/**
- * Duplicates must not inherit publication metadata or historical URLs from the
- * source article. Everything else is copied by the native duplicate action.
- */
+
 export function resetArticleDuplicate<T extends Record<string, unknown>>(
   document: T,
 ): T {
@@ -219,6 +216,5 @@ export function resetArticleDuplicate<T extends Record<string, unknown>>(
   delete next.updatedAt;
   next.previousSlugs = [];
 
-  // The document identity (`_id`, `_type`) is preserved by the spread.
   return next as T;
 }

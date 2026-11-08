@@ -69,9 +69,7 @@ interface CertificateScope {
 }
 
 interface CertificateDocument {
-  /** Inline asset URL used by the native PDF viewer. */
   previewUrl: string;
-  /** Sanity CDN download URL that carries a meaningful filename. */
   downloadHref: string;
   fileName: string;
 }
@@ -91,7 +89,6 @@ interface CertificateCardProps {
   scope?: CertificateScope;
   badge?: string;
   document?: CertificateDocument;
-  /** Only enable on the certificates page; Home and About never preview PDFs. */
   allowPreview?: boolean;
   downloadLabel?: string;
   headingLevel?: HeadingLevel;

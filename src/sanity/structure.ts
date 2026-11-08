@@ -8,6 +8,12 @@ export const structure: StructureResolver = (S) =>
       S.listItem().title("من نحن").singleton("aboutPage"),
       S.listItem().title("جميع الخدمات").singleton("servicesPage"),
       S.listItem().title("الاعتمادات والشهادات").singleton("certificatesPage"),
+      S.listItem().title("جميع المشاريع").singleton("projectsPage"),
+      S.divider(),
+      S.listItem()
+        .title("المشاريع")
+        .child(S.documentTypeList("project").title("المشاريع")),
+      S.divider(),
       S.listItem().title("سياسة الخصوصية").singleton("privacyPage"),
       S.divider(),
       S.listItem()

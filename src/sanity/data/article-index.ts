@@ -117,16 +117,12 @@ function mapIndexArticle(
       ...(author ? { author } : {}),
     };
   } catch (error) {
-    // A single incomplete article must not take down the whole archive.
     if (error instanceof ArticleContentError) return null;
     throw error;
   }
 }
 
-/**
- * Latest first publication wins, with the document id as a deterministic
- * tie-breaker so equal timestamps never reorder between requests.
- */
+
 export function mapArticleIndex(
   documents: ARTICLE_INDEX_QUERY_RESULT,
 ): BlogListingArticle[] {
