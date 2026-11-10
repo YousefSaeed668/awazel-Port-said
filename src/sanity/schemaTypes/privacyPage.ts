@@ -30,7 +30,6 @@ export const privacyPageType = defineType({
     { name: "contact", title: "قنوات الخصوصية" },
     { name: "publication", title: "ختم النشر" },
     { name: "sidebar", title: "الفهرس والشريط الجانبي" },
-    { name: "consultation", title: "دعوة الاستشارة" },
     { name: "whatsapp", title: "واتساب" },
     { name: "seo", title: "محركات البحث" },
   ],
@@ -40,13 +39,6 @@ export const privacyPageType = defineType({
       text("eyebrow", "النص التمهيدي"),
       text("title", "عنوان الصفحة"),
       paragraph("description", "الوصف"),
-      defineField({
-        name: "breadcrumbs",
-        title: "مسار التصفح",
-        type: "array",
-        of: [defineArrayMember({ type: "aboutBreadcrumb" })],
-        validation: (Rule) => Rule.required().min(2).max(5),
-      }),
       text("updatedLabel", "تسمية تاريخ التحديث"),
       defineField({
         name: "updatedOn",
@@ -109,21 +101,6 @@ export const privacyPageType = defineType({
       text("contactTitle", "عنوان بطاقة مسؤول الخصوصية"),
       text("emailLabel", "تسمية البريد"),
       text("location", "الموقع المختصر"),
-    ]),
-    object("consultation", "دعوة الاستشارة", [
-      text("eyebrow", "النص التمهيدي"),
-      text("title", "العنوان"),
-      paragraph("description", "الوصف"),
-      defineField({
-        name: "primaryAction",
-        title: "الإجراء الأساسي",
-        type: "siteAction",
-      }),
-      defineField({
-        name: "secondaryAction",
-        title: "الإجراء الآخر",
-        type: "siteAction",
-      }),
     ]),
     object("whatsapp", "رابط واتساب العائم", [
       defineField({

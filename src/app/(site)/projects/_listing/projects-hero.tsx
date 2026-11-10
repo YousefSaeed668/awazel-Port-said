@@ -4,6 +4,11 @@ import { MaxWidth } from "@/components/MaxWidth";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import type { ProjectsPageContent } from "@/lib/projects";
 
+const breadcrumbs = [
+  { id: "home", label: "الرئيسية", href: "/" },
+  { id: "projects", label: "مشاريعنا" },
+] as const;
+
 export function ProjectsHero({
   content,
   totalProjects,
@@ -24,7 +29,7 @@ export function ProjectsHero({
             />
             {content.intro.context}
           </p>
-          <Breadcrumbs items={content.breadcrumbs} />
+          <Breadcrumbs items={breadcrumbs} />
         </MaxWidth>
       </section>
 

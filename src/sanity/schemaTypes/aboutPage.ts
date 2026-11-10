@@ -62,13 +62,6 @@ export const aboutPageType = defineType({
       group: "intro",
       validation: (Rule) => Rule.required(),
       fields: [
-        defineField({
-          name: "breadcrumbs",
-          title: "مسار التنقل",
-          type: "array",
-          of: [defineArrayMember({ type: "aboutBreadcrumb" })],
-          validation: (Rule) => Rule.required().min(1).max(4),
-        }),
         shortText("eyebrow", "النص التمهيدي", 60),
         shortText("title", "العنوان", 160),
         paragraph("description", "الوصف", 500, 4),
@@ -131,6 +124,8 @@ export const aboutPageType = defineType({
       title: "القدرات والحلول",
       type: "object",
       group: "capabilities",
+      description:
+        "تُعرض أول ثلاث خدمات بالترتيب من صفحة الخدمات. عدّل هنا النص التمهيدي والعنوان والوصف فقط.",
       validation: (Rule) => Rule.required(),
       fields: [
         defineField({
@@ -138,13 +133,6 @@ export const aboutPageType = defineType({
           title: "عنوان القسم",
           type: "homePageSectionHeading",
           validation: (Rule) => Rule.required(),
-        }),
-        defineField({
-          name: "items",
-          title: "البطاقات",
-          type: "array",
-          of: [defineArrayMember({ type: "aboutCapability" })],
-          validation: (Rule) => Rule.required().min(1).max(6),
         }),
       ],
     }),

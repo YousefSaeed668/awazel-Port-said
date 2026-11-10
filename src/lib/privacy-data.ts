@@ -34,7 +34,6 @@ export interface PrivacySection {
 }
 
 export interface PrivacyPageContent {
-  breadcrumbs: readonly { id: string; label: string; href?: string }[];
   intro: {
     context: string;
     eyebrow: string;
@@ -70,13 +69,6 @@ export interface PrivacyPageContent {
     contactTitle: string;
     emailLabel: string;
     location: string;
-  };
-  consultation: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    primaryAction: PrivacyAction | null;
-    secondaryAction: PrivacyAction | null;
   };
   whatsapp: { label: string; href: string } | null;
   seo: { title: string; description: string };

@@ -1,7 +1,5 @@
 import { aboutPageType } from "./aboutPage";
 import {
-  aboutBreadcrumbType,
-  aboutCapabilityType,
   aboutFactType,
   aboutParagraphType,
   aboutStageNoteType,
@@ -72,10 +70,8 @@ export const schemaTypes = [
   ...articleBodyObjectTypes,
   ...projectBodyObjectTypes,
   ...projectDetailObjectTypes,
-  aboutBreadcrumbType,
   aboutParagraphType,
   aboutFactType,
-  aboutCapabilityType,
   aboutStageNoteType,
   aboutStageType,
   aboutValueCheckType,

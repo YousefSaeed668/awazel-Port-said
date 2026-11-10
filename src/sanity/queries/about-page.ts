@@ -7,25 +7,12 @@ const imageProjection = `
   "dimensions": asset->metadata.dimensions{width, height, aspectRatio}
 `;
 
-const destinationProjection = `{kind, href, openInNewTab}`;
-
 const headingProjection = `{eyebrow, title, description}`;
-
-const actionProjection = `
-  enabled,
-  label,
-  destination${destinationProjection}
-`;
 
 export const ABOUT_PAGE_QUERY = defineQuery(`
   *[_type == "aboutPage" && _id == "aboutPage"][0]{
     _id,
     intro{
-      breadcrumbs[]{
-        _key,
-        label,
-        destination${destinationProjection}
-      },
       eyebrow,
       title,
       description
@@ -43,14 +30,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
       }
     },
     capabilities{
-      heading${headingProjection},
-      items[]{
-        _key,
-        title,
-        description,
-        icon,
-        action{${actionProjection}}
-      }
+      heading${headingProjection}
     },
     methodology{
       heading${headingProjection},

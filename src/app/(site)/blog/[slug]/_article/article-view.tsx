@@ -10,7 +10,7 @@ import type {
   RelatedArticle,
 } from "@/lib/blog";
 
-import { ArticleSidebarBanner, ArticleWideBanner } from "./article-banners";
+import { ArticleSidebarBanner } from "./article-banners";
 import { ArticleBody } from "./article-body";
 import { ArticleHeader } from "./article-header";
 import { ArticleShareLink } from "./article-share";
@@ -188,10 +188,6 @@ export function ArticleView({
           </div>
         </MaxWidth>
       </article>
-      <ArticleWideBanner
-        destination={banners.wide}
-        whatsappDestination={banners.whatsapp}
-      />
       <RelatedArticles articles={related} />
     </div>
   );

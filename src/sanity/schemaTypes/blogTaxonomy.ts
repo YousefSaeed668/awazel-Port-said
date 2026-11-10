@@ -1,7 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-import { DEFAULT_BLOG_WHATSAPP_NUMBER } from "@/lib/blog";
-
 type OptionalImageValue = {
   asset?: { _ref?: string } | null;
   alt?: string | null;
@@ -91,9 +89,8 @@ export const blogSettingsType = defineType({
       name: "whatsappNumber",
       title: "رقم واتساب لبانرات المدونة",
       type: "string",
-      initialValue: DEFAULT_BLOG_WHATSAPP_NUMBER,
       description:
-        "يُستخدم في زري واتساب بالبانر الجانبي والعريض. أدخل الرقم الدولي مع رمز البلد دون مسافات. الرقم الافتراضي تجريبي؛ استبدله برقم الشركة قبل الاستخدام الفعلي.",
+        "يُستخدم في زر واتساب ببطاقة المقال الجانبية. أدخل رقم الشركة الدولي مع رمز البلد دون مسافات. عند تركه فارغًا لا يظهر زر واتساب.",
       validation: (Rule) =>
         Rule.custom((value) =>
           !value || /^\+?[1-9]\d{7,14}$/.test(value)
@@ -107,13 +104,6 @@ export const blogSettingsType = defineType({
       type: "destination",
       description:
         "وجهة زر حجز المعاينة أسفل فهرس المقال. عند تركها فارغة يُستخدم رابط طلب عرض السعر من إعدادات الموقع.",
-    }),
-    defineField({
-      name: "wideDestination",
-      title: "وجهة الدعوة العريضة قبل المقالات ذات الصلة",
-      type: "destination",
-      description:
-        "وجهة زر طلب عرض السعر في نهاية المقال. عند تركها فارغة يُستخدم رابط طلب عرض السعر من إعدادات الموقع.",
     }),
   ],
   preview: {

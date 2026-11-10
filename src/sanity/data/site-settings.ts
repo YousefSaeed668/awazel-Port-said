@@ -2,6 +2,7 @@ import "server-only";
 
 import { cache } from "react";
 
+import { validateHeaderNavigation } from "@/lib/header-navigation";
 import {
   getMailtoHref,
   getTelHref,
@@ -29,7 +30,10 @@ import type { SITE_SETTINGS_QUERY_RESULT } from "../sanity.types";
 
 type SiteSettingsDocument = NonNullable<SITE_SETTINGS_QUERY_RESULT>;
 type QueryHeader = NonNullable<SiteSettingsDocument["header"]>;
-type QueryLink = NonNullable<QueryHeader["navigation"]>[number];
+type QueryFooter = NonNullable<SiteSettingsDocument["footer"]>;
+type QueryLink = NonNullable<
+  NonNullable<QueryFooter["quickLinks"]>["links"]
+>[number];
 type QueryDestination = QueryLink["destination"];
 type QueryImage = NonNullable<
   NonNullable<SiteSettingsDocument["brand"]>["logo"]
@@ -175,6 +179,13 @@ function mapHeader(document: SiteSettingsDocument): HeaderViewModel {
   if (!document.header) {
     throw new SiteSettingsError(
       'Sanity site settings are incomplete: "header" is required.',
+    );
+  }
+
+  const navigationValidation = validateHeaderNavigation(document.header.navigation);
+  if (navigationValidation !== true) {
+    throw new SiteSettingsError(
+      `Sanity site settings contain invalid "header.navigation": ${navigationValidation}`,
     );
   }
 

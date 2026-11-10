@@ -24,6 +24,12 @@ const verificationToneTitles: Record<
   success: "أخضر نجاح",
 };
 
+function nonblankText(value: unknown) {
+  return typeof value === "string" && !value.trim()
+    ? "أدخل نصًا فعليًا؛ لا تُقبل المسافات وحدها."
+    : true;
+}
+
 export const projectTechnicalSpecType = defineType({
   name: "projectTechnicalSpec",
   title: "بند مواصفة فنية",
@@ -33,14 +39,14 @@ export const projectTechnicalSpecType = defineType({
       name: "label",
       title: "تسمية البند",
       type: "string",
-      validation: (Rule) => Rule.required().max(80),
+      validation: (Rule) => Rule.required().max(80).custom(nonblankText),
     }),
     defineField({
       name: "value",
       title: "قيمة البند",
       type: "string",
       description: "تظهر بخط تقني مقابل التسمية.",
-      validation: (Rule) => Rule.required().max(80),
+      validation: (Rule) => Rule.required().max(80).custom(nonblankText),
     }),
     defineField({
       name: "emphasis",
@@ -63,13 +69,13 @@ export const projectApprovalType = defineType({
       name: "name",
       title: "اسم المصنع أو المنتج",
       type: "string",
-      validation: (Rule) => Rule.required().max(60),
+      validation: (Rule) => Rule.required().max(60).custom(nonblankText),
     }),
     defineField({
       name: "description",
       title: "وصف مختصر",
       type: "string",
-      validation: (Rule) => Rule.required().max(80),
+      validation: (Rule) => Rule.required().max(80).custom(nonblankText),
     }),
   ],
   preview: {
@@ -86,14 +92,14 @@ export const projectVerificationType = defineType({
       name: "title",
       title: "عنوان البطاقة",
       type: "string",
-      validation: (Rule) => Rule.required().max(100),
+      validation: (Rule) => Rule.required().max(100).custom(nonblankText),
     }),
     defineField({
       name: "description",
       title: "نص البطاقة",
       type: "text",
       rows: 3,
-      validation: (Rule) => Rule.required().max(400),
+      validation: (Rule) => Rule.required().max(400).custom(nonblankText),
     }),
     defineField({
       name: "icon",
@@ -113,7 +119,7 @@ export const projectVerificationType = defineType({
       name: "footer",
       title: "سطر التذييل",
       type: "string",
-      validation: (Rule) => Rule.required().max(100),
+      validation: (Rule) => Rule.required().max(100).custom(nonblankText),
     }),
     defineField({
       name: "tone",
@@ -142,8 +148,9 @@ export function projectDetailField() {
     type: "object",
     group: "detail",
     description:
-      "كل الحقول اختيارية. يظهر القسم المرتبط بالحقل فقط عند تعبئته، ولا تُنشأ بيانات تلقائية.",
+      "نطاق العمل والدور الهندسي والمواصفات الفنية مطلوبة. توثيق الجودة مطلوب للمشاريع المنفذة أو المعتمدة. أضف بيانات الاعتماد والضمان فقط عند توفرها فعليًا.",
     options: { collapsible: true, collapsed: false },
+    validation: (Rule) => Rule.required(),
     fields: [
       defineField({
         name: "approvalNumber",
@@ -161,10 +168,10 @@ export function projectDetailField() {
       }),
       defineField({
         name: "scope",
-        title: "نطاق العمل (اختياري)",
+        title: "نطاق العمل",
         type: "string",
         description: "قيمة تظهر في شريط بيانات المشروع، مثل: عزل مائي وحراري + ضبط ميول.",
-        validation: (Rule) => Rule.max(80),
+        validation: (Rule) => Rule.required().max(80).custom(nonblankText),
       }),
       defineField({
         name: "coverStandard",
@@ -181,15 +188,16 @@ export function projectDetailField() {
       }),
       defineField({
         name: "engineeringRole",
-        title: "المسؤولية الهندسية والدور التعاقدي (اختياري)",
+        title: "المسؤولية الهندسية والدور التعاقدي",
         type: "object",
+        validation: (Rule) => Rule.required(),
         fields: [
           defineField({
             name: "description",
             title: "النص",
             type: "text",
             rows: 4,
-            validation: (Rule) => Rule.required().max(600),
+            validation: (Rule) => Rule.required().max(600).custom(nonblankText),
           }),
           defineField({
             name: "tags",
@@ -203,8 +211,9 @@ export function projectDetailField() {
       }),
       defineField({
         name: "technicalSpecs",
-        title: "المواصفات الفنية المطبقة (اختياري)",
+        title: "المواصفات الفنية المطبقة",
         type: "object",
+        validation: (Rule) => Rule.required(),
         fields: [
           defineField({
             name: "note",
@@ -238,8 +247,19 @@ export function projectDetailField() {
       }),
       defineField({
         name: "verification",
-        title: "توثيق الجودة والتسليم (اختياري)",
+        title: "توثيق الجودة والتسليم",
         type: "object",
+        description:
+          "أضف بطاقة واحدة على الأقل للمشروع المنفذ أو المعتمد تصف نتيجة الفحص أو وثيقة التسليم المتوفرة فعليًا. اختياري للمشاريع قيد التنفيذ أو ذات الحالة العامة.",
+        validation: (Rule) => Rule.custom((value, { document }) => {
+          const status = document?.status;
+          const tone = status && typeof status === "object" && "tone" in status
+            ? status.tone
+            : undefined;
+          return (tone === "completed" || tone === "certified") && !value
+            ? "أضف توثيق الجودة والتسليم للمشروع المنفذ أو المعتمد."
+            : true;
+        }),
         fields: [
           defineField({
             name: "items",

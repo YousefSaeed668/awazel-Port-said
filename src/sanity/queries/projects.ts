@@ -108,8 +108,7 @@ export const PROJECTS_PAGE_QUERY = defineQuery(`
       eyebrow,
       title,
       description,
-      context,
-      breadcrumbs[]{_key, label, destination{${destinationProjection}}}
+      context
     },
     assurance{
       items[]{_key, title, description, icon}

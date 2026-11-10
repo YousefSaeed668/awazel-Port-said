@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { headerNavigation } from "./headerNavigation";
+
 const PHONE_PATTERN = /^\+?[\d\s().-]{7,24}$/;
 const WHATSAPP_PATTERN = /^\+?[\d\s-]{7,24}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,15 +76,7 @@ export const siteSettingsType = defineType({
       type: "object",
       group: "header",
       fields: [
-        defineField({
-          name: "navigation",
-          title: "روابط التنقل",
-          description:
-            "تُستخدم نفس القائمة في سطح المكتب والقائمة الجوّالة، ويحترم الترتيب هنا. حذف رابط صفحة عامة أو إخفاؤه يمنع فتحها مباشرة ويعرض صفحة 404 بعد النشر. إخفاء المدونة يمنع مقالاتها أيضاً. سياسة الخصوصية صفحة قانونية مستقلة في الشريط السفلي.",
-          type: "array",
-          of: [defineArrayMember({ type: "siteLink" })],
-          validation: (Rule) => Rule.required().min(1).max(10),
-        }),
+        headerNavigation,
         defineField({
           name: "primaryAction",
           title: "إجراء شريط التنقل الأساسي",

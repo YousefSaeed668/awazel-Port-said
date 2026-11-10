@@ -10,7 +10,10 @@ import {
 import { MaxWidth } from "@/components/MaxWidth";
 import { Card, CardContent } from "@/components/ui/card";
 import { MediaFrame } from "@/components/ui/media-frame";
+import { formatProjectDate } from "@/lib/project-detail";
+import type { ProjectListingItem } from "@/lib/projects";
 import type { ServicesPageContent } from "@/lib/services-data";
+import { cn } from "cn";
 
 import { ServicesSectionHeading } from "./services-support-sections";
 
@@ -88,10 +91,11 @@ export function ServicesTechnologies({
 
 export function ServicesAssessment({
   content,
+  project,
 }: {
   content: ServicesPageContent["assessment"];
+  project?: ProjectListingItem;
 }) {
-  const { project } = content;
   return (
     <section
       aria-labelledby="services-assessment-title"
@@ -103,7 +107,12 @@ export function ServicesAssessment({
           heading={content.heading}
         />
         <div className="mt-10 grid items-start gap-8 lg:mt-12 lg:grid-cols-12">
-          <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+          <ol
+            className={cn(
+              "grid gap-4 sm:grid-cols-2",
+              project ? "lg:col-span-7" : "lg:col-span-12",
+            )}
+          >
             {content.factors.map((factor, index) => (
               <li key={factor.id} className="rounded-xl bg-card p-6 shadow-sm">
                 <span
@@ -121,45 +130,47 @@ export function ServicesAssessment({
               </li>
             ))}
           </ol>
-          <Card className="gap-0 py-0 shadow-sm ring-0 lg:col-span-5">
-            <CardContent className="p-6">
-              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                <span className="rounded bg-surface-blue px-2.5 py-1 text-xs font-medium text-link">
-                  {project.badge}
-                </span>
-                <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin aria-hidden="true" className="size-3.5 shrink-0" />
-                  {project.location}
-                </p>
-              </div>
-              <MediaFrame
-                image={project.image}
-                sizes="(min-width: 1344px) 464px, (min-width: 1024px) 38vw, 100vw"
-                className="rounded-lg"
-                mediaClassName="aspect-3/2"
-                overlay={
-                  <span className="rounded bg-brand-navy px-2.5 py-1 text-xs text-primary-foreground">
-                    {project.imageLabel}
+          {project ? (
+            <Card className="gap-0 py-0 shadow-sm ring-0 lg:col-span-5">
+              <CardContent className="p-6">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                  <span className="rounded bg-surface-blue px-2.5 py-1 text-xs font-medium text-link">
+                    {project.category}
                   </span>
-                }
-                overlayClassName="start-3 bottom-3"
-              />
-              <h3 className="mt-4 text-[22px] leading-relaxed font-semibold text-brand-navy">
-                {project.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {project.description}
-              </p>
-              <dl className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-sm">
-                <dt className="text-muted-foreground">
-                  {project.durationLabel}
-                </dt>
-                <dd className="font-medium text-brand-navy">
-                  {project.duration}
-                </dd>
-              </dl>
-            </CardContent>
-          </Card>
+                  <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <MapPin aria-hidden="true" className="size-3.5 shrink-0" />
+                    {project.location}
+                  </p>
+                </div>
+                <MediaFrame
+                  image={project.image}
+                  sizes="(min-width: 1344px) 464px, (min-width: 1024px) 38vw, 100vw"
+                  className="rounded-lg"
+                  mediaClassName="aspect-3/2"
+                  overlay={
+                    <span className="rounded bg-brand-navy px-2.5 py-1 text-xs text-primary-foreground">
+                      {project.measurement.label}: {project.measurement.value}
+                    </span>
+                  }
+                  overlayClassName="start-3 bottom-3"
+                />
+                <h3 className="mt-4 text-[22px] leading-relaxed font-semibold text-brand-navy">
+                  {project.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {project.summary}
+                </p>
+                <dl className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-sm">
+                  <dt className="text-muted-foreground">تاريخ التنفيذ</dt>
+                  <dd className="font-medium text-brand-navy">
+                    <time dateTime={project.completedAt}>
+                      {formatProjectDate(project.completedAt)}
+                    </time>
+                  </dd>
+                </dl>
+              </CardContent>
+            </Card>
+          ) : null}
         </div>
       </MaxWidth>
     </section>

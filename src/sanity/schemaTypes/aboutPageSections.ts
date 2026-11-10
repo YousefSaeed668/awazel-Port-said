@@ -7,45 +7,11 @@ const FACT_ICONS = [
   { title: "كادر هندسي", value: "engineering" },
 ];
 
-const SERVICE_ICONS = [
-  { title: "مبنى", value: "building" },
-  { title: "قطرات", value: "droplets" },
-  { title: "مصنع", value: "factory" },
-  { title: "منزل", value: "house" },
-  { title: "معلم", value: "landmark" },
-  { title: "طبقات", value: "layers" },
-  { title: "هدف", value: "target" },
-  { title: "حرارة", value: "thermometer" },
-];
-
 const VALUE_ICONS = [
   { title: "الجودة", value: "quality" },
   { title: "السلامة", value: "safety" },
   { title: "البيئة", value: "environment" },
 ];
-
-export const aboutBreadcrumbType = defineType({
-  name: "aboutBreadcrumb",
-  title: "عنصر مسار التنقل",
-  type: "object",
-  fields: [
-    defineField({
-      name: "label",
-      title: "التسمية بالعربية",
-      type: "string",
-      validation: (Rule) => Rule.required().max(60),
-    }),
-    defineField({
-      name: "destination",
-      title: "الرابط (اختياري)",
-      type: "destination",
-      description: "اتركه فارغاً للعنصر الحالي في مسار التنقل.",
-    }),
-  ],
-  preview: {
-    select: { title: "label", subtitle: "destination.href" },
-  },
-});
 
 export const aboutParagraphType = defineType({
   name: "aboutParagraph",
@@ -92,43 +58,6 @@ export const aboutFactType = defineType({
   ],
   preview: {
     select: { title: "label", subtitle: "value" },
-  },
-});
-
-export const aboutCapabilityType = defineType({
-  name: "aboutCapability",
-  title: "بطاقة قدرة",
-  type: "object",
-  fields: [
-    defineField({
-      name: "title",
-      title: "العنوان",
-      type: "string",
-      validation: (Rule) => Rule.required().max(120),
-    }),
-    defineField({
-      name: "description",
-      title: "الوصف",
-      type: "text",
-      rows: 4,
-      validation: (Rule) => Rule.required().max(600),
-    }),
-    defineField({
-      name: "icon",
-      title: "الأيقونة",
-      type: "string",
-      options: { layout: "dropdown", list: SERVICE_ICONS },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "action",
-      title: "رابط البطاقة",
-      type: "siteAction",
-      validation: (Rule) => Rule.required(),
-    }),
-  ],
-  preview: {
-    select: { title: "title", subtitle: "action.label", media: "icon" },
   },
 });
 

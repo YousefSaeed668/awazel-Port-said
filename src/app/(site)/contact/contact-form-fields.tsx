@@ -18,7 +18,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import type { ContactFormValues } from "./schema/contact";
+import {
+  CONTACT_FIELD_LABELS,
+  type ContactFormValues,
+} from "./schema/contact";
 
 const FIELD_LABEL_CLASS =
   "flex-wrap gap-1 text-base leading-6 font-medium text-brand-navy";
@@ -48,7 +51,7 @@ export function ContactFormFields({
                 htmlFor="contact-full-name"
                 className={FIELD_LABEL_CLASS}
               >
-                الاسم الكامل
+                {CONTACT_FIELD_LABELS.fullName}
                 <span aria-hidden="true" className="text-destructive">
                   *
                 </span>
@@ -82,7 +85,7 @@ export function ContactFormFields({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1.5">
               <FieldLabel htmlFor="contact-phone" className={FIELD_LABEL_CLASS}>
-                رقم الجوال
+                {CONTACT_FIELD_LABELS.phone}
                 <span aria-hidden="true" className="text-destructive">
                   *
                 </span>
@@ -128,7 +131,7 @@ export function ContactFormFields({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1.5">
               <FieldLabel htmlFor="contact-city" className={FIELD_LABEL_CLASS}>
-                المدينة أو موقع المشروع
+                {CONTACT_FIELD_LABELS.city}
                 <span aria-hidden="true" className="text-destructive">
                   *
                 </span>
@@ -165,7 +168,7 @@ export function ContactFormFields({
                 htmlFor="contact-service"
                 className={FIELD_LABEL_CLASS}
               >
-                الخدمة المطلوبة
+                {CONTACT_FIELD_LABELS.service}
                 <span aria-hidden="true" className="text-destructive">
                   *
                 </span>
@@ -217,7 +220,7 @@ export function ContactFormFields({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1.5">
               <FieldLabel htmlFor="contact-email" className={FIELD_LABEL_CLASS}>
-                البريد الإلكتروني
+                {CONTACT_FIELD_LABELS.email}
                 <span className="text-sm font-normal text-muted-foreground">
                   (اختياري)
                 </span>
@@ -253,9 +256,9 @@ export function ContactFormFields({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid} className="gap-1.5">
               <FieldLabel htmlFor="contact-area" className={FIELD_LABEL_CLASS}>
-                المساحة التقريبية للمشروع
-                <span className="text-sm font-normal text-muted-foreground">
-                  (اختياري)
+                {CONTACT_FIELD_LABELS.area}
+                <span aria-hidden="true" className="text-destructive">
+                  *
                 </span>
               </FieldLabel>
               <div className="relative">
@@ -263,6 +266,7 @@ export function ContactFormFields({
                   {...field}
                   id="contact-area"
                   inputMode="decimal"
+                  aria-required="true"
                   placeholder="مثال: 450"
                   aria-invalid={fieldState.invalid}
                   aria-describedby={
@@ -295,7 +299,7 @@ export function ContactFormFields({
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid} className="gap-1.5">
             <FieldLabel htmlFor="contact-details" className={FIELD_LABEL_CLASS}>
-              تفاصيل المشروع أو الملاحظات الفنية
+              {CONTACT_FIELD_LABELS.details}
               <span className="text-sm font-normal text-muted-foreground">
                 (اختياري)
               </span>

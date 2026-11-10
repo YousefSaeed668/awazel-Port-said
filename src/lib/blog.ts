@@ -168,8 +168,7 @@ export type ArticleTag = {
 
 export type BlogBanners = {
   sidebar: ResolvedDestination | null;
-  wide: ResolvedDestination | null;
-  whatsapp: ResolvedDestination;
+  whatsapp: ResolvedDestination | null;
 };
 
 export type RelatedArticle = { id: string } & Omit<
@@ -261,8 +260,6 @@ export type ArticleWordSourceBlock = {
   }> | null;
   action?: { label?: string | null } | null;
 };
-
-export const DEFAULT_BLOG_WHATSAPP_NUMBER = "966500000000";
 
 export const BLOG_PATH = "/blog";
 
@@ -426,13 +423,6 @@ export function getBlogPageCount(
   return Math.max(1, Math.ceil(totalItems / pageSize));
 }
 
-export function formatArticleCount(count: number) {
-  if (count === 1) return "مقال واحد";
-  if (count === 2) return "مقالين";
-  if (count <= 10) return `${count} مقالات`;
-  return `${count} مقالاً`;
-}
-
 export function formatBlogArticleCount(count: number) {
   if (count === 1) return "مقال فني واحد";
   if (count === 2) return "مقالين فنيين";
@@ -537,10 +527,6 @@ function countTextBlockWords(block: {
     (total, span) => total + countWords(span.text ?? ""),
     0,
   );
-}
-
-export function countArticleWords(body: ArticleBodyValue) {
-  return countArticleSourceWords(body);
 }
 
 export function countArticleSourceWords(

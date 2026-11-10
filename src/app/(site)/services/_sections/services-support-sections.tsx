@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { ClipboardList, MessageCircle, UserRoundCheck } from "lucide-react";
-
 import { MaxWidth } from "@/components/MaxWidth";
 import {
   Accordion,
@@ -8,10 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { SectionHeading } from "@/components/ui/section-heading";
 import type { ServicesHeading, ServicesPageContent } from "@/lib/services-data";
-import { cn } from "cn";
 
 export function ServicesSectionHeading({
   id,
@@ -68,61 +63,6 @@ export function ServicesFaq({
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-      </MaxWidth>
-    </section>
-  );
-}
-
-export function ServicesConsultation({
-  content,
-}: {
-  content: ServicesPageContent["consultation"];
-}) {
-  return (
-    <section
-      aria-labelledby="services-consultation-title"
-      className="bg-brand-navy py-16 text-primary-foreground lg:py-20"
-    >
-      <MaxWidth className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-175">
-          <p className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs font-medium text-brand-gold">
-            <UserRoundCheck aria-hidden="true" className="size-4" />
-            {content.eyebrow}
-          </p>
-          <h2
-            id="services-consultation-title"
-            className="mt-3 text-2xl leading-normal font-semibold sm:text-[32px]"
-          >
-            {content.title}
-          </h2>
-          <p className="mt-3 text-base leading-relaxed text-primary-foreground/85 sm:text-lg">
-            {content.description}
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-          {[content.primaryAction, content.secondaryAction].map(
-            (action, index) => {
-              const Icon = index === 0 ? ClipboardList : MessageCircle;
-              return (
-                <Link
-                  key={index}
-                  href={action.href}
-                  target={action.openInNewTab ? "_blank" : undefined}
-                  rel={action.openInNewTab ? "noopener noreferrer" : undefined}
-                  className={cn(
-                    buttonVariants({
-                      variant: index === 0 ? "inverse" : "whatsapp",
-                    }),
-                    "h-12 rounded-lg px-6 text-base whitespace-normal text-center",
-                  )}
-                >
-                  {action.label}
-                  <Icon aria-hidden="true" className="size-4 shrink-0" />
-                </Link>
-              );
-            },
-          )}
         </div>
       </MaxWidth>
     </section>

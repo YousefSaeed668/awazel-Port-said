@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle, Send, ShieldCheck } from "lucide-react";
+import { LoaderCircle, MessageCircle, Send, ShieldCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 
-import { validateContactRequest } from "./actions";
+import { prepareContactRequest } from "./actions";
 import { ContactFormFields } from "./contact-form-fields";
 import { ContactRoadmap, FormNotice } from "./contact-form-support";
 import {
@@ -38,6 +39,8 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
   });
   const [clientMessage, setClientMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const requestPending = useRef(false);
+  const formRevision = useRef(0);
   const resolver = useMemo(
     () => zodResolver(createContactSchema(serviceOptions)),
     [serviceOptions],
@@ -50,15 +53,16 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
   });
 
   function clearFeedback() {
+    formRevision.current += 1;
     setClientMessage(null);
-    setServerState((current) =>
-      current.status === "validated" ? { status: "idle" } : current,
-    );
+    setServerState({ status: "idle" });
   }
 
   function onValid(values: ContactFormValues) {
-    if (isPending) return;
+    if (isPending || requestPending.current) return;
 
+    requestPending.current = true;
+    const submittedRevision = formRevision.current;
     setClientMessage(null);
     setServerState({ status: "idle" });
 
@@ -68,17 +72,30 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
     }
 
     startTransition(async () => {
-      const result = await validateContactRequest(formData);
-      setServerState(result);
+      try {
+        const result = await prepareContactRequest(formData);
+        if (submittedRevision !== formRevision.current) return;
 
-      if (result.status === "invalid") {
-        for (const [field, messages] of Object.entries(result.fieldErrors)) {
-          if (!isContactFieldName(field)) continue;
-          const message = messages?.[0];
-          if (message) {
-            form.setError(field, { type: "server", message });
+        setServerState(result);
+
+        if (result.status === "invalid") {
+          for (const [field, messages] of Object.entries(result.fieldErrors)) {
+            if (!isContactFieldName(field)) continue;
+            const message = messages?.[0];
+            if (message) {
+              form.setError(field, { type: "server", message });
+            }
           }
         }
+      } catch {
+        if (submittedRevision === formRevision.current) {
+          setServerState({
+            status: "error",
+            message: "تعذر تجهيز الطلب حاليًا. حاول مرة أخرى.",
+          });
+        }
+      } finally {
+        requestPending.current = false;
       }
     });
   }
@@ -89,11 +106,7 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
   }
 
   const errorMessage =
-    serverState.status === "invalid" ||
-    serverState.status === "error" ||
-    serverState.status === "unavailable"
-      ? serverState.message
-      : clientMessage;
+    serverState.status === "invalid" ? serverState.message : clientMessage;
 
   return (
     <div className="flex flex-col gap-8 rounded-xl bg-card p-5 shadow-xs sm:p-8 lg:p-10">
@@ -127,15 +140,14 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
       ) : null}
 
       {errorMessage ? <FormNotice tone="error" message={errorMessage} /> : null}
-      {serverState.status === "validated" ? (
-        <FormNotice tone="notice" message={serverState.message} />
-      ) : null}
 
       <form
         noValidate
         aria-busy={isPending}
         onChange={clearFeedback}
-        onSubmit={form.handleSubmit(onValid, onInvalid)}
+        onSubmit={(event) => {
+          void form.handleSubmit(onValid, onInvalid)(event);
+        }}
         className="flex flex-col gap-6"
       >
         <ContactFormFields
@@ -150,9 +162,9 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
             className="mt-0.5 size-5 shrink-0 text-brand-blue"
           />
           <p className="text-sm leading-6 text-muted-foreground">
-            تُستخدم البيانات التي ترسلها للتواصل معك بخصوص دراسة احتياج مشروعك
-            وتقديم عرض السعر. نحن نحترم خصوصيتك بالكامل ولا نشارك معلوماتك
-            الفنية مع أي طرف ثالث.
+            نجهّز بيانات النموذج في رسالة لطلب عرض السعر. عند فتح واتساب،
+            ستنتقل إلى محادثة الشركة بالرسالة المُعبأة؛ راجعها ثم اضغط إرسال
+            داخل واتساب لإتمام الطلب.
           </p>
         </div>
 
@@ -167,8 +179,27 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
           ) : (
             <Send aria-hidden="true" className="size-4 rtl:-scale-x-100" />
           )}
-          {isPending ? "جارٍ التحقق من الطلب..." : "إرسال طلب عرض السعر"}
+          {isPending ? "جارٍ تجهيز الطلب..." : "تجهيز الطلب لواتساب"}
         </Button>
+
+        {serverState.status === "unavailable" || serverState.status === "error" ? (
+          <FormNotice tone="error" message={serverState.message} />
+        ) : null}
+
+        {serverState.status === "ready" ? (
+          <div className="flex flex-col gap-3">
+            <FormNotice tone="notice" message={serverState.message} />
+            <a
+              href={serverState.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({ variant: "whatsapp", size: "lg" })}
+            >
+              <MessageCircle aria-hidden="true" className="size-4" />
+              فتح الطلب في واتساب
+            </a>
+          </div>
+        ) : null}
       </form>
 
       <ContactRoadmap />

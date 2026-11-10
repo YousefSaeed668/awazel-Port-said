@@ -2,7 +2,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { servicesPageFields } from "./servicesPageSections";
 
-const { text, paragraph, heading, image } = servicesPageFields;
+const { text, paragraph, heading } = servicesPageFields;
 
 export const servicesPageType = defineType({
   name: "servicesPage",
@@ -14,7 +14,6 @@ export const servicesPageType = defineType({
     { name: "technologies", title: "الأنظمة والتقنيات" },
     { name: "assessment", title: "منهجية الفحص" },
     { name: "faq", title: "الأسئلة الشائعة" },
-    { name: "consultation", title: "دعوة الاستشارة" },
     { name: "seo", title: "محركات البحث" },
   ],
   fields: [
@@ -28,13 +27,6 @@ export const servicesPageType = defineType({
         text("eyebrow", "النص التمهيدي", 80),
         text("title", "العنوان"),
         paragraph("description", "الوصف"),
-        defineField({
-          name: "breadcrumbs",
-          title: "مسار التصفح",
-          type: "array",
-          of: [defineArrayMember({ type: "aboutBreadcrumb" })],
-          validation: (Rule) => Rule.required().min(2).max(5),
-        }),
       ],
     }),
     defineField({
@@ -98,22 +90,6 @@ export const servicesPageType = defineType({
           ],
           validation: (Rule) => Rule.required().min(1).max(8),
         }),
-        defineField({
-          name: "project",
-          title: "نموذج العمل الميداني",
-          type: "object",
-          validation: (Rule) => Rule.required(),
-          fields: [
-            text("badge", "شارة النموذج", 80),
-            text("location", "الموقع", 100),
-            image(),
-            text("imageLabel", "التسمية على الصورة", 100),
-            text("title", "عنوان المشروع"),
-            paragraph("description", "وصف المشروع"),
-            text("durationLabel", "تسمية المدة", 80),
-            text("duration", "المدة", 100),
-          ],
-        }),
       ],
     }),
     defineField({
@@ -130,30 +106,6 @@ export const servicesPageType = defineType({
           type: "array",
           of: [defineArrayMember({ type: "homePageFaqItem" })],
           validation: (Rule) => Rule.required().min(1).max(12),
-        }),
-      ],
-    }),
-    defineField({
-      name: "consultation",
-      title: "دعوة الاستشارة",
-      type: "object",
-      group: "consultation",
-      validation: (Rule) => Rule.required(),
-      fields: [
-        text("eyebrow", "النص التمهيدي", 80),
-        text("title", "العنوان"),
-        paragraph("description", "الوصف", 600),
-        defineField({
-          name: "primaryAction",
-          title: "الإجراء الأساسي",
-          type: "siteAction",
-          validation: (Rule) => Rule.required(),
-        }),
-        defineField({
-          name: "secondaryAction",
-          title: "إجراء التواصل الآخر",
-          type: "siteAction",
-          validation: (Rule) => Rule.required(),
         }),
       ],
     }),

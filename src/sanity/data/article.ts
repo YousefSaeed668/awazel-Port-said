@@ -134,9 +134,9 @@ export async function getRelatedArticles(
 }
 
 /**
- * Banner copy is fixed in the template. The singleton contributes primary
- * destinations and the shared WhatsApp number. Missing numbers use the dummy
- * default; missing primary destinations use the site's primary contact action.
+ * Sidebar copy is fixed in the template. The singleton contributes the primary
+ * destination and an optional WhatsApp number. Missing or invalid numbers omit
+ * WhatsApp; the primary destination falls back to the site's contact action.
  */
 export const getBlogBanners = cache(async () => {
   const document = await sanityClient.fetch<BLOG_SETTINGS_QUERY_RESULT>(

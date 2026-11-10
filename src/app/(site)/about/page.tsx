@@ -18,11 +18,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MediaFrame } from "@/components/ui/media-frame";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { aboutData, type AboutPageContent, type AboutPageData } from "@/lib/about-data";
+import type { CertificatesPageContent } from "@/lib/certificates-data";
+import type { ServiceApplication } from "@/lib/services-data";
 import { getAboutPageContent } from "@/sanity/data/about-page";
+import { getCertificatesPageContent } from "@/sanity/data/certificates-page";
 import { requireNavigationPage } from "@/sanity/data/page-availability";
+import { getServicesPageContent } from "@/sanity/data/services-page";
 import { CertificateCard, ServiceCard } from "@/components/company-cards";
 import { WorkStages } from "@/components/work-stages";
 import { cn } from "cn";
+
+const breadcrumbs = [
+  { id: "home", label: "الرئيسية", href: "/" },
+  { id: "about", label: "من نحن" },
+] as const;
 
 const factIcons = {
   verified: BadgeCheck,
@@ -52,30 +61,35 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   await requireNavigationPage("/about");
-  const content = await getAboutPageContent();
+  const [content, services, certificates] = await Promise.all([
+    getAboutPageContent(),
+    getServicesPageContent(),
+    getCertificatesPageContent(),
+  ]);
   const { approvals } = aboutData;
 
   return (
     <>
-      <AboutIntroduction
-        breadcrumbs={content.breadcrumbs}
-        intro={content.intro}
-      />
+      <AboutIntroduction intro={content.intro} />
       <CompanyOverview content={content.company} />
-      <CapabilitiesSection content={content.capabilities} />
+      <CapabilitiesSection
+        content={content.capabilities}
+        items={services.applications.items.slice(0, 3)}
+      />
       <MethodologySection content={content.methodology} />
       <ValuesSection content={content.values} />
-      <ApprovalsSection content={approvals} />
+      <ApprovalsSection
+        content={approvals}
+        items={certificates.certificates.items.slice(0, 3)}
+      />
       <ProfileDownload content={content.profile} />
     </>
   );
 }
 
 function AboutIntroduction({
-  breadcrumbs,
   intro,
 }: {
-  breadcrumbs: AboutPageContent["breadcrumbs"];
   intro: AboutPageContent["intro"];
 }) {
   return (
@@ -202,8 +216,10 @@ function AboutMediaPanel({
 
 function CapabilitiesSection({
   content,
+  items,
 }: {
   content: AboutPageContent["capabilities"];
+  items: readonly ServiceApplication[];
 }) {
   return (
     <section
@@ -216,10 +232,16 @@ function CapabilitiesSection({
           align="center"
           id="about-capabilities-title"
           titleClassName="text-brand-navy"
+          action={{ label: "عرض جميع الخدمات", href: "/services" }}
         />
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {content.items.map(({ id, ...item }) => (
-            <ServiceCard key={id} {...item} />
+          {items.map((item) => (
+            <ServiceCard
+              key={item.id}
+              title={item.title}
+              description={item.description}
+              icon="layers"
+            />
           ))}
         </div>
       </MaxWidth>
@@ -323,8 +345,10 @@ function ValueCard({
 
 function ApprovalsSection({
   content,
+  items,
 }: {
   content: AboutPageData["approvals"];
+  items: CertificatesPageContent["certificates"]["items"];
 }) {
   return (
     <section aria-labelledby="about-approvals-title" className="bg-card py-12">
@@ -334,11 +358,28 @@ function ApprovalsSection({
           id="about-approvals-title"
           titleClassName="text-brand-navy"
         />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {content.items.map(({ id, ...item }) => (
-            <CertificateCard key={id} {...item} className="bg-muted/60" />
-          ))}
-        </div>
+        {items.length ? (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {items.map((item) => (
+              <CertificateCard
+                key={item.id}
+                issuer={item.issuer}
+                issuerSecondaryName={item.issuerSecondaryName}
+                icon={item.icon}
+                description={item.description}
+                status={item.status}
+                badge={item.title}
+                document={item.document}
+                allowPreview={false}
+                className="bg-muted/60"
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-8 rounded-lg border border-dashed border-border bg-muted/60 p-6 text-center text-sm leading-7 text-muted-foreground">
+            لا توجد شهادات منشورة حاليًا.
+          </p>
+        )}
       </MaxWidth>
     </section>
   );

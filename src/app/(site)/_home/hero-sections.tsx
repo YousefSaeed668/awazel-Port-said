@@ -10,7 +10,10 @@ import { CertificateCard, ServiceCard } from "@/components/company-cards";
 import { ProjectCard } from "@/components/content-cards";
 import { cn } from "cn";
 
+import type { CertificatesPageContent } from "@/lib/certificates-data";
 import type { HomepageData } from "@/lib/data";
+import type { ProjectListingItem } from "@/lib/projects";
+import type { ServicesPageContent } from "@/lib/services-data";
 
 const highlightIcons = {
   compliance: { Icon: BadgeCheck, tone: "text-success" },
@@ -89,7 +92,13 @@ export function HeroSection({ content }: { content: HomepageData["hero"] }) {
   );
 }
 
-export function ApprovalsSection({ content }: { content: HomepageData["approvals"] }) {
+export function ApprovalsSection({
+  content,
+  items,
+}: {
+  content: HomepageData["approvals"];
+  items: CertificatesPageContent["certificates"]["items"];
+}) {
   return (
     <section
       id="certifications"
@@ -98,17 +107,38 @@ export function ApprovalsSection({ content }: { content: HomepageData["approvals
     >
       <MaxWidth>
         <SectionHeading {...content.heading} variant="home" id="certifications-title" />
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {content.items.map(({ id, ...item }) => (
-            <CertificateCard key={id} {...item} className="bg-card" />
-          ))}
-        </div>
+        {items.length ? (
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {items.slice(0, 4).map((item) => (
+              <CertificateCard
+                key={item.id}
+                issuer={item.issuer}
+                issuerSecondaryName={item.issuerSecondaryName}
+                description={item.description}
+                status={item.status}
+                badge={item.title}
+                allowPreview={false}
+                className="bg-card"
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-6 rounded-lg border border-dashed border-border bg-card p-6 text-center text-sm leading-7 text-muted-foreground">
+            لا توجد شهادات منشورة حاليًا.
+          </p>
+        )}
       </MaxWidth>
     </section>
   );
 }
 
-export function ServicesSection({ content }: { content: HomepageData["services"] }) {
+export function ServicesSection({
+  content,
+  items,
+}: {
+  content: HomepageData["services"];
+  items: ServicesPageContent["applications"]["items"];
+}) {
   return (
     <section
       id="services"
@@ -118,8 +148,14 @@ export function ServicesSection({ content }: { content: HomepageData["services"]
       <MaxWidth>
         <SectionHeading {...content.heading} variant="home" id="services-title" />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {content.items.map(({ id, ...item }) => (
-            <ServiceCard key={id} {...item} />
+          {items.slice(0, 6).map(({ id, title, description, tags }) => (
+            <ServiceCard
+              key={id}
+              title={title}
+              description={description}
+              tags={tags}
+              icon="layers"
+            />
           ))}
         </div>
       </MaxWidth>
@@ -127,7 +163,13 @@ export function ServicesSection({ content }: { content: HomepageData["services"]
   );
 }
 
-export function ProjectsSection({ content }: { content: HomepageData["projects"] }) {
+export function ProjectsSection({
+  content,
+  items,
+}: {
+  content: HomepageData["projects"];
+  items: readonly ProjectListingItem[];
+}) {
   return (
     <section
       id="projects"
@@ -136,11 +178,29 @@ export function ProjectsSection({ content }: { content: HomepageData["projects"]
     >
       <MaxWidth>
         <SectionHeading {...content.heading} variant="home" id="projects-title" />
-        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {content.items.map(({ id, ...item }) => (
-            <ProjectCard key={id} {...item} />
-          ))}
-        </div>
+        {items.length ? (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {items.map((project) => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                description={project.summary}
+                image={project.image}
+                href={project.href}
+                category={project.category}
+                facts={[
+                  { id: "measurement", ...project.measurement },
+                  { id: "system", ...project.system },
+                  { id: "location", label: "الموقع", value: project.location },
+                ]}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-8 rounded-lg border border-dashed border-border bg-card p-6 text-center text-sm leading-7 text-muted-foreground">
+            لا توجد مشاريع منشورة حاليًا.
+          </p>
+        )}
       </MaxWidth>
     </section>
   );

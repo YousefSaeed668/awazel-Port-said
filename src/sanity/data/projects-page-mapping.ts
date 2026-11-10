@@ -80,20 +80,8 @@ export function mapProjectsPage(
   const assurance = required(document.assurance, "assurance");
   const closing = required(document.closing, "closing");
   const seo = required(document.seo, "seo");
-  const breadcrumbs = keyed(intro.breadcrumbs, "intro.breadcrumbs", 2);
 
   return {
-    breadcrumbs: breadcrumbs.map((item, index) => ({
-      id: item._key,
-      label: requiredText(item.label, "intro.breadcrumbs.label"),
-      href:
-        index < breadcrumbs.length - 1
-          ? destination(
-              item.destination,
-              "intro.breadcrumbs.destination",
-            ).href
-          : undefined,
-    })),
     intro: {
       eyebrow: requiredText(intro.eyebrow, "intro.eyebrow"),
       title: requiredText(intro.title, "intro.title"),

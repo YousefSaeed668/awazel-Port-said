@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import type { HomePageContent } from "@/lib/data";
+import { resolveDestination } from "@/lib/links";
 
 import { sanityClient } from "../lib/client";
 import { HOME_PAGE_TAG } from "../lib/cache-tags";
@@ -120,12 +121,33 @@ function mapCompany(company: QueryCompany): HomePageContent["company"] {
       "company.primaryAction",
       true,
     ),
-    secondaryAction: mapAction(
-      company.secondaryAction,
-      "company.secondaryAction",
-      true,
-    ),
+    secondaryAction: mapCompanySecondaryAction(company.secondaryAction),
   };
+}
+
+function mapCompanySecondaryAction(
+  action: QueryCompany["secondaryAction"],
+): HomePageContent["company"]["secondaryAction"] {
+  const field = "company.secondaryAction";
+  if (!action) {
+    throw new HomePageError(
+      `Sanity homepage content is incomplete: "${field}" is required.`,
+    );
+  }
+  if (action.enabled === false) return null;
+
+  const label = requiredText(action.label, `${field}.label`);
+  if (action.destination?.kind === "companyProfile") {
+    return { kind: "companyProfile", label };
+  }
+
+  const destination = resolveDestination(action.destination);
+  if (!destination) {
+    throw new HomePageError(
+      `Sanity homepage content contains an unsafe or missing destination at "${field}".`,
+    );
+  }
+  return { kind: "link", label, ...destination };
 }
 
 function mapWorkStages(

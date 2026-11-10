@@ -1,5 +1,3 @@
-import type { ResolvedDestination } from "./links";
-
 export interface ServicesHeading {
   eyebrow: string;
   title: string;
@@ -32,7 +30,6 @@ export const SERVICE_TECHNOLOGY_ICONS = [
 export type ServiceTechnologyIcon = (typeof SERVICE_TECHNOLOGY_ICONS)[number];
 
 export interface ServicesPageContent {
-  breadcrumbs: readonly { id: string; label: string; href?: string }[];
   intro: ServicesHeading;
   applications: {
     heading: ServicesHeading;
@@ -54,24 +51,10 @@ export interface ServicesPageContent {
   assessment: {
     heading: ServicesHeading;
     factors: readonly { id: string; title: string; description: string }[];
-    project: {
-      badge: string;
-      location: string;
-      image: { src: string; alt: string };
-      imageLabel: string;
-      title: string;
-      description: string;
-      durationLabel: string;
-      duration: string;
-    };
   };
   faq: {
     heading: ServicesHeading;
     items: readonly { id: string; question: string; answer: string }[];
-  };
-  consultation: ServicesHeading & {
-    primaryAction: ResolvedDestination & { label: string };
-    secondaryAction: ResolvedDestination & { label: string };
   };
   seo: { title: string; description: string };
 }

@@ -1,6 +1,5 @@
 import "server-only";
 
-import { resolveDestination, type DestinationInput } from "@/lib/links";
 import {
   SERVICE_TECHNOLOGY_ICONS,
   type ServicesHeading,
@@ -85,28 +84,6 @@ function image(value: QueryApplication["image"], field: string) {
   };
 }
 
-function destination(value: DestinationInput, field: string) {
-  const result = resolveDestination(value);
-  if (!result)
-    throw new ServicesPageError(
-      `"${field}" has a missing or unsafe destination.`,
-    );
-  return result;
-}
-
-function action(
-  value: NonNullable<QueryDocument["consultation"]>["primaryAction"],
-  field: string,
-) {
-  const source = required(value, field);
-  if (source.enabled === false)
-    throw new ServicesPageError(`"${field}" must be enabled.`);
-  return {
-    ...destination(source.destination, `${field}.destination`),
-    label: text(source.label, `${field}.label`),
-  };
-}
-
 function labels(value: QueryApplication["tags"], field: string) {
   return keyed(value, field).map((item) => ({
     id: item._key,
@@ -147,21 +124,10 @@ export function mapServicesPage(
   const applications = required(document.applications, "applications");
   const technologies = required(document.technologies, "technologies");
   const assessment = required(document.assessment, "assessment");
-  const project = required(assessment.project, "assessment.project");
   const faq = required(document.faq, "faq");
-  const consultation = required(document.consultation, "consultation");
   const seo = required(document.seo, "seo");
-  const breadcrumbs = keyed(intro.breadcrumbs, "intro.breadcrumbs", 2);
 
   return {
-    breadcrumbs: breadcrumbs.map((item, index) => ({
-      id: item._key,
-      label: text(item.label, "intro.breadcrumbs.label"),
-      href:
-        index < breadcrumbs.length - 1
-          ? destination(item.destination, "intro.breadcrumbs.destination").href
-          : undefined,
-    })),
     intro: heading(intro, "intro"),
     applications: {
       heading: heading(applications.heading, "applications.heading"),
@@ -203,22 +169,6 @@ export function mapServicesPage(
           ),
         }),
       ),
-      project: {
-        badge: text(project.badge, "assessment.project.badge"),
-        location: text(project.location, "assessment.project.location"),
-        image: image(project.image, "assessment.project.image"),
-        imageLabel: text(project.imageLabel, "assessment.project.imageLabel"),
-        title: text(project.title, "assessment.project.title"),
-        description: text(
-          project.description,
-          "assessment.project.description",
-        ),
-        durationLabel: text(
-          project.durationLabel,
-          "assessment.project.durationLabel",
-        ),
-        duration: text(project.duration, "assessment.project.duration"),
-      },
     },
     faq: {
       heading: heading(faq.heading, "faq.heading"),
@@ -227,17 +177,6 @@ export function mapServicesPage(
         question: text(item.question, "faq.question"),
         answer: text(item.answer, "faq.answer"),
       })),
-    },
-    consultation: {
-      ...heading(consultation, "consultation"),
-      primaryAction: action(
-        consultation.primaryAction,
-        "consultation.primaryAction",
-      ),
-      secondaryAction: action(
-        consultation.secondaryAction,
-        "consultation.secondaryAction",
-      ),
     },
     seo: {
       title: text(seo.title, "seo.title"),

@@ -41,7 +41,7 @@ const quickLinks = [
     id: "roof",
     icon: House,
     title: "عزل الأسطح والمباني",
-    description: "مائي وحراري وفوم معتمد",
+    description: "تعرّف على تطبيقات العزل",
     href: "/services#service-applications-title",
     page: "/services",
   },
@@ -49,7 +49,7 @@ const quickLinks = [
     id: "foundations",
     icon: Layers3,
     title: "عزل الأساسات والقواعد",
-    description: "أغشية بيتومينية ومطاطية",
+    description: "اطّلع على أنظمة العزل المتاحة",
     href: "/services#service-applications-title",
     page: "/services",
   },
@@ -57,7 +57,7 @@ const quickLinks = [
     id: "tanks",
     icon: Container,
     title: "عزل الخزانات الأرضية",
-    description: "إيبوكسي معتمد لمياه الشرب",
+    description: "استعرض تفاصيل تطبيقات العزل",
     href: "/services#service-applications-title",
     page: "/services",
   },
@@ -65,15 +65,15 @@ const quickLinks = [
     id: "projects",
     icon: Building2,
     title: "سابقة المشاريع المنفذة",
-    description: "مشاريع كبرى بالرياض والمملكة",
+    description: "تصفّح المشاريع المنشورة",
     href: "/#projects",
     page: "/",
   },
   {
     id: "certificates",
     icon: BadgeCheck,
-    title: "شهادات الضمان والاعتماد",
-    description: "ضمان عشري رسمي 10 سنوات",
+    title: "الاعتمادات والشهادات",
+    description: "اطّلع على المستندات المنشورة",
     href: "/certificates",
     page: "/certificates",
   },
@@ -81,7 +81,7 @@ const quickLinks = [
     id: "quote",
     icon: ClipboardCheck,
     title: "طلب معاينة وتسعير",
-    description: "فحص ميداني مجاني من مهندس",
+    description: "تواصل لمناقشة احتياجات مشروعك",
     href: "/contact",
     page: "/contact",
   },
@@ -91,26 +91,26 @@ const assurances = [
   {
     id: "code",
     icon: ShieldCheck,
-    title: "كود البناء السعودي",
-    description: "التزام هندسي معتمد",
+    title: "المواصفات الفنية",
+    description: "تُحدد حسب النظام والمشروع",
   },
   {
     id: "warranty",
     icon: ShieldCheck,
-    title: "ضمان شامل 10 سنوات",
-    description: "مستند رسمي معتمد",
+    title: "شروط الضمان",
+    description: "راجع النطاق والمدة قبل الاعتماد",
   },
   {
     id: "team",
     icon: UsersRound,
-    title: "طواقم هندسية متخصصة",
-    description: "إشراف فني مباشر",
+    title: "تواصل مع الفريق",
+    description: "وضّح متطلبات مشروعك",
   },
   {
     id: "water",
     icon: Droplets,
-    title: "اختبارات غمر هيدروستاتيكية",
-    description: "فحص مائي قبل التسليم",
+    title: "اختبارات التسليم",
+    description: "استفسر عن الفحوص المطلوبة",
   },
 ] as const;
 
@@ -193,9 +193,9 @@ export default async function NotFound() {
                   الصفحة غير موجودة
                 </h1>
                 <p className="mx-auto mt-1 max-w-155 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                  قد يكون الرابط المدخل قد تغيّر، أو تم تعديل تصنيف المواصفة
-                  الفنية ونقل الصفحة إلى مسار جديد. نضمن استمرارية تصفحك لكافة
-                  حلول العزل الهندسي بدقة واعتماد.
+                  قد يكون الرابط المدخل قد تغيّر أو نُقلت الصفحة إلى مسار جديد.
+                  يمكنك العودة إلى الرئيسية أو استخدام الروابط المتاحة للوصول
+                  إلى المحتوى الذي تبحث عنه.
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                   <Link href="/" className={cn(buttonVariants(), "px-8")}>
@@ -224,10 +224,10 @@ export default async function NotFound() {
                         aria-hidden="true"
                         className="size-4 shrink-0 text-brand-blue"
                       />
-                      المسارات الهندسية السريعة الأكثر طلباً:
+                      روابط سريعة لتصفح الموقع:
                     </h2>
                     <p className="text-xs text-muted-foreground">
-                      اعتمادات كود البناء السعودي
+                      اختر القسم المناسب لاحتياجك
                     </p>
                   </div>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2 md:grid-cols-3">
@@ -266,8 +266,8 @@ export default async function NotFound() {
                     aria-hidden="true"
                     className="shrink-0 size-5 text-brand-gold"
                   />
-                  هل تبحث عن تفاصيل مواصفة فنية معينة؟ فريقنا الهندسي متواجد
-                  لخدمتك فوراً:
+                  هل تحتاج إلى مساعدة في العثور على معلومات معينة؟ تواصل معنا
+                  عبر القنوات المتاحة:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {phone?.href ? (
@@ -312,7 +312,7 @@ export default async function NotFound() {
           </Card>
         </MaxWidth>
       </section>
-      <section aria-label="معايير التنفيذ والاعتماد" className="bg-muted py-6">
+      <section aria-label="إرشادات قبل طلب الخدمة" className="bg-muted py-6">
         <MaxWidth className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {assurances.map((item) => (
             <div key={item.id} className="text-center">

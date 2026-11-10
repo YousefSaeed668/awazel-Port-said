@@ -56,13 +56,6 @@ export const projectsPageType = defineType({
             "يظهر أعلى الصفحة بجوار مسار التصفح مع نقطة خضراء.",
           validation: (Rule) => Rule.required().max(160),
         }),
-        defineField({
-          name: "breadcrumbs",
-          title: "مسار التصفح",
-          type: "array",
-          of: [defineArrayMember({ type: "aboutBreadcrumb" })],
-          validation: (Rule) => Rule.required().min(2).max(5),
-        }),
       ],
     }),
     defineField({

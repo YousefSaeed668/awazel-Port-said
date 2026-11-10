@@ -44,12 +44,6 @@ const serviceIcons = {
   thermometer: Thermometer,
 } as const;
 
-const featureIcons = {
-  target: Target,
-  badge: BadgeCheck,
-  shield: ShieldCheck,
-} as const;
-
 type HeadingLevel = 2 | 3;
 
 interface CertificateStatus {
@@ -104,18 +98,10 @@ interface ServiceCardProps {
   title: string;
   description: string;
   icon: keyof typeof serviceIcons;
-  href: string;
+  href?: string;
   linkLabel?: string;
   code?: string;
   tags?: readonly ServiceTag[];
-  headingLevel?: HeadingLevel;
-  className?: string;
-}
-
-interface FeatureCardProps {
-  title: string;
-  description: string;
-  icon: keyof typeof featureIcons;
   headingLevel?: HeadingLevel;
   className?: string;
 }
@@ -418,42 +404,17 @@ export function ServiceCard({
           </ul>
         ) : null}
 
-        <Link
-          href={href}
-          className="mt-auto inline-flex items-center gap-2 self-start rounded-sm pt-2 text-sm font-semibold text-link underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-        >
-          {linkLabel}
-          <ArrowRight aria-hidden="true" className="size-4 rtl:rotate-180" />
-        </Link>
+        {href ? (
+          <Link
+            href={href}
+            className="mt-auto inline-flex items-center gap-2 self-start rounded-sm pt-2 text-sm font-semibold text-link underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+          >
+            {linkLabel}
+            <ArrowRight aria-hidden="true" className="size-4 rtl:rotate-180" />
+          </Link>
+        ) : null}
       </CardContent>
     </Card>
-  );
-}
-
-export function FeatureCard({
-  title,
-  description,
-  icon,
-  headingLevel = 3,
-  className,
-}: FeatureCardProps) {
-  const Icon = featureIcons[icon];
-
-  return (
-    <div className={cn("rounded-lg bg-card p-4 shadow-sm", className)}>
-      <span className="inline-flex size-9 items-center justify-center rounded-lg bg-card text-brand-blue ring-1 ring-border">
-        <Icon aria-hidden="true" className="size-4" />
-      </span>
-      <CardHeading
-        level={headingLevel}
-        className="mt-3 text-sm font-bold leading-6 text-brand-navy"
-      >
-        {title}
-      </CardHeading>
-      <p className="mt-1 text-xs leading-6 text-muted-foreground">
-        {description}
-      </p>
-    </div>
   );
 }
 
@@ -463,7 +424,6 @@ export type {
   CertificateLogo,
   CertificateScope,
   CertificateStatus,
-  FeatureCardProps,
   HeadingLevel,
   ServiceCardProps,
   ServiceTag,

@@ -10,8 +10,6 @@ import { ABOUT_PAGE_QUERY } from "../queries/about-page";
 import type { ABOUT_PAGE_QUERY_RESULT } from "../sanity.types";
 import {
   AboutPageError,
-  mapBreadcrumbs,
-  mapCapabilities,
   mapCompany,
   mapHeading,
   mapMethodology,
@@ -64,10 +62,11 @@ export const getAboutPageContent = cache(
     }
 
     return {
-      breadcrumbs: mapBreadcrumbs(document.intro.breadcrumbs),
       intro: mapHeading(document.intro, "intro"),
       company: mapCompany(document.company),
-      capabilities: mapCapabilities(document.capabilities),
+      capabilities: {
+        heading: mapHeading(document.capabilities.heading, "capabilities.heading"),
+      },
       methodology: mapMethodology(document.methodology),
       values: mapValues(document.values),
       profile: mapProfile(document.profile),

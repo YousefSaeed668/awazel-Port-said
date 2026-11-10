@@ -5,7 +5,6 @@ import {
   BadgeCheck,
   CalendarDays,
   ClipboardList,
-  ClipboardPenLine,
   FileText,
   Files,
   MessageCircle,
@@ -24,6 +23,11 @@ import { getPrivacyPageContent } from "@/sanity/data/privacy-page";
 import { PrivacyArticle } from "./_components/privacy-article";
 import { PrivacyToc } from "./_components/privacy-toc";
 
+const breadcrumbs = [
+  { id: "home", label: "الرئيسية", href: "/" },
+  { id: "privacy", label: "سياسة الخصوصية" },
+] as const;
+
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getPrivacyPageContent();
   return {
@@ -40,7 +44,7 @@ export default async function PrivacyPage() {
     <>
       <div className="bg-muted py-4 print:hidden">
         <MaxWidth className="flex flex-wrap items-center justify-between gap-3">
-          <Breadcrumbs items={content.breadcrumbs} />
+          <Breadcrumbs items={breadcrumbs} />
           <p className="flex items-center gap-2 rounded-full bg-surface-blue px-3 py-1 text-xs font-semibold text-link">
             <Scale aria-hidden="true" className="shrink-0 size-3.5" />
             {intro.context}
@@ -117,7 +121,6 @@ export default async function PrivacyPage() {
         <PrivacySidebar content={content} />
         <PrivacyArticle content={content} />
       </MaxWidth>
-      <PrivacyConsultation content={content.consultation} />
       {content.whatsapp ? (
         <a
           href={content.whatsapp.href}
@@ -185,66 +188,5 @@ function PrivacySidebar({ content }: { content: PrivacyPageContent }) {
         <p className="mt-1 text-xs text-muted-foreground">{sidebar.location}</p>
       </div>
     </aside>
-  );
-}
-
-function PrivacyConsultation({
-  content,
-}: {
-  content: PrivacyPageContent["consultation"];
-}) {
-  return (
-    <section
-      aria-labelledby="privacy-consultation-title"
-      className="bg-brand-navy py-12 text-white print:hidden"
-    >
-      <MaxWidth className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
-        <div className="max-w-168">
-          <p className="text-xs font-medium text-brand-gold">
-            {content.eyebrow}
-          </p>
-          <h2
-            id="privacy-consultation-title"
-            className="mt-1 text-2xl leading-relaxed font-semibold sm:text-3xl"
-          >
-            {content.title}
-          </h2>
-          <p className="mt-1 text-base leading-relaxed text-white/80 sm:text-lg">
-            {content.description}
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-col gap-4 sm:flex-row">
-          {[content.primaryAction, content.secondaryAction].map(
-            (action, index) =>
-              action ? (
-                <Link
-                  key={index === 0 ? "primary" : "secondary"}
-                  href={action.href}
-                  target={action.openInNewTab ? "_blank" : undefined}
-                  rel={action.openInNewTab ? "noopener noreferrer" : undefined}
-                  className={cn(
-                    buttonVariants({ variant: "inverse" }),
-                    index === 1 &&
-                      "border-white/30 bg-white/10 text-white hover:bg-white/20",
-                  )}
-                >
-                  {index === 0 ? (
-                    <ClipboardPenLine
-                      aria-hidden="true"
-                      className="size-4 shrink-0"
-                    />
-                  ) : (
-                    <MessageCircle
-                      aria-hidden="true"
-                      className="size-4 shrink-0"
-                    />
-                  )}
-                  {action.label}
-                </Link>
-              ) : null,
-          )}
-        </div>
-      </MaxWidth>
-    </section>
   );
 }

@@ -8,8 +8,7 @@ const imageProjection = `
 export const SERVICES_PAGE_QUERY = defineQuery(`
   *[_type == "servicesPage" && _id == "servicesPage"][0]{
     intro{
-      eyebrow, title, description,
-      breadcrumbs[]{_key, label, destination{kind, href, openInNewTab}}
+      eyebrow, title, description
     },
     applications{
       heading{eyebrow, title, description},
@@ -25,15 +24,9 @@ export const SERVICES_PAGE_QUERY = defineQuery(`
     },
     assessment{
       heading{eyebrow, title, description},
-      factors[]{_key, title, description},
-      project{badge, location, image{${imageProjection}}, imageLabel, title, description, durationLabel, duration}
+      factors[]{_key, title, description}
     },
     faq{heading{eyebrow, title, description}, items[]{_key, question, answer}},
-    consultation{
-      eyebrow, title, description,
-      primaryAction{enabled, label, destination{kind, href, openInNewTab}},
-      secondaryAction{enabled, label, destination{kind, href, openInNewTab}}
-    },
     seo{title, description}
   }
 `);

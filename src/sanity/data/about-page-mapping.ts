@@ -1,21 +1,17 @@
 import "server-only";
 
 import type { AboutPageContent } from "@/lib/about-data";
-import { resolveDestination } from "@/lib/links";
 
 import { imageUrl } from "../lib/image";
 import type { ABOUT_PAGE_QUERY_RESULT } from "../sanity.types";
 import { downloadHref, formatFileSize } from "./pdf-file";
 
 type QueryDocument = NonNullable<ABOUT_PAGE_QUERY_RESULT>;
-type QueryIntro = NonNullable<QueryDocument["intro"]>;
 type QueryCompany = NonNullable<QueryDocument["company"]>;
 type QueryCapabilities = NonNullable<QueryDocument["capabilities"]>;
 type QueryMethodology = NonNullable<QueryDocument["methodology"]>;
 type QueryValues = NonNullable<QueryDocument["values"]>;
 type QueryProfile = NonNullable<QueryDocument["profile"]>;
-type QueryCapability = NonNullable<QueryCapabilities["items"]>[number];
-type QueryAction = QueryCapability["action"];
 type QueryImage = QueryCompany["image"];
 type QueryHeading = QueryCapabilities["heading"];
 type QueryStage = NonNullable<QueryMethodology["items"]>[number];
@@ -24,16 +20,6 @@ type StageNoteValue = NonNullable<
 >;
 
 const FACT_ICONS = ["verified", "distance", "security", "engineering"] as const;
-const CAPABILITY_ICONS = [
-  "building",
-  "droplets",
-  "factory",
-  "house",
-  "landmark",
-  "layers",
-  "target",
-  "thermometer",
-] as const;
 const VALUE_ICONS = ["quality", "safety", "environment"] as const;
 
 export class AboutPageError extends Error {
@@ -79,17 +65,6 @@ export function requiredIcon<T extends string>(
   );
 }
 
-function requiredDestination(
-  destination: Parameters<typeof resolveDestination>[0],
-  field: string,
-) {
-  const resolved = resolveDestination(destination);
-  if (resolved) return resolved;
-  throw new AboutPageError(
-    `Sanity about content contains an unsafe or missing destination at "${field}".`,
-  );
-}
-
 export function mapImage(
   image: QueryImage,
   field: string,
@@ -118,19 +93,6 @@ export function mapHeading(
   };
 }
 
-function mapAction(
-  action: QueryAction,
-  field: string,
-): { href: string; label: string } {
-  if (!action) throw new AboutPageError(`Sanity about content is incomplete: "${field}" is required.`);
-  if (action.enabled === false) throw new AboutPageError(`Sanity about content has a disabled action at "${field}". Enable it or remove the related card before publishing.`);
-  const destination = requiredDestination(action.destination, `${field}.destination`);
-  return {
-    href: destination.href,
-    label: requiredText(action.label, `${field}.label`),
-  };
-}
-
 function mapStageNote(
   note: QueryStage["phase"],
   field: string,
@@ -140,20 +102,6 @@ function mapStageNote(
     text: requiredText(note.text, `${field}.text`),
     tone: note.tone === "success" ? "success" : "default",
   };
-}
-
-export function mapBreadcrumbs(
-  breadcrumbs: QueryIntro["breadcrumbs"],
-): AboutPageContent["breadcrumbs"] {
-  return requiredList(breadcrumbs, "intro.breadcrumbs").map((item, index) => {
-    const field = `intro.breadcrumbs[${index}]`;
-    const destination = item.destination ? requiredDestination(item.destination, `${field}.destination`) : null;
-    return {
-      id: requiredText(item._key, `${field}._key`),
-      label: requiredText(item.label, `${field}.label`),
-      ...(destination ? { href: destination.href } : {}),
-    };
-  });
 }
 
 export function mapCompany(company: QueryCompany): AboutPageContent["company"] {
@@ -180,26 +128,6 @@ export function mapCompany(company: QueryCompany): AboutPageContent["company"] {
         label: requiredText(company.panel.metric.label, "company.panel.metric.label"),
       },
     },
-  };
-}
-
-export function mapCapabilities(
-  capabilities: QueryCapabilities,
-): AboutPageContent["capabilities"] {
-  return {
-    heading: mapHeading(capabilities.heading, "capabilities.heading"),
-    items: requiredList(capabilities.items, "capabilities.items").map((item, index) => {
-      const field = `capabilities.items[${index}]`;
-      const action = mapAction(item.action, `${field}.action`);
-      return {
-        id: requiredText(item._key, `${field}._key`),
-        title: requiredText(item.title, `${field}.title`),
-        description: requiredText(item.description, `${field}.description`),
-        icon: requiredIcon(item.icon, CAPABILITY_ICONS, `${field}.icon`),
-        href: action.href,
-        linkLabel: action.label,
-      };
-    }),
   };
 }
 

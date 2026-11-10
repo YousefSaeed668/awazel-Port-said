@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { homePageCompanyAction } from "./homePageCompanyAction";
+
 type ImageValue = {
   asset?: { _ref?: string } | null;
   alt?: string | null;
@@ -132,7 +134,7 @@ export const homePageType = defineType({
           validation: (Rule) => Rule.required().min(1).max(6),
         }),
         action("primaryAction", "الإجراء الأساسي"),
-        action("secondaryAction", "الإجراء الثانوي"),
+        homePageCompanyAction,
       ],
     }),
     defineField({

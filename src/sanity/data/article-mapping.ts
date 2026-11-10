@@ -4,7 +4,6 @@ import {
   extractArticleToc,
   formatReadingTime,
   getArticleReadingTimeMinutes,
-  DEFAULT_BLOG_WHATSAPP_NUMBER,
   articlePath,
   formatArticleDate,
   isGenuineArticleUpdate,
@@ -255,16 +254,17 @@ export function mapBlogBanners(
   const configuredNumber = document?.whatsappNumber?.trim() ?? "";
   const whatsappNumber = /^\+?[1-9]\d{7,14}$/.test(configuredNumber)
     ? configuredNumber.replace(/^\+/, "")
-    : DEFAULT_BLOG_WHATSAPP_NUMBER;
+    : null;
 
   return {
     sidebar: resolveDestination(document?.sidebarDestination) ?? null,
-    wide: resolveDestination(document?.wideDestination) ?? null,
-    whatsapp: {
-      href: `https://wa.me/${whatsappNumber}`,
-      external: true,
-      openInNewTab: true,
-    },
+    whatsapp: whatsappNumber
+      ? {
+          href: `https://wa.me/${whatsappNumber}`,
+          external: true,
+          openInNewTab: true,
+        }
+      : null,
   };
 }
 

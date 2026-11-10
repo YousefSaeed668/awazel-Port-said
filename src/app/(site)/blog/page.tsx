@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 
 import { BLOG_PATH } from "@/lib/blog";
 import { getSiteUrl } from "@/lib/utils";
-import { getBlogBanners } from "@/sanity/data/article";
 import { getArticleIndex } from "@/sanity/data/article-index";
 import { getSiteShell } from "@/sanity/data/site-settings";
 import { requireNavigationPage } from "@/sanity/data/page-availability";
 
-import { BlogAdvisoryCta } from "./_listing/blog-advisory-cta";
 import { BlogDirectory } from "./_listing/blog-directory";
 import { BlogHero } from "./_listing/blog-hero";
 
@@ -60,20 +58,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BlogPage() {
   await requireNavigationPage(BLOG_PATH);
-  const [articles, shell, banners] = await Promise.all([
-    getArticleIndex(),
-    getSiteShell(),
-    getBlogBanners(),
-  ]);
+  const articles = await getArticleIndex();
 
   return (
     <>
       <BlogHero articleCount={articles.length} />
       <BlogDirectory articles={articles} />
-      <BlogAdvisoryCta
-        consultation={shell.header.primaryAction}
-        whatsapp={banners.whatsapp}
-      />
     </>
   );
 }

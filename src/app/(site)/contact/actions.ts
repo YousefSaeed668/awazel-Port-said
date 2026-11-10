@@ -2,6 +2,7 @@
 
 import { getSiteShell } from "@/sanity/data/site-settings";
 
+import { prepareContactWhatsAppHref } from "./contact-request";
 import {
   createContactSchema,
   isContactFieldName,
@@ -11,22 +12,24 @@ import {
 } from "./schema/contact";
 
 const INVALID_MESSAGE = "تحقق من الحقول المطلوبة ثم أعد المحاولة.";
-const VALIDATED_MESSAGE =
-  "تم التحقق من البيانات فقط؛ الإرسال غير مفعّل حاليًا.";
+const READY_MESSAGE =
+  "تم تجهيز الطلب. افتح واتساب ثم اضغط إرسال داخل المحادثة لإتمام الطلب.";
 const UNAVAILABLE_MESSAGE =
   "قائمة الخدمات غير مضبوطة في إعدادات الموقع، لذا لا يمكن التحقق من الطلب حاليًا.";
-const ERROR_MESSAGE = "تعذر التحقق من بيانات الطلب حاليًا. حاول مرة أخرى.";
+const WHATSAPP_UNAVAILABLE_MESSAGE =
+  "استقبال الطلبات عبر واتساب غير متاح حاليًا. حاول لاحقًا أو استخدم قنوات التواصل المتاحة.";
+const ERROR_MESSAGE = "تعذر تجهيز الطلب حاليًا. حاول مرة أخرى.";
 
 function readText(formData: FormData, name: ContactFieldName) {
   const value = formData.get(name);
   return typeof value === "string" ? value : "";
 }
 
-export async function validateContactRequest(
+export async function prepareContactRequest(
   formData: FormData,
 ): Promise<ContactFormState> {
   try {
-    const { footer } = await getSiteShell();
+    const { contact, footer } = await getSiteShell();
     const serviceOptions = footer.services.links.map((link) => link.label);
 
     if (serviceOptions.length === 0) {
@@ -62,7 +65,17 @@ export async function validateContactRequest(
       };
     }
 
-    return { status: "validated", message: VALIDATED_MESSAGE };
+    // TODO: Add future email delivery here using the validated values and pure
+    // formatter. This flow only prepares a WhatsApp chat; it sends no message.
+    const whatsappHref = prepareContactWhatsAppHref(
+      result.data,
+      contact.whatsapp,
+    );
+    if (!whatsappHref) {
+      return { status: "unavailable", message: WHATSAPP_UNAVAILABLE_MESSAGE };
+    }
+
+    return { status: "ready", message: READY_MESSAGE, whatsappHref };
   } catch {
     return { status: "error", message: ERROR_MESSAGE };
   }

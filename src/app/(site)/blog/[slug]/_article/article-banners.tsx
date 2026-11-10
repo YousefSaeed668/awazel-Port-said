@@ -1,13 +1,12 @@
-import { MapPin, MessageSquare, ScanLine } from "lucide-react";
+import { MessageSquare, ScanLine } from "lucide-react";
 
-import { MaxWidth } from "@/components/MaxWidth";
 import { buttonVariants } from "@/components/ui/button-variants";
 import type { ResolvedDestination } from "@/lib/links";
 import { cn } from "cn";
 
 type BannerProps = {
   destination: ResolvedDestination | null;
-  whatsappDestination: ResolvedDestination;
+  whatsappDestination: ResolvedDestination | null;
 };
 
 const contactDestination: ResolvedDestination = {
@@ -20,12 +19,10 @@ function BannerAction({
   destination,
   label,
   whatsapp = false,
-  className,
 }: {
   destination: ResolvedDestination;
   label: string;
   whatsapp?: boolean;
-  className?: string;
 }) {
   return (
     <a
@@ -44,7 +41,6 @@ function BannerAction({
           size: "sm",
         }),
         "min-h-11 rounded-lg",
-        className,
       )}
     >
       {whatsapp ? (
@@ -87,58 +83,14 @@ export function ArticleSidebarBanner({
           destination={destination ?? contactDestination}
           label="احجز معاينة فنية لسطحك"
         />
-        <BannerAction
-          destination={whatsappDestination}
-          label="استفسر عبر واتساب"
-          whatsapp
-        />
+        {whatsappDestination ? (
+          <BannerAction
+            destination={whatsappDestination}
+            label="استفسر عبر واتساب"
+            whatsapp
+          />
+        ) : null}
       </div>
-    </section>
-  );
-}
-
-export function ArticleWideBanner({
-  destination,
-  whatsappDestination,
-}: BannerProps) {
-  return (
-    <section
-      aria-labelledby="article-wide-banner-title"
-      className="border-t border-border bg-card py-8 print:hidden"
-    >
-      <MaxWidth>
-        <div className="flex flex-col justify-between gap-6 rounded-2xl bg-linear-to-l from-brand-navy-hover to-brand-navy p-6 text-white shadow-lg lg:flex-row lg:items-center lg:gap-8 lg:p-8">
-          <div className="max-w-2xl">
-            <p className="mb-2 flex items-center gap-1.5 text-xs font-medium text-brand-gold">
-              <MapPin aria-hidden="true" className="size-4" />
-              حلول عزل تناسب طبيعة مبناك
-            </p>
-            <h2
-              id="article-wide-banner-title"
-              className="text-[2rem] leading-normal font-semibold lg:text-[2.5rem] lg:leading-[1.45]"
-            >
-              جاهز لعزل سطح مبناك بمواصفات تدوم طويلاً؟
-            </h2>
-            <p className="mt-1 text-base leading-7 text-white/70">
-              تواصل مع فريقنا لمعاينة الموقع وتحديد النظام الأنسب لسطحك وتقديم
-              عرض أسعار تفصيلي واضح.
-            </p>
-          </div>
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:max-w-sm lg:flex-wrap">
-            <BannerAction
-              destination={destination ?? contactDestination}
-              label="اطلب عرض سعر الآن"
-              className="flex-1 px-6"
-            />
-            <BannerAction
-              destination={whatsappDestination}
-              label="استشارة سريعة واتساب"
-              whatsapp
-              className="flex-1 px-6"
-            />
-          </div>
-        </div>
-      </MaxWidth>
     </section>
   );
 }

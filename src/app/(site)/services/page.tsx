@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { MaxWidth } from "@/components/MaxWidth";
 import { ServiceApplicationCard } from "@/components/service-application-card";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { getProjectIndex } from "@/sanity/data/project-index";
 import { getServicesPageContent } from "@/sanity/data/services-page";
 import { requireNavigationPage } from "@/sanity/data/page-availability";
 
@@ -11,10 +12,14 @@ import {
   ServicesTechnologies,
 } from "./_sections/services-technical-sections";
 import {
-  ServicesConsultation,
   ServicesFaq,
   ServicesSectionHeading,
 } from "./_sections/services-support-sections";
+
+const breadcrumbs = [
+  { id: "home", label: "الرئيسية", href: "/" },
+  { id: "services", label: "خدماتنا" },
+] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   await requireNavigationPage("/services");
@@ -28,7 +33,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ServicesPage() {
   await requireNavigationPage("/services");
-  const content = await getServicesPageContent();
+  const [content, projects] = await Promise.all([
+    getServicesPageContent(),
+    getProjectIndex(),
+  ]);
 
   return (
     <>
@@ -37,7 +45,7 @@ export default async function ServicesPage() {
         className="bg-muted py-12 sm:py-16"
       >
         <MaxWidth>
-          <Breadcrumbs items={content.breadcrumbs} />
+          <Breadcrumbs items={breadcrumbs} />
           <div className="mt-6 max-w-190">
             <p className="inline-flex items-center gap-2 rounded-full bg-surface-blue px-3 py-1 text-xs font-medium text-link">
               <span
@@ -82,9 +90,8 @@ export default async function ServicesPage() {
       </section>
 
       <ServicesTechnologies content={content.technologies} />
-      <ServicesAssessment content={content.assessment} />
+      <ServicesAssessment content={content.assessment} project={projects[0]} />
       <ServicesFaq content={content.faq} />
-      <ServicesConsultation content={content.consultation} />
     </>
   );
 }

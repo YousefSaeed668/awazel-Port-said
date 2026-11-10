@@ -2,39 +2,13 @@ import "server-only";
 
 import type { ComponentProps } from "react";
 
-import type { CertificateCard, ServiceCard } from "@/components/company-cards";
-import type { BlogCard, ProjectCard } from "@/components/content-cards";
 import type { WorkStages } from "@/components/work-stages";
 
-import { SectionHeading } from "@/components/ui/section-heading";
-
-import { companyContent, projectsContent, workStagesContent } from "./homepage-data/company";
-import { articlesContent, faqContent, qualityContent } from "./homepage-data/content";
-import { approvalsContent, heroContent, servicesContent } from "./homepage-data/hero";
+import type { SectionHeading } from "@/components/ui/section-heading";
 
 type SectionIntro = Pick<
   ComponentProps<typeof SectionHeading>,
   "title" | "eyebrow" | "description" | "action"
->;
-
-type CertificateItem = { id: string } & Omit<
-  ComponentProps<typeof CertificateCard>,
-  "className" | "headingLevel"
->;
-
-type ServiceItem = { id: string } & Omit<
-  ComponentProps<typeof ServiceCard>,
-  "className" | "headingLevel"
->;
-
-type ProjectItem = { id: string } & Omit<
-  ComponentProps<typeof ProjectCard>,
-  "className" | "headingLevel" | "imageSizes" | "linkLabel"
->;
-
-type BlogItem = { id: string } & Omit<
-  ComponentProps<typeof BlogCard>,
-  "className" | "headingLevel" | "imageSizes" | "publishedDate"
 >;
 
 type FeatureItem = {
@@ -58,6 +32,11 @@ type HomepageAction = {
   external?: boolean;
   openInNewTab?: boolean;
 } | null;
+
+type CompanySecondaryAction =
+  | ({ kind: "link" } & NonNullable<HomepageAction>)
+  | { kind: "companyProfile"; label: string }
+  | null;
 
 interface HeroHighlight {
   id: string;
@@ -96,15 +75,12 @@ export interface HomepageData {
   };
   approvals: {
     heading: SectionIntro;
-    items: readonly CertificateItem[];
   };
   services: {
     heading: SectionIntro;
-    items: readonly ServiceItem[];
   };
   projects: {
     heading: SectionIntro;
-    items: readonly ProjectItem[];
   };
   company: {
     eyebrow: string;
@@ -117,7 +93,7 @@ export interface HomepageData {
     };
     features: readonly FeatureItem[];
     primaryAction: HomepageAction;
-    secondaryAction: HomepageAction;
+    secondaryAction: CompanySecondaryAction;
   };
   workStages: {
     heading: SectionIntro;
@@ -143,7 +119,6 @@ export interface HomepageData {
   };
   articles: {
     heading: SectionIntro;
-    items: readonly BlogItem[];
   };
 }
 
@@ -152,14 +127,44 @@ export type HomePageContent = Pick<
   "hero" | "company" | "workStages" | "quality" | "faq"
 >;
 
-export const homepageData: HomepageData = {
-  hero: heroContent,
-  approvals: approvalsContent,
-  services: servicesContent,
-  projects: projectsContent,
-  company: companyContent,
-  workStages: workStagesContent,
-  quality: qualityContent,
-  faq: faqContent,
-  articles: articlesContent,
+export const homepageData: Pick<
+  HomepageData,
+  "approvals" | "services" | "projects" | "articles"
+> = {
+  approvals: {
+    heading: {
+      eyebrow: "اعتمادات موثوقة",
+      title: "اعتمادات وشهادات موثوقة",
+      description:
+        "نعمل وفق معايير ومواصفات معتمدة، ونوثّق كل مرحلة لضمان جودة التنفيذ وسلامة المنشأة.",
+      action: { label: "عرض الاعتمادات", href: "/certificates" },
+    },
+  },
+  services: {
+    heading: {
+      eyebrow: "خدماتنا",
+      title: "حلول العزل المناسبة حسب طبيعة المنشأة والتطبيق",
+      description:
+        "نختار النظام الأنسب بعد فحص الموقع، مع مواد معتمدة وتنفيذ دقيق واختبارات تسليم موثقة.",
+      action: { label: "عرض جميع الخدمات", href: "/services" },
+    },
+  },
+  projects: {
+    heading: {
+      eyebrow: "مشاريعنا",
+      title: "نماذج من أعمال العزل المنفذة في الميدان",
+      description:
+        "مشاريع مختارة توضح طريقة التعامل مع اختلاف طبيعة المنشأة ومتطلبات كل موقع.",
+      action: { label: "عرض جميع المشاريع", href: "/projects" },
+    },
+  },
+  articles: {
+    heading: {
+      eyebrow: "المدونة",
+      title: "مقالات وإرشادات فنية لحماية المبنى",
+      description:
+        "محتوى عملي يساعدك على فهم أنظمة العزل واتخاذ قرارات صيانة مدروسة.",
+      action: { label: "عرض جميع المقالات", href: "/blog" },
+    },
+  },
 };

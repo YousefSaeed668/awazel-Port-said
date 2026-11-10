@@ -17,6 +17,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { WorkStages } from "@/components/work-stages";
 import { cn } from "cn";
 
+import type { CompanyProfileFile } from "@/lib/certificates-data";
 import type { HomepageData } from "@/lib/data";
 
 const featureIcons = {
@@ -33,8 +34,10 @@ const checkIcons = {
 
 export function CompanySection({
   content,
+  profileFile,
 }: {
   content: HomepageData["company"];
+  profileFile: CompanyProfileFile | null;
 }) {
   return (
     <section id="about" aria-labelledby="about-title" className="bg-background py-12">
@@ -67,23 +70,73 @@ export function CompanySection({
                 </Link>
               ) : null}
               {content.secondaryAction ? (
-                <Link
-                  href={content.secondaryAction.href}
-                  target={content.secondaryAction.openInNewTab ? "_blank" : undefined}
-                  rel={content.secondaryAction.openInNewTab ? "noreferrer" : undefined}
-                  className={cn(
-                    buttonVariants({ variant: "outline" }),
-                    "border-border bg-card",
-                  )}
-                >
-                  {content.secondaryAction.label}
-                </Link>
+                <CompanySecondaryAction
+                  action={content.secondaryAction}
+                  file={profileFile}
+                />
               ) : null}
             </div>
           </div>
         </div>
       </MaxWidth>
     </section>
+  );
+}
+
+function CompanySecondaryAction({
+  action,
+  file,
+}: {
+  action: NonNullable<HomepageData["company"]["secondaryAction"]>;
+  file: CompanyProfileFile | null;
+}) {
+  const className = cn(
+    buttonVariants({ variant: "outline" }),
+    "border-border bg-card",
+  );
+
+  if (action.kind === "link") {
+    return (
+      <Link
+        href={action.href}
+        target={action.openInNewTab ? "_blank" : undefined}
+        rel={action.openInNewTab ? "noreferrer" : undefined}
+        className={className}
+      >
+        {action.label}
+      </Link>
+    );
+  }
+
+  if (!file) {
+    return (
+      <div className="flex flex-col gap-2">
+        <span
+          aria-disabled="true"
+          aria-describedby="home-profile-unavailable"
+          className={cn(className, "cursor-not-allowed")}
+        >
+          {action.label}
+        </span>
+        <p
+          id="home-profile-unavailable"
+          className="text-xs leading-6 text-muted-foreground"
+        >
+          ملف الشركة غير متوفر حاليًا.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={file.href}
+      download={file.fileName}
+      title={file.fileName}
+      className={className}
+    >
+      {action.label}
+    </a>
   );
 }
 

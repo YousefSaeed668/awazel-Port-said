@@ -25,7 +25,7 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
             className="block h-0.5 w-8 rounded-full bg-brand-gold"
           />
           <p className="text-sm leading-6 text-muted-foreground">
-            للاستفسارات العاجلة واستشارات المقاولين المباشرة في الرياض.
+            للاستفسارات ومناقشة متطلبات المشاريع عبر القنوات المتاحة.
           </p>
         </div>
 
@@ -112,9 +112,8 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
           </span>
         </div>
         <p className="text-base leading-7 text-muted-foreground">
-          نطاق التغطية الميدانية المعتمد: مدينة الرياض وكافة أحيائها ومحيطها
-          الجغرافي للمشاريع السكنية والتجارية، مع دراسة إمكانية تنفيذ المشاريع
-          الكبرى والمستودعات في المدن الأخرى حسب طبيعة وحجم المشروع.
+          اذكر المدينة وموقع المشروع عند التواصل، ليتم تأكيد إمكانية تقديم
+          الخدمة في موقعك حسب طبيعة المشروع ومتطلباته.
         </p>
       </section>
 
@@ -124,20 +123,20 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
             <MapPin aria-hidden="true" className="size-5" />
           </span>
           <span className="rounded-full bg-card px-3 py-1 text-sm font-semibold text-brand-navy shadow-sm">
-            موقع المقر غير مضاف إلى الخريطة بعد
+            خريطة المقر غير متوفرة حاليًا
           </span>
           <p className="max-w-xs text-xs leading-5 text-muted-foreground">
-            لا يتوفر رابط خريطة معتمد في إعدادات الموقع حاليًا؛ سيظهر الموقع هنا
-            بعد إضافته.
+            للحصول على إرشادات الوصول إلى المقر، تواصل عبر القنوات المتاحة
+            أعلاه.
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-4">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-surface-blue px-3 py-1.5 text-sm text-muted-foreground">
             <Compass aria-hidden="true" className="size-3.5 text-brand-blue" />
-            سهولة الوصول عبر الملاحة
+            إرشادات الوصول إلى المقر
           </span>
           <span className="text-xs leading-5 text-muted-foreground">
-            يتطلب رابط خريطة معتمدًا
+            الخريطة غير متوفرة حاليًا
           </span>
         </div>
       </section>

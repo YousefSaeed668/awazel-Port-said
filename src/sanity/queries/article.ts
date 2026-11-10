@@ -235,7 +235,6 @@ export const ARTICLE_INDEX_QUERY = defineQuery(`
 export const BLOG_SETTINGS_QUERY = defineQuery(`
   *[_type == "blogSettings" && _id == "blogSettings"][0]{
     whatsappNumber,
-    sidebarDestination{${destinationProjection}},
-    wideDestination{${destinationProjection}}
+    sidebarDestination{${destinationProjection}}
   }
 `);

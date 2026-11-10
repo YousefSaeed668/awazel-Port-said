@@ -12,12 +12,22 @@ export const CONTACT_FIELD_NAMES = [
 
 export type ContactFieldName = (typeof CONTACT_FIELD_NAMES)[number];
 
+export const CONTACT_FIELD_LABELS = {
+  fullName: "الاسم الكامل",
+  phone: "رقم الجوال",
+  city: "المدينة أو موقع المشروع",
+  service: "الخدمة المطلوبة",
+  email: "البريد الإلكتروني",
+  area: "المساحة التقريبية للمشروع",
+  details: "تفاصيل المشروع أو الملاحظات الفنية",
+} satisfies Record<ContactFieldName, string>;
+
 export type ContactFieldErrors = Partial<Record<ContactFieldName, string[]>>;
 
 export type ContactFormState =
   | { status: "idle" }
   | { status: "invalid"; message: string; fieldErrors: ContactFieldErrors }
-  | { status: "validated"; message: string }
+  | { status: "ready"; message: string; whatsappHref: string }
   | { status: "unavailable"; message: string }
   | { status: "error"; message: string };
 
@@ -90,6 +100,7 @@ const contactSchema = z.object({
   area: z
     .string()
     .trim()
+    .min(1, "المساحة التقريبية للمشروع مطلوبة.")
     .refine(
       (value) => value === "" || isContactArea(value),
       "أدخل المساحة بالأرقام فقط، مثل 450 أو 450.5.",

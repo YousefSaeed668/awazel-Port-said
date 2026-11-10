@@ -99,7 +99,6 @@ export default async function ArticlePage({ params }: ArticleRouteProps) {
         banners={{
           ...banners,
           sidebar: banners.sidebar ?? shell.header.primaryAction,
-          wide: banners.wide ?? shell.header.primaryAction,
         }}
         related={related}
         canonicalUrl={canonicalUrl}

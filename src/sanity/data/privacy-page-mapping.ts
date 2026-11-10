@@ -143,7 +143,6 @@ export function mapPrivacyPage(
   const contact = required(source.contact, "contact");
   const publication = required(source.publication, "publication");
   const sidebar = required(source.sidebar, "sidebar");
-  const consultation = required(source.consultation, "consultation");
   const seo = required(source.seo, "seo");
   const updatedOn = text(intro.updatedOn, "intro.updatedOn");
   if (
@@ -172,22 +171,6 @@ export function mapPrivacyPage(
     };
   }
   return {
-    breadcrumbs: keyed(intro.breadcrumbs, "intro.breadcrumbs", 2).map(
-      (item) => {
-        const destination = item.destination
-          ? resolveDestination(item.destination)
-          : null;
-        if (item.destination && (!destination || destination.external))
-          throw new PrivacyPageError(
-            "Breadcrumbs must use safe internal paths.",
-          );
-        return {
-          id: item._key,
-          label: text(item.label, "breadcrumbs.label"),
-          href: destination?.href,
-        };
-      },
-    ),
     intro: {
       context: text(intro.context, "intro.context"),
       eyebrow: text(intro.eyebrow, "intro.eyebrow"),
@@ -232,19 +215,6 @@ export function mapPrivacyPage(
       contactTitle: text(sidebar.contactTitle, "sidebar.contactTitle"),
       emailLabel: text(sidebar.emailLabel, "sidebar.emailLabel"),
       location: text(sidebar.location, "sidebar.location"),
-    },
-    consultation: {
-      eyebrow: text(consultation.eyebrow, "consultation.eyebrow"),
-      title: text(consultation.title, "consultation.title"),
-      description: text(consultation.description, "consultation.description"),
-      primaryAction: action(
-        consultation.primaryAction,
-        "consultation.primaryAction",
-      ),
-      secondaryAction: action(
-        consultation.secondaryAction,
-        "consultation.secondaryAction",
-      ),
     },
     whatsapp,
     seo: {

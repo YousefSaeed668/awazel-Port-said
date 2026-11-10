@@ -68,7 +68,6 @@ export type ProjectCategoryFacet = {
 };
 
 export type ProjectsPageContent = {
-  breadcrumbs: readonly { id: string; label: string; href?: string }[];
   intro: {
     eyebrow: string;
     title: string;
