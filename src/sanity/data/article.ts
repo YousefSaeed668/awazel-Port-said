@@ -175,3 +175,8 @@ export const getArticleSitemapEntries = cache(async () => {
 
   return mapArticleSitemapEntries(documents);
 });
+
+
+export const getArticleStaticSlugs = cache(async () =>
+  (await getArticleSitemapEntries()).map((entry) => entry.slug),
+);

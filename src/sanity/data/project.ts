@@ -115,3 +115,8 @@ export const getProjectSitemapEntries = cache(
     return mapProjectSitemapEntries(documents);
   },
 );
+
+
+export const getProjectStaticSlugs = cache(async () =>
+  (await getProjectSitemapEntries()).map((entry) => entry.slug),
+);

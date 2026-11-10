@@ -4,6 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { getSiteUrl } from "@/lib/utils";
 import {
   getArticlePage,
+  getArticleStaticSlugs,
   getBlogBanners,
   getRelatedArticles,
   normalizeArticleSlug,
@@ -17,6 +18,16 @@ import { ArticleView } from "./_article/article-view";
 type ArticleRouteProps = {
   params: Promise<{ slug: string }>;
 };
+
+/**
+ * Prerender every published article. Slugs published after the build are
+ * rendered on demand (`dynamicParams` stays true) and cached, then refreshed
+ * by the Sanity webhook's `blog-articles`/`article:<id>` tag invalidation.
+ */
+export async function generateStaticParams() {
+  const slugs = await getArticleStaticSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,

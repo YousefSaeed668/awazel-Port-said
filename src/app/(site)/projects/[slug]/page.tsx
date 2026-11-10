@@ -7,6 +7,7 @@ import { getSiteUrl } from "@/lib/utils";
 import { requireNavigationPage } from "@/sanity/data/page-availability";
 import {
   getProjectPage,
+  getProjectStaticSlugs,
   getRelatedProjects,
 } from "@/sanity/data/project";
 import { getProjectsPageContent } from "@/sanity/data/projects-page";
@@ -23,6 +24,16 @@ import { ProjectVerification } from "./_detail/project-verification";
 type ProjectRouteProps = {
   params: Promise<{ slug: string }>;
 };
+
+/**
+ * Prerender every published project. Slugs published after the build are
+ * rendered on demand (`dynamicParams` stays true) and cached, then refreshed
+ * by the Sanity webhook's `projects`/`project:<id>` tag invalidation.
+ */
+export async function generateStaticParams() {
+  const slugs = await getProjectStaticSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,
