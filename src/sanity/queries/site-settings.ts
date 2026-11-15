@@ -91,7 +91,9 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
       whatsapp,
       email,
       address,
-      workingHours
+      workingHours,
+      mapEnabled,
+      mapEmbed
     },
     defaultSeo{
       title,

@@ -32,6 +32,7 @@ export type ContactDetailsViewModel = {
   emailHref: string | null;
   address: string;
   workingHours: string | null;
+  mapEmbedUrl: string | null;
 };
 
 export type HeaderViewModel = {

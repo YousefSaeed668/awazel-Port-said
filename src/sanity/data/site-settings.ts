@@ -4,6 +4,7 @@ import { cache } from "react";
 
 import { validateHeaderNavigation } from "@/lib/header-navigation";
 import {
+  getGoogleMapsEmbedUrl,
   getMailtoHref,
   getTelHref,
   getWhatsAppHref,
@@ -218,6 +219,10 @@ function mapContact(document: SiteSettingsDocument): ContactDetailsViewModel {
     emailHref: getMailtoHref(email) ?? null,
     address,
     workingHours,
+    mapEmbedUrl:
+      contact?.mapEnabled === true
+        ? getGoogleMapsEmbedUrl(contact.mapEmbed)
+        : null,
   };
 }
 

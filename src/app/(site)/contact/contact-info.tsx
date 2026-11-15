@@ -119,25 +119,38 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
       </section>
 
       <section className="overflow-hidden rounded-xl bg-card shadow-xs">
-        <div className="relative flex h-52 flex-col items-center justify-center gap-3 bg-surface-blue p-4 text-center">
-          <span className="flex size-12 items-center justify-center rounded-full bg-brand-navy text-primary-foreground shadow-lg">
-            <MapPin aria-hidden="true" className="size-5" />
-          </span>
-          <span className="rounded-full bg-card px-3 py-1 text-sm font-semibold text-brand-navy shadow-sm">
-            خريطة المقر غير متوفرة حاليًا
-          </span>
-          <p className="max-w-xs text-xs leading-5 text-muted-foreground">
-            لتنسيق زيارة أو الحصول على وصف الوصول، استخدم إحدى قنوات التواصل
-            المتاحة.
-          </p>
-        </div>
+        {contact.mapEmbedUrl ? (
+          <iframe
+            src={contact.mapEmbedUrl}
+            title="موقع مقر الشركة على خرائط Google"
+            width="600"
+            height="450"
+            className="block h-80 w-full border-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        ) : (
+          <div className="relative flex h-52 flex-col items-center justify-center gap-3 bg-surface-blue p-4 text-center">
+            <span className="flex size-12 items-center justify-center rounded-full bg-brand-navy text-primary-foreground shadow-lg">
+              <MapPin aria-hidden="true" className="size-5" />
+            </span>
+            <span className="rounded-full bg-card px-3 py-1 text-sm font-semibold text-brand-navy shadow-sm">
+              خريطة المقر غير متوفرة حاليًا
+            </span>
+            <p className="max-w-xs text-xs leading-5 text-muted-foreground">
+              لتنسيق زيارة أو الحصول على وصف الوصول، استخدم إحدى قنوات التواصل
+              المتاحة.
+            </p>
+          </div>
+        )}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-4">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-surface-blue px-3 py-1.5 text-sm text-muted-foreground">
             <Compass aria-hidden="true" className="size-3.5 text-brand-blue" />
             الوصول إلى الشركة
           </span>
           <span className="text-xs leading-5 text-muted-foreground">
-            الخريطة غير متوفرة حاليًا
+            {contact.mapEmbedUrl ? "خرائط Google" : "الخريطة غير متوفرة حاليًا"}
           </span>
         </div>
       </section>

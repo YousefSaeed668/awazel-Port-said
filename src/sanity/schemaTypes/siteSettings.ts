@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { getGoogleMapsEmbedUrl } from "@/lib/links";
+
 import { headerNavigation } from "./headerNavigation";
 
 const PHONE_PATTERN = /^\+?[\d\s().-]{7,24}$/;
@@ -205,6 +207,31 @@ export const siteSettingsType = defineType({
           title: "ساعات العمل (اختياري)",
           type: "string",
           validation: (Rule) => Rule.max(160),
+        }),
+        defineField({
+          name: "mapEnabled",
+          title: "عرض خريطة المقر في صفحة التواصل",
+          type: "boolean",
+          initialValue: false,
+          description:
+            "فعّل الخيار وأضف تضمين خرائط Google لعرض الموقع. عند إيقافه تظهر رسالة عدم توفر الخريطة الحالية.",
+        }),
+        defineField({
+          name: "mapEmbed",
+          title: "رابط أو كود تضمين خرائط Google",
+          type: "text",
+          rows: 4,
+          description:
+            "من خرائط Google اختر مشاركة ← تضمين خريطة ← نسخ HTML، ثم الصق كود iframe هنا. يمكنك أيضًا لصق رابط src الذي يبدأ بـ https://www.google.com/maps/embed مباشرةً. ثم انشر إعدادات الموقع.",
+          hidden: ({ parent }) => parent?.mapEnabled !== true,
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              const contact = context.parent as { mapEnabled?: boolean } | undefined;
+              if (contact?.mapEnabled !== true) return true;
+              return getGoogleMapsEmbedUrl(value)
+                ? true
+                : "أضف كود iframe أو رابط تضمين صالحًا من خرائط Google، أو أوقف عرض الخريطة.";
+            }),
         }),
       ],
     }),

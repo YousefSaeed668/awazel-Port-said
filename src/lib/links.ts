@@ -91,3 +91,30 @@ export function getWhatsAppHref(number: string | null | undefined) {
   const digits = number.replace(/\D/g, "");
   return digits ? `https://wa.me/${digits}` : undefined;
 }
+
+export function getGoogleMapsEmbedUrl(value: string | null | undefined) {
+  const input = value?.trim();
+  if (!input) return null;
+
+  // Accept Google's copied iframe, but use only its validated src, never its HTML.
+  const source = input.startsWith("<")
+    ? input.match(/^<iframe\b[^>]*?\s+src\s*=\s*(["'])(.*?)\1/i)?.[2]
+    : input;
+  const href = source?.replace(/&amp;/gi, "&");
+  if (!href || UNSAFE_URL_CHARACTERS.test(href)) return null;
+
+  try {
+    const url = new URL(href);
+    return url.protocol === "https:" &&
+      (url.hostname === "www.google.com" || url.hostname === "google.com") &&
+      !url.username &&
+      !url.password &&
+      !url.port &&
+      (url.pathname === "/maps/embed" ||
+        url.pathname.startsWith("/maps/embed/v1/"))
+      ? url.href
+      : null;
+  } catch {
+    return null;
+  }
+}
