@@ -15,6 +15,7 @@ export function FaqSection({ content }: { content: HomepageData["faq"] }) {
       <MaxWidth>
         <div className="mx-auto max-w-3xl">
           <SectionHeading
+            className="home-motion-heading"
             variant="home"
             id="faq-title"
             eyebrow={content.heading.eyebrow}
@@ -23,7 +24,7 @@ export function FaqSection({ content }: { content: HomepageData["faq"] }) {
           />
           <Accordion
             defaultValue={content.items.length ? [content.items[0].id] : []}
-            className="mt-8 gap-2"
+            className="home-motion-faq mt-8 gap-2"
           >
             {content.items.map((item) => (
               <AccordionItem

@@ -25,7 +25,8 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
             className="block h-0.5 w-8 rounded-full bg-brand-gold"
           />
           <p className="text-sm leading-6 text-muted-foreground">
-            للاستفسارات ومناقشة متطلبات المشاريع عبر القنوات المتاحة.
+            استخدم القنوات المنشورة أدناه، مع ذكر موقع المشروع والخدمة
+            المطلوبة.
           </p>
         </div>
 
@@ -105,15 +106,15 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
       <section className="flex flex-col gap-3 rounded-xl bg-card p-5 shadow-xs sm:p-8">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-brand-navy">
-            نطاق وتغطية الخدمات الميدانية
+            مقر الشركة وموقع المشروع
           </h3>
           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-surface-blue text-brand-blue">
             <MapPinned aria-hidden="true" className="size-4" />
           </span>
         </div>
         <p className="text-base leading-7 text-muted-foreground">
-          اذكر المدينة وموقع المشروع عند التواصل، ليتم تأكيد إمكانية تقديم
-          الخدمة في موقعك حسب طبيعة المشروع ومتطلباته.
+          مقر الشركة في الرياض. اذكر المدينة وموقع المشروع عند التواصل حتى يمكن
+          تأكيد إمكان تنسيق المعاينة والتنفيذ قبل الاتفاق.
         </p>
       </section>
 
@@ -126,14 +127,14 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
             خريطة المقر غير متوفرة حاليًا
           </span>
           <p className="max-w-xs text-xs leading-5 text-muted-foreground">
-            للحصول على إرشادات الوصول إلى المقر، تواصل عبر القنوات المتاحة
-            أعلاه.
+            لتنسيق زيارة أو الحصول على وصف الوصول، استخدم إحدى قنوات التواصل
+            المتاحة.
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-4">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-surface-blue px-3 py-1.5 text-sm text-muted-foreground">
             <Compass aria-hidden="true" className="size-3.5 text-brand-blue" />
-            إرشادات الوصول إلى المقر
+            الوصول إلى الشركة
           </span>
           <span className="text-xs leading-5 text-muted-foreground">
             الخريطة غير متوفرة حاليًا
@@ -142,15 +143,16 @@ export function ContactInfo({ contact }: { contact: ContactDetailsViewModel }) {
       </section>
 
       <section className="flex gap-4 rounded-xl bg-surface-blue p-6 shadow-xs">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           <h3 className="text-base font-semibold text-brand-navy">
-            إرشادات قبل طلب التسعير
+            معلومات تساعدنا على فهم احتياجك
           </h3>
-          <p className="text-sm leading-6 text-foreground">
-            للحصول على مقايسة دقيقة، يُفضل تجهيز المساحة التقريبية وتحديد ما إذا
-            كان السطح يحتوي على صبة ميول سابقة أو مزاريب أمطار قائمة أو تمديدات
-            تكييف ظاهرة.
-          </p>
+          <ul className="list-disc space-y-1 ps-5 text-sm leading-6 text-foreground">
+            <li>نوع المساحة، مثل سطح أو خزان أو أساسات أو منطقة رطبة</li>
+            <li>المساحة التقريبية وحالة التشطيب أو العزل القائم</li>
+            <li>مواضع الرطوبة أو تجمع الماء ووقت ظهور المشكلة إن وجدت</li>
+            <li>أي قيود للوصول إلى الموقع أو توقيت تنفيذ مطلوب</li>
+          </ul>
         </div>
         <Lightbulb
           aria-hidden="true"

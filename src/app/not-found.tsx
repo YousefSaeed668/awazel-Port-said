@@ -32,7 +32,7 @@ import SiteLayout from "./(site)/layout";
 export const metadata: Metadata = {
   title: "الصفحة غير موجودة",
   description:
-    "تعذر العثور على الصفحة المطلوبة. تصفح خدمات شركة عوازل بورسعيد أو تواصل مع فريقنا.",
+    "تعذر العثور على الصفحة المطلوبة. يمكنك العودة إلى الرئيسية أو استعراض خدمات شركة عوازل بورسعيد.",
   robots: { index: false, follow: false },
 };
 
@@ -89,28 +89,28 @@ const quickLinks = [
 
 const assurances = [
   {
-    id: "code",
+    id: "scope",
     icon: ShieldCheck,
-    title: "المواصفات الفنية",
-    description: "تُحدد حسب النظام والمشروع",
+    title: "نطاق واضح",
+    description: "حدد المساحة والأعمال المطلوبة عند طلب العرض",
+  },
+  {
+    id: "system",
+    icon: ShieldCheck,
+    title: "نظام مناسب",
+    description: "اسأل عن ملاءمة النظام لحالة الموقع",
   },
   {
     id: "warranty",
-    icon: ShieldCheck,
-    title: "شروط الضمان",
-    description: "راجع النطاق والمدة قبل الاعتماد",
-  },
-  {
-    id: "team",
     icon: UsersRound,
-    title: "تواصل مع الفريق",
-    description: "وضّح متطلبات مشروعك",
+    title: "شروط مفهومة",
+    description: "راجع المدة والتغطية والاستثناءات قبل التعاقد",
   },
   {
-    id: "water",
+    id: "use",
     icon: Droplets,
-    title: "اختبارات التسليم",
-    description: "استفسر عن الفحوص المطلوبة",
+    title: "استخدام صحيح",
+    description: "استفسر عن الحماية والمعالجة قبل استخدام المساحة",
   },
 ] as const;
 
@@ -132,7 +132,7 @@ export default async function NotFound() {
           <Breadcrumbs
             items={[
               { label: "الرئيسية", href: "/" },
-              { label: "خطأ 404 (الصفحة غير موجودة)" },
+              { label: "الصفحة غير موجودة" },
             ]}
           />
           <p className="flex items-center gap-1 rounded bg-card px-2 py-1 text-xs text-muted-foreground">
@@ -162,7 +162,7 @@ export default async function NotFound() {
               <div className="text-center">
                 <p className="inline-flex items-center gap-1 rounded-full bg-surface-blue px-4 py-1.5 text-xs font-medium text-link">
                   <Signpost aria-hidden="true" className="shrink-0 size-3.5" />
-                  رمز التوجيه الفني المقاولاتي
+                  خطأ 404
                 </p>
                 <div
                   aria-label="404"
@@ -193,9 +193,9 @@ export default async function NotFound() {
                   الصفحة غير موجودة
                 </h1>
                 <p className="mx-auto mt-1 max-w-155 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                  قد يكون الرابط المدخل قد تغيّر أو نُقلت الصفحة إلى مسار جديد.
-                  يمكنك العودة إلى الرئيسية أو استخدام الروابط المتاحة للوصول
-                  إلى المحتوى الذي تبحث عنه.
+                  قد يكون الرابط تغير أو لم تعد هذه الصفحة متاحة. يمكنك العودة
+                  إلى الرئيسية أو استعراض خدمات العزل للوصول إلى المعلومات التي
+                  تحتاجها.
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                   <Link href="/" className={cn(buttonVariants(), "px-8")}>
@@ -211,7 +211,7 @@ export default async function NotFound() {
                         aria-hidden="true"
                         className="size-4 shrink-0"
                       />
-                      استعراض خدماتنا
+                      استعراض خدمات العزل
                     </Link>
                   ) : null}
                 </div>
@@ -224,7 +224,7 @@ export default async function NotFound() {
                         aria-hidden="true"
                         className="size-4 shrink-0 text-brand-blue"
                       />
-                      روابط سريعة لتصفح الموقع:
+                      روابط تساعدك على المتابعة
                     </h2>
                     <p className="text-xs text-muted-foreground">
                       اختر القسم المناسب لاحتياجك
@@ -266,8 +266,8 @@ export default async function NotFound() {
                     aria-hidden="true"
                     className="shrink-0 size-5 text-brand-gold"
                   />
-                  هل تحتاج إلى مساعدة في العثور على معلومات معينة؟ تواصل معنا
-                  عبر القنوات المتاحة:
+                  هل تحتاج إلى مساعدة في اختيار الخدمة؟ انتقل إلى صفحة التواصل
+                  واذكر نوع المساحة والخدمة المطلوبة.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {phone?.href ? (

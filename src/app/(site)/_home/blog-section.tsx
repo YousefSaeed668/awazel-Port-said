@@ -19,9 +19,9 @@ export function ArticlesSection({
       className="bg-background py-12"
     >
       <MaxWidth>
-        <SectionHeading {...content.heading} variant="home" id="articles-title" />
+        <SectionHeading className="home-motion-heading" {...content.heading} variant="home" id="articles-title" />
         {items.length ? (
-          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div data-home-motion-group className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {items.map((article) => (
               <BlogCard
                 key={article.id}

@@ -1,0 +1,59 @@
+[data-site-loading] .site-loading-pattern {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.22;
+  mask-image: radial-gradient(ellipse at center, black, transparent 70%);
+}
+
+[data-site-loading] .site-loading-layer {
+  inset-inline-start: 40px;
+  width: 112px;
+  height: 72px;
+  transform: rotate(-30deg) skewX(30deg);
+}
+
+[data-site-loading] .site-loading-layer-base {
+  top: 64px;
+}
+
+[data-site-loading] .site-loading-layer-middle {
+  top: 44px;
+  animation: site-loading-layer-float 2800ms ease-in-out -150ms infinite;
+}
+
+[data-site-loading] .site-loading-layer-top {
+  top: 24px;
+  box-shadow: 0 8px 0 var(--surface-blue);
+  animation: site-loading-layer-float 2800ms ease-in-out infinite;
+}
+
+[data-site-loading] .site-loading-progress {
+  animation: site-loading-progress 2400ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes site-loading-layer-float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+@keyframes site-loading-progress {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-site-loading] .site-loading-layer,
+  [data-site-loading] .site-loading-progress {
+    animation: none;
+  }
+}

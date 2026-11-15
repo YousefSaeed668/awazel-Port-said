@@ -125,6 +125,7 @@ const bodyProjection = `
 const authorProjection = `
   _id,
   name,
+  kind,
   role,
   bio,
   image{${imageProjection}}

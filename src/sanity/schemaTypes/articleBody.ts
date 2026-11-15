@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { isSafeExternalUrl } from "@/lib/links";
+import { isSafeExternalUrl, isSafeInternalPath } from "@/lib/links";
 
 const shortText = (name: string, title: string, max: number) =>
   defineField({
@@ -64,20 +64,21 @@ function textBlockMember() {
       annotations: [
         {
           name: "articleLink",
-          title: "رابط خارجي",
+          title: "رابط خارجي أو داخلي",
           type: "object",
           fields: [
             defineField({
               name: "href",
               title: "الرابط",
-              type: "url",
+              type: "string",
               description:
-                "روابط خارجية فقط تبدأ بـ http:// أو https://. لربط مقال داخلي استخدم «مرجع مقال».",
+                "رابط خارجي يبدأ بـ http:// أو https://، أو مسار داخلي يبدأ بـ / مثل /services. لربط مقال آخر استخدم «مرجع مقال».",
               validation: (Rule) =>
                 Rule.required().custom((value) =>
-                  typeof value === "string" && isSafeExternalUrl(value)
+                  typeof value === "string" &&
+                  (isSafeExternalUrl(value) || isSafeInternalPath(value))
                     ? true
-                    : "أدخل رابطًا خارجيًا صالحًا يبدأ بـ http:// أو https://",
+                    : "أدخل رابطًا خارجيًا صالحًا يبدأ بـ http:// أو https:// أو مسارًا داخليًا يبدأ بـ /",
                 ),
             }),
             defineField({

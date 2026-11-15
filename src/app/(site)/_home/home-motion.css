@@ -1,0 +1,96 @@
+/* Only off-screen elements are prepared; all server HTML starts visible. */
+[data-home-motion-root] [data-home-reveal="pending"] {
+  opacity: 0;
+}
+
+[data-home-motion-root] .home-hero-grid {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse at 20% 35%, black, transparent 65%);
+}
+
+[data-home-motion-root] .home-hero-media {
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 50px -24px var(--brand-navy);
+}
+
+[data-home-motion-root] #services [data-slot="card"] {
+  border-radius: 1.25rem;
+  border-top: 3px solid color-mix(in srgb, var(--brand-blue) 30%, var(--card));
+}
+
+[data-home-motion-root] #projects [data-slot="card"],
+[data-home-motion-root] #blog [data-slot="card"] {
+  border-radius: 1.25rem;
+}
+
+[data-home-motion-root] a .lucide-arrow-right {
+  transition: translate 350ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+[data-home-motion-root] a:is(:hover, :focus-visible) .lucide-arrow-right {
+  translate: -3px 0;
+}
+
+[data-home-motion-root] [data-slot="card"]:has(a) {
+  transition: translate 350ms ease, box-shadow 350ms ease;
+}
+
+[data-home-motion-root] [data-slot="card"]:has(a):is(:hover, :focus-within) {
+  translate: 0 -4px;
+  box-shadow: 0 14px 36px -24px var(--brand-navy);
+}
+
+[data-home-motion-root] [data-slot="card"]:has(a) > div:has(> img) {
+  overflow: hidden;
+}
+
+[data-home-motion-root] [data-slot="card"]:has(a) img {
+  transition: transform 650ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+[data-home-motion-root] [data-slot="card"]:has(a):is(:hover, :focus-within) img {
+  transform: scale(1.025);
+}
+
+@media (width >= 1024px) {
+  [data-home-motion-root] .home-motion-stages {
+    position: relative;
+  }
+
+  [data-home-motion-root] .home-motion-stages::before {
+    content: "";
+    position: absolute;
+    inset-inline: 2rem;
+    top: 3rem;
+    height: 1px;
+    background: var(--brand-gold);
+    opacity: 0.45;
+  }
+
+  [data-home-motion-root] .home-motion-stages > li {
+    position: relative;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  [data-home-motion-root] [data-home-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  [data-home-motion-root] a:is(:hover, :focus-visible) .lucide-arrow-right,
+  [data-home-motion-root] a .lucide-arrow-right,
+  [data-home-motion-root] [data-slot="card"]:has(a),
+  [data-home-motion-root] [data-slot="card"]:has(a):is(:hover, :focus-within),
+  [data-home-motion-root] [data-slot="card"]:has(a) img,
+  [data-home-motion-root] [data-slot="card"]:has(a):is(:hover, :focus-within) img {
+    translate: none;
+    transform: none;
+    transition: none;
+  }
+}

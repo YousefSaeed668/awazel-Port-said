@@ -11,9 +11,12 @@ import { ContactForm } from "./contact-form";
 import { ContactInfo } from "./contact-info";
 
 const CONTACT_PATH = "/contact";
-const CONTACT_TITLE = "تواصل معنا واطلب عرض سعر";
+const CONTACT_TITLE = "تواصل معنا بشأن مشروعك";
+const CONTACT_SEO_TITLE = "تواصل معنا واطلب عرض سعر | شركة عوازل بورسعيد";
 const CONTACT_DESCRIPTION =
-  "نرحب بتواصل ملاك المباني والمقاولين والمكاتب الهندسية. املأ النموذج المخصص لمشروعك، وسيقوم فريقنا الهندسي بدراسة المتطلبات الفنية وتقديم المقايسة المعتمدة وفق اشتراطات كود البناء السعودي.";
+  "شاركنا موقع المشروع ونوع الخدمة والمساحة التقريبية وحالة السطح، لنفهم احتياجك ونناقش الخطوة المناسبة للتقييم والتسعير. يمكنك استخدام النموذج لتجهيز رسالة واتساب، أو التواصل من خلال القنوات المتاحة.";
+const CONTACT_SEO_DESCRIPTION =
+  "تواصل مع شركة عوازل بورسعيد بشأن عزل الأسطح والخزانات والأساسات والعزل الحراري، وشارك موقع المشروع والمساحة التقريبية لتقييم متطلبات العمل.";
 
 export async function generateMetadata(): Promise<Metadata> {
   await requireNavigationPage(CONTACT_PATH);
@@ -31,8 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
     : undefined;
 
   return {
-    title: CONTACT_TITLE,
-    description: CONTACT_DESCRIPTION,
+    title: CONTACT_SEO_TITLE,
+    description: CONTACT_SEO_DESCRIPTION,
     alternates: {
       canonical: canonicalUrl,
     },
@@ -41,14 +44,14 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "ar",
       url: canonicalUrl,
       siteName: defaultSeo.siteName,
-      title: CONTACT_TITLE,
-      description: CONTACT_DESCRIPTION,
+      title: CONTACT_SEO_TITLE,
+      description: CONTACT_SEO_DESCRIPTION,
       images,
     },
     twitter: {
       card: images ? "summary_large_image" : "summary",
-      title: CONTACT_TITLE,
-      description: CONTACT_DESCRIPTION,
+      title: CONTACT_SEO_TITLE,
+      description: CONTACT_SEO_DESCRIPTION,
       images: images?.map((image) => image.url),
     },
     robots: {
@@ -70,14 +73,14 @@ export default async function ContactPage() {
           <Breadcrumbs
             items={[
               { label: "الرئيسية", href: "/" },
-              { label: "تواصل معنا واطلب عرض سعر" },
+              { label: CONTACT_TITLE },
             ]}
           />
 
           <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex max-w-3xl flex-col items-start gap-3">
               <p className="inline-flex items-center gap-2 rounded-full bg-surface-blue px-3 py-1.5 text-xs font-medium text-link shadow-sm">
-                طلبات التسعير والاستشارات الفنية الميدانية
+                طلبات العزل وعروض الأسعار
                 <span
                   aria-hidden="true"
                   className="size-2 shrink-0 rounded-full bg-brand-blue"
@@ -97,10 +100,10 @@ export default async function ContactPage() {
               </span>
               <div className="flex flex-col items-start">
                 <span className="text-base font-semibold text-brand-navy">
-                  استجابة هندسية منظمة
+                  تفاصيل تساعد على تقييم الطلب
                 </span>
                 <span className="text-sm leading-6 text-muted-foreground">
-                  دراسة فنية للمخططات والمساحات
+                  نوع المساحة وحالتها والمساحة التقريبية
                 </span>
               </div>
             </div>

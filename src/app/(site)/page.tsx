@@ -18,6 +18,7 @@ import {
   WorkStagesSection,
 } from "./_home/company-sections";
 import { FaqSection } from "./_home/faq-section";
+import { HomeMotion } from "./_home/home-motion";
 import {
   ApprovalsSection,
   HeroSection,
@@ -32,6 +33,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(null);
+    }, 1000),
+  );
   await requireNavigationPage("/");
   const [homePage, certificatesPage, servicesPage, projects, articles] =
     await Promise.all([
@@ -47,7 +53,7 @@ export default async function Home() {
       : null;
 
   return (
-    <>
+    <HomeMotion>
       <HeroSection content={homePage.hero} />
       <ApprovalsSection
         content={homepageData.approvals}
@@ -69,6 +75,6 @@ export default async function Home() {
         content={homepageData.articles}
         items={articles.slice(0, 3)}
       />
-    </>
+    </HomeMotion>
   );
 }

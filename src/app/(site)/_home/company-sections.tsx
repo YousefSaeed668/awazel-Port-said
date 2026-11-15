@@ -46,13 +46,14 @@ export function CompanySection({
           <CompanyMedia content={content} />
           <div className="min-w-0 lg:col-span-7">
             <SectionHeading
+              className="home-motion-heading"
               variant="home"
               id="about-title"
               eyebrow={content.eyebrow}
               title={content.title}
               description={content.description}
             />
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div data-home-motion-group className="mt-6 grid gap-3 sm:grid-cols-3">
               {content.features.map((feature) => (
                 <CompanyFeature key={feature.id} feature={feature} />
               ))}
@@ -152,11 +153,11 @@ export function WorkStagesSection({
       className="bg-muted py-12"
     >
       <MaxWidth>
-        <SectionHeading {...content.heading} variant="home" id="process-title" />
+        <SectionHeading className="home-motion-heading" {...content.heading} variant="home" id="process-title" />
         <WorkStages
           items={content.items}
           label={content.label}
-          className="mt-8"
+          className="home-motion-stages mt-8"
         />
       </MaxWidth>
     </section>
@@ -174,13 +175,14 @@ export function QualitySection({
         <div className="grid items-center gap-6 rounded-xl bg-surface-blue p-6 shadow-sm lg:grid-cols-12 lg:p-8">
           <div className="lg:col-span-8">
             <SectionHeading
+              className="home-motion-heading"
               id="quality-title"
               variant="home"
               eyebrow={content.eyebrow}
               title={content.title}
               description={content.description}
             />
-            <ul className="mt-5 grid list-none gap-2 p-0">
+            <ul data-home-motion-group className="mt-5 grid list-none gap-2 p-0">
               {content.checks.map((check) => {
                 const Icon = checkIcons[check.icon];
 
@@ -222,7 +224,7 @@ export function QualitySection({
               {content.warranty.description}
             </p>
             {content.warranty.items?.length ? (
-              <ul className="mt-4 grid list-none gap-1.5 p-0 text-start text-xs leading-6 text-muted-foreground">
+              <ul data-home-motion-group className="mt-4 grid list-none gap-1.5 p-0 text-start text-xs leading-6 text-muted-foreground">
                 {content.warranty.items.map((item) => (
                   <li key={item} className="flex items-start gap-2">
                     <ShieldCheck
@@ -279,7 +281,7 @@ function CompanyMedia({ content }: { content: HomepageData["company"] }) {
     <MediaFrame
       image={content.image}
       sizes="(min-width: 1024px) 46vw, 100vw"
-      className="bg-muted shadow-md lg:col-span-5"
+      className="home-motion-media bg-muted shadow-md lg:col-span-5"
       mediaClassName="lg:h-[420px] lg:aspect-auto"
       overlayClassName="inset-x-3 bottom-3 rounded-xl bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:inset-x-5 sm:bottom-5"
       overlay={

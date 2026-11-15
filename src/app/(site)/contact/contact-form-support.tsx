@@ -11,23 +11,23 @@ import { cn } from "cn";
 const ROADMAP = [
   {
     number: "1",
-    title: "مراجعة المتطلبات",
+    title: "راجع الرسالة وأرسلها",
     description:
-      "فحص هندسي للمخطط والبيانات المقدمة لتحديد نظام العزل الملائم.",
+      "تجهيز النموذج ينشئ رابطًا فقط؛ راجع الرسالة داخل واتساب وأرسلها إلى الشركة عندما تكون القناة مفعلة.",
     icon: PhoneCall,
   },
   {
     number: "2",
-    title: "تأكيد التفاصيل",
+    title: "مناقشة متطلبات المشروع",
     description:
-      "التواصل الهاتفي لمطابقة التفاصيل وتحديد موعد للمعاينة إذا تطلب الموقع.",
+      "عند وصول الطلب، يمكن استكمال المعلومات المتعلقة بالموقع والحالة ونطاق العمل المطلوب.",
     icon: CheckCircle2,
   },
   {
     number: "3",
-    title: "جدول المقايسة",
+    title: "تحديد الخطوة التالية",
     description:
-      "إعداد وتقديم جدول كميات مفصل وعرض السعر الفني والضمان النظامي.",
+      "تُناقش الحاجة إلى معاينة أو معلومات إضافية ثم متطلبات التسعير والتنفيذ، دون وعد بمدة استجابة ثابتة.",
     icon: FileSpreadsheet,
   },
 ] as const;
@@ -64,7 +64,7 @@ export function ContactRoadmap() {
       <div className="flex items-center gap-2">
         <Info aria-hidden="true" className="size-5 text-brand-blue" />
         <h3 className="text-base font-semibold text-brand-navy">
-          ماذا يحدث بعد إرسال الطلب؟
+          ماذا يحدث بعد تجهيز الطلب؟
         </h3>
       </div>
       <ol className="grid gap-4 sm:grid-cols-3">

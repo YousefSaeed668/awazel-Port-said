@@ -154,8 +154,11 @@ export type ArticleTocItem = {
   label: string;
 };
 
+export type ArticleAuthorKind = "person" | "organization";
+
 export type ArticleAuthor = {
   name: string;
+  kind: ArticleAuthorKind;
   role?: string;
   bio?: string;
   image?: ArticleImage;

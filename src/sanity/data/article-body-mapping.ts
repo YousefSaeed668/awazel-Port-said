@@ -11,7 +11,11 @@ import type {
   ArticleTextBlockStyle,
 } from "@/lib/blog";
 
-import { isSafeExternalUrl, resolveDestination } from "@/lib/links";
+import {
+  isSafeExternalUrl,
+  isSafeInternalPath,
+  resolveDestination,
+} from "@/lib/links";
 
 import { imageUrl } from "../lib/image";
 import type {
@@ -130,15 +134,29 @@ function mapMarkDef(
 ): ArticleLinkMarkDef | null {
   if (markDef._type === "articleLink") {
     const href = markDef.href?.trim();
-    if (!href || !isSafeExternalUrl(href)) return null;
+    if (!href) return null;
 
-    return {
-      _key: markDef._key,
-      _type: "articleLink",
-      href,
-      external: true,
-      openInNewTab: markDef.openInNewTab !== false,
-    };
+    if (isSafeExternalUrl(href)) {
+      return {
+        _key: markDef._key,
+        _type: "articleLink",
+        href,
+        external: true,
+        openInNewTab: markDef.openInNewTab !== false,
+      };
+    }
+
+    if (isSafeInternalPath(href)) {
+      return {
+        _key: markDef._key,
+        _type: "articleLink",
+        href,
+        external: false,
+        openInNewTab: false,
+      };
+    }
+
+    return null;
   }
 
   if (markDef._type === "articleReference") {

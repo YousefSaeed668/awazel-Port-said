@@ -19,7 +19,7 @@ export default async function SiteLayout({
 
   return (
     <SiteProviders>
-      <div className="print:hidden">
+      <div className="pointer-events-none sticky top-0 z-40 print:hidden">
         <Header {...shell.header} />
       </div>
       <main>{children}</main>

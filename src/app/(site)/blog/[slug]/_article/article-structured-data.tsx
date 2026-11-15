@@ -34,7 +34,8 @@ export function ArticleStructuredData({
         },
         url: canonicalUrl,
         author: {
-          "@type": "Person",
+          "@type":
+            article.author.kind === "organization" ? "Organization" : "Person",
           name: article.author.name,
         },
         publisher: {

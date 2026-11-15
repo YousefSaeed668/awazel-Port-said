@@ -9,6 +9,7 @@ import {
 } from "./aboutPageSections";
 import { articleType } from "./article";
 import { articleBodyObjectTypes } from "./articleBody";
+import { blogCorpusStateType } from "./blogCorpusState";
 import { authorType, blogSettingsType, blogTagType } from "./blogTaxonomy";
 import {
   certificatesPageType,
@@ -64,6 +65,7 @@ export const schemaTypes = [
   authorType,
   blogTagType,
   blogSettingsType,
+  blogCorpusStateType,
   certificateRecordType,
   siteImageType,
   destinationType,

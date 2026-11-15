@@ -61,7 +61,7 @@ export function ContactFormFields({
                 id="contact-full-name"
                 autoComplete="name"
                 aria-required="true"
-                placeholder="مثال: م. فهد العتيبي / شركة..."
+                placeholder="الاسم الذي نستخدمه عند التواصل معك"
                 aria-invalid={fieldState.invalid}
                 aria-describedby={
                   fieldState.invalid ? "contact-full-name-error" : undefined
@@ -99,7 +99,7 @@ export function ContactFormFields({
                   autoComplete="tel"
                   aria-required="true"
                   dir="ltr"
-                  placeholder="05X XXX XXXX"
+                  placeholder="رقم جوال سعودي يمكن التواصل معك من خلاله"
                   aria-invalid={fieldState.invalid}
                   aria-describedby={
                     fieldState.invalid ? "contact-phone-error" : undefined
@@ -141,7 +141,7 @@ export function ContactFormFields({
                 id="contact-city"
                 autoComplete="address-level2"
                 aria-required="true"
-                placeholder="مثال: الرياض - حي الملقا"
+                placeholder="المدينة والحي أو وصف مختصر للموقع"
                 aria-invalid={fieldState.invalid}
                 aria-describedby={
                   fieldState.invalid ? "contact-city-error" : undefined
@@ -193,7 +193,7 @@ export function ContactFormFields({
                   onBlur={field.onBlur}
                   className="w-full rounded-lg border-input bg-card px-4 text-base text-foreground shadow-sm data-[size=default]:h-13 md:text-base"
                 >
-                  <SelectValue placeholder="اختر نوع الخدمة..." />
+                  <SelectValue placeholder="اختر الخدمة الأقرب إلى احتياجك" />
                 </SelectTrigger>
                 <SelectContent>
                   {serviceOptions.map((option) => (
@@ -232,7 +232,7 @@ export function ContactFormFields({
                 inputMode="email"
                 autoComplete="email"
                 dir="ltr"
-                placeholder="name@example.com"
+                placeholder="اختياري إذا رغبت بإضافته للتواصل"
                 aria-invalid={fieldState.invalid}
                 aria-describedby={
                   fieldState.invalid ? "contact-email-error" : undefined
@@ -267,7 +267,7 @@ export function ContactFormFields({
                   id="contact-area"
                   inputMode="decimal"
                   aria-required="true"
-                  placeholder="مثال: 450"
+                  placeholder="أدخل تقدير المساحة بالمتر المربع"
                   aria-invalid={fieldState.invalid}
                   aria-describedby={
                     fieldState.invalid ? "contact-area-error" : undefined
@@ -308,7 +308,7 @@ export function ContactFormFields({
               {...field}
               id="contact-details"
               rows={5}
-              placeholder="وضح حالة السطح أو المنشأة، وجود تسربات سابقة، أو أي اشتراطات هندسية خاصة بالمخطط..."
+              placeholder="اذكر حالة السطح والعزل القائم وأي ملاحظة مؤثرة"
               aria-invalid={fieldState.invalid}
               aria-describedby={
                 fieldState.invalid ? "contact-details-error" : undefined

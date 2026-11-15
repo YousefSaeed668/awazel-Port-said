@@ -82,6 +82,7 @@ function mapAuthor(
 
   return {
     name: requiredText(author.name, `${field}.name`),
+    kind: author.kind === "organization" ? "organization" : "person",
     ...(optionalText(author.role) ? { role: optionalText(author.role) } : {}),
     ...(optionalText(author.bio) ? { bio: optionalText(author.bio) } : {}),
     ...(image ? { image } : {}),

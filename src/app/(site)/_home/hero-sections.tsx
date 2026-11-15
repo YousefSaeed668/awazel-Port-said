@@ -23,10 +23,12 @@ const highlightIcons = {
 
 export function HeroSection({ content }: { content: HomepageData["hero"] }) {
   return (
-    <section id="hero" aria-labelledby="home-hero-title" className="bg-background">
-      <MaxWidth className="grid items-center gap-6 py-8 lg:grid-cols-12 lg:py-12">
+    <section id="hero" aria-labelledby="home-hero-title" className="relative isolate bg-background">
+      <div className="home-hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
+      <MaxWidth className="grid items-center gap-8 py-8 lg:grid-cols-12 lg:py-16">
         <div className="min-w-0 lg:col-span-7">
           <SectionHeading
+            className="home-motion-heading"
             variant="home"
             id="home-hero-title"
             headingLevel={1}
@@ -42,7 +44,7 @@ export function HeroSection({ content }: { content: HomepageData["hero"] }) {
             }
             description={content.description}
           />
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div data-home-motion-group="hero-actions" className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             {content.primaryAction ? (
               <Link
                 href={content.primaryAction.href}
@@ -68,7 +70,7 @@ export function HeroSection({ content }: { content: HomepageData["hero"] }) {
               </Link>
             ) : null}
           </div>
-          <ul className="mt-6 flex list-none flex-wrap gap-2 p-0">
+          <ul data-home-motion-group="hero-highlights" className="mt-6 flex list-none flex-wrap gap-2 p-0">
             {content.highlights.map((highlight) => {
               const { Icon, tone } = highlightIcons[highlight.icon];
 
@@ -106,9 +108,9 @@ export function ApprovalsSection({
       className="bg-muted py-8"
     >
       <MaxWidth>
-        <SectionHeading {...content.heading} variant="home" id="certifications-title" />
+        <SectionHeading className="home-motion-heading" {...content.heading} variant="home" id="certifications-title" />
         {items.length ? (
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div data-home-motion-group className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {items.slice(0, 4).map((item) => (
               <CertificateCard
                 key={item.id}
@@ -146,8 +148,8 @@ export function ServicesSection({
       className="bg-background py-12"
     >
       <MaxWidth>
-        <SectionHeading {...content.heading} variant="home" id="services-title" />
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <SectionHeading className="home-motion-heading" {...content.heading} variant="home" id="services-title" />
+        <div data-home-motion-group className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.slice(0, 6).map(({ id, title, description, tags }) => (
             <ServiceCard
               key={id}
@@ -177,9 +179,9 @@ export function ProjectsSection({
       className="bg-muted py-12"
     >
       <MaxWidth>
-        <SectionHeading {...content.heading} variant="home" id="projects-title" />
+        <SectionHeading className="home-motion-heading" {...content.heading} variant="home" id="projects-title" />
         {items.length ? (
-          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div data-home-motion-group className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {items.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -212,7 +214,7 @@ function HeroMedia({ content }: { content: HomepageData["hero"] }) {
       image={content.image}
       sizes="(min-width: 1024px) 44vw, 100vw"
       preload
-      className="bg-surface-blue shadow-xl lg:col-span-5"
+      className="home-hero-media bg-surface-blue shadow-xl lg:col-span-5"
       mediaClassName="lg:h-[460px] lg:aspect-auto"
       overlayClassName="inset-x-4 bottom-4 rounded-lg bg-card/95 p-4 shadow-md backdrop-blur-sm"
       overlay={

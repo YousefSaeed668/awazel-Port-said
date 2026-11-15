@@ -29,6 +29,7 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
+      data-scroll-behavior="smooth"
       className={`${arabicFont.variable} ${englishFont.variable}`}
     >
       <body className="antialiased">{children}</body>

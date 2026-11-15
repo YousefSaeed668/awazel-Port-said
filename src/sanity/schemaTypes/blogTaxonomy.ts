@@ -24,6 +24,27 @@ export const authorType = defineType({
       validation: (Rule) => Rule.required().max(80),
     }),
     defineField({
+      name: "kind",
+      title: "نوع الكاتب",
+      type: "string",
+      description:
+        "يحدد نوع الكاتب في بيانات البحث المنظمة: شخص أم جهة. الكُتّاب الحاليون يُقرؤون كأشخاص عند غياب القيمة.",
+      options: {
+        list: [
+          { title: "شخص", value: "person" },
+          { title: "جهة أو شركة", value: "organization" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "person",
+      validation: (Rule) =>
+        Rule.custom((value) =>
+          value === undefined || value === "person" || value === "organization"
+            ? true
+            : "اختر شخصًا أو جهة.",
+        ),
+    }),
+    defineField({
       name: "role",
       title: "المسمى أو الدور (اختياري)",
       type: "string",

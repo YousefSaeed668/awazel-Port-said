@@ -113,7 +113,12 @@ export function ArticleToc({
           {items.length} أقسام
         </span>
       </div>
-      <div className="max-h-[min(28rem,50vh)] overflow-y-auto overscroll-contain">
+      <div
+        role="region"
+        aria-label="أقسام المقال"
+        tabIndex={0}
+        className="max-h-[min(28rem,50vh)] overflow-y-auto overscroll-contain rounded-sm [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-scrollbar]:hidden"
+      >
         <TocLinks items={items} activeId={activeId} />
       </div>
     </nav>

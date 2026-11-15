@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle, MessageCircle, Send, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -91,7 +92,8 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
         if (submittedRevision === formRevision.current) {
           setServerState({
             status: "error",
-            message: "تعذر تجهيز الطلب حاليًا. حاول مرة أخرى.",
+            message:
+              "تعذر تجهيز الرسالة الآن. حاول مرة أخرى أو استخدم إحدى قنوات التواصل المتاحة.",
           });
         }
       } finally {
@@ -102,7 +104,9 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
 
   function onInvalid() {
     setServerState({ status: "idle" });
-    setClientMessage("تحقق من الحقول المطلوبة ثم أعد المحاولة.");
+    setClientMessage(
+      "راجع الحقول المشار إليها وأكمل البيانات المطلوبة لتجهيز الرسالة.",
+    );
   }
 
   const errorMessage =
@@ -117,7 +121,7 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
           </span>
           <div className="flex flex-col items-start sm:items-end">
             <h2 className="text-xl font-semibold leading-snug text-brand-navy sm:text-[22px]">
-              نموذج طلب عرض السعر والمعاينة الميدانية
+              بيانات المشروع ووسيلة التواصل
             </h2>
             <span
               aria-hidden="true"
@@ -126,9 +130,7 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
           </div>
         </div>
         <p className="text-sm leading-6 text-muted-foreground">
-          الحقول المعلمة بعلامة{" "}
-          <span className="font-bold text-destructive">*</span> مطلوبة لتمكين
-          المهندس المختص من إعداد المقايسة بصورة أولية دقيقة.
+          أدخل المعلومات الأساسية، ثم راجع رسالة الطلب قبل إرسالها من واتساب.
         </p>
       </div>
 
@@ -162,9 +164,14 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
             className="mt-0.5 size-5 shrink-0 text-brand-blue"
           />
           <p className="text-sm leading-6 text-muted-foreground">
-            نجهّز بيانات النموذج في رسالة لطلب عرض السعر. عند فتح واتساب،
-            ستنتقل إلى محادثة الشركة بالرسالة المُعبأة؛ راجعها ثم اضغط إرسال
-            داخل واتساب لإتمام الطلب.
+            تُستخدم البيانات لتجهيز الطلب ومتابعته.{" "}
+            <Link
+              href="/privacy"
+              className="font-medium text-link underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            >
+              راجع سياسة الخصوصية
+            </Link>{" "}
+            قبل المتابعة.
           </p>
         </div>
 
@@ -179,7 +186,7 @@ export function ContactForm({ serviceOptions }: ContactFormProps) {
           ) : (
             <Send aria-hidden="true" className="size-4 rtl:-scale-x-100" />
           )}
-          {isPending ? "جارٍ تجهيز الطلب..." : "تجهيز الطلب لواتساب"}
+          {isPending ? "جارٍ تجهيز الرسالة..." : "جهّز رسالة الطلب"}
         </Button>
 
         {serverState.status === "unavailable" || serverState.status === "error" ? (

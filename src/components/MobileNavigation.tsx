@@ -10,7 +10,7 @@ import { isActivePath } from "@/lib/utils";
 import type { HeaderViewModel } from "@/lib/site-view-models";
 
 import { MaxWidth } from "./MaxWidth";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import {
   Sheet,
   SheetClose,
@@ -21,23 +21,19 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 
-type MobileNavigationProps = Pick<
-  HeaderViewModel,
-  "companyName" | "navigation" | "primaryAction"
->;
+type MobileNavigationProps = Pick<HeaderViewModel, "navigation">;
 
-export function MobileNavigation({
-  companyName,
-  navigation,
-  primaryAction,
-}: MobileNavigationProps) {
+export function MobileNavigation({ navigation }: MobileNavigationProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const currentPage = navigation.find(
+    ({ href, external }) => !external && isActivePath(pathname, href),
+  );
 
   useEffect(() => {
     if (!open) return;
 
-    const media = window.matchMedia("(min-width: 1280px)");
+    const media = window.matchMedia("(min-width: 1024px)");
     const closeOnDesktop = () => {
       if (media.matches) setOpen(false);
     };
@@ -49,19 +45,29 @@ export function MobileNavigation({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        render={
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            aria-label="فتح القائمة"
-            className="xl:hidden"
-          />
-        }
+      <div
+        data-mobile-header
+        className="pointer-events-auto flex w-full min-w-0 items-center justify-between gap-4 rounded-2xl border border-border/80 bg-card/95 p-2 ps-4 shadow-sm backdrop-blur-xl lg:hidden"
       >
-        <Menu className="size-5" aria-hidden="true" />
-      </SheetTrigger>
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="h-7 w-0.5 shrink-0 rounded-full bg-brand-gold" aria-hidden="true" />
+          <p className="truncate text-sm font-semibold text-brand-navy">
+            {currentPage?.label ?? "تصفح الموقع"}
+          </p>
+        </div>
+        <SheetTrigger
+          render={
+            <Button
+              type="button"
+              size="icon-sm"
+              aria-label="فتح القائمة"
+              className="rounded-xl shadow-xs"
+            />
+          }
+        >
+          <Menu className="size-5" aria-hidden="true" />
+        </SheetTrigger>
+      </div>
 
       <SheetContent
         side="top"
@@ -74,10 +80,10 @@ export function MobileNavigation({
           <SheetHeader className="flex-row items-center justify-between gap-4 border-b pb-5 text-start">
             <div>
               <SheetTitle className="text-lg font-semibold">
-                {companyName}
+                قائمة التنقل
               </SheetTitle>
               <SheetDescription className="sr-only">
-                تصفح صفحات الموقع أو تواصل معنا لطلب عرض سعر.
+                تصفح صفحات الموقع.
               </SheetDescription>
             </div>
             <SheetClose
@@ -108,7 +114,7 @@ export function MobileNavigation({
                         target={openInNewTab ? "_blank" : undefined}
                         rel={openInNewTab ? "noopener noreferrer" : undefined}
                         className={cn(
-                          "block rounded-md px-4 py-3 text-start font-medium transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "block rounded-lg px-4 py-3 text-start font-medium transition-colors duration-200 hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transition-none",
                           active ? "bg-accent text-link" : "text-foreground",
                         )}
                       >
@@ -120,24 +126,6 @@ export function MobileNavigation({
               )}
             </ul>
           </nav>
-
-          {primaryAction && (
-            <div className="flex flex-wrap items-center gap-3 border-t pt-5">
-              <Link
-                href={primaryAction.href}
-                onClick={() => setOpen(false)}
-                target={primaryAction.openInNewTab ? "_blank" : undefined}
-                rel={
-                  primaryAction.openInNewTab
-                    ? "noopener noreferrer"
-                    : undefined
-                }
-                className={cn(buttonVariants(), "grow")}
-              >
-                {primaryAction.label}
-              </Link>
-            </div>
-          )}
         </MaxWidth>
       </SheetContent>
     </Sheet>
