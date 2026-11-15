@@ -33,11 +33,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  await new Promise((resolve) =>
-    setTimeout(() => {
-      resolve(null);
-    }, 1000),
-  );
   await requireNavigationPage("/");
   const [homePage, certificatesPage, servicesPage, projects, articles] =
     await Promise.all([
