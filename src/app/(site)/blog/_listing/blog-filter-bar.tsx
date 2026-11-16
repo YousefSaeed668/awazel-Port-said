@@ -32,14 +32,14 @@ export function BlogFilterBar({
       aria-label="البحث وتصفية المقالات"
       className="border-b border-border/80 bg-card shadow-[0_2px_4px_rgba(6,42,70,0.03)]"
     >
-      <MaxWidth className="flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <MaxWidth className="flex flex-wrap flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
         <form
           role="search"
           onSubmit={(event) => {
             event.preventDefault();
             onSearchSubmit();
           }}
-          className="relative flex w-full items-center lg:max-w-105"
+          className="relative  flex w-full items-center lg:max-w-105"
         >
           <label htmlFor="blog-search" className="sr-only">
             ابحث في مقالات المدونة
@@ -68,7 +68,7 @@ export function BlogFilterBar({
         <div
           role="group"
           aria-label="تصفية المقالات حسب التصنيف"
-          className="-mx-1 flex w-full items-center gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:w-auto lg:overflow-visible lg:pb-0"
+          className="-mx-1 flex flex-wrap w-full items-center gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:w-auto lg:overflow-visible lg:pb-0"
         >
           <FilterTab
             label="الكل"
